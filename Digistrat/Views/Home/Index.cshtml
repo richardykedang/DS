@@ -1,0 +1,98 @@
+﻿<!-- PAGE-HEADER -->
+<div class="page-header">
+	<div>
+		<h1 class="page-title">@ViewBag.Title</h1>
+	</div>
+	<div class="ms-auto pageheader-btn">
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item"><a href="javascript:void(0);">Home</a></li>
+			<li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+		</ol>
+	</div>
+</div>
+<!-- PAGE-HEADER END -->
+
+<!-- ROW-2 -->
+<div class="row">
+    <div class="col-md-6">
+       <div class="tile">
+            <h3 class="tile-title">Bar Chart</h3>
+            <div class="embed-responsive embed-responsive-16by9">
+                <canvas class="embed-responsive-item" id="barChartDemo"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="tile">
+            <h3 class="tile-title">Pie Charts</h3>
+            <div class="embed-responsive embed-responsive-16by9">
+                <canvas class="embed-responsive-item" id="pieChartDemo"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ROW-2 END -->
+<script src="~/assets/plugins/chart/chart.bundle.js"></script>
+
+<script type="text/javascript">
+	var ctx = document.getElementById("barChartDemo").getContext('2d');
+	var myChart = new Chart(ctx, {
+		type: 'bar',
+		data: {
+			labels: ["NS", "IP", "Done"],
+			datasets: [{
+				label: '# of total',
+				data: [12, 19, 3],
+				backgroundColor: [
+					'rgba(255, 99, 132, 0.2)',
+					'rgba(255, 206, 86, 0.2)',
+					'rgba(75, 192, 192, 0.2)'
+				],
+				borderColor: [
+					'rgba(255,99,132,1)',
+					'rgba(255, 206, 86, 1)',
+					'rgba(75, 192, 192, 1)'
+				],
+				borderWidth: 1
+			}]
+		},
+		options: {
+			scales: {
+				yAxes: [{
+					ticks: {
+						beginAtZero: true
+					}
+				}]
+			},
+			title: {
+				display: true,
+				text: 'Chart'
+			}
+		}
+	});
+
+
+	var ctp = document.getElementById("pieChartDemo").getContext('2d');
+	const mixedChart = new Chart(ctp, {
+		data: {
+			datasets: [{
+				type: 'pie',
+				label: '# of total',
+				data: [10, 20, 30],
+				backgroundColor: [
+					'rgba(255, 99, 132, 0.2)',
+					'rgba(255, 206, 86, 0.2)',
+					'rgba(75, 192, 192, 0.2)'
+				],
+			}],
+			labels: [
+					'NS',
+					'IP',
+					'Done'
+			]
+		}
+	});
+
+</script>
+
+						
