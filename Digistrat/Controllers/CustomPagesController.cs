@@ -11,7 +11,6 @@ namespace Digistrat.Controllers
 			_logger = logger;
 		}
 
-		// commit 1
 		[Route("/error404")]
 		public IActionResult error404()
 		{
