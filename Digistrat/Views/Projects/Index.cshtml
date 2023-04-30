@@ -68,7 +68,7 @@
 															<svg xmlns="http://www.w3.org/2000/svg" class="w-icn text-white" enable-background="new 0 0 24 24" viewBox="0 0 24 24"><path d="M4.2069702,12l5.1464844-5.1464844c0.1871338-0.1937866,0.1871338-0.5009155,0-0.6947021C9.1616211,5.9602051,8.8450928,5.9547119,8.6464844,6.1465454l-5.5,5.5c-0.000061,0-0.0001221,0.000061-0.0001221,0.0001221c-0.1951904,0.1951904-0.1951294,0.5117188,0.0001221,0.7068481l5.5,5.5C8.7401123,17.9474487,8.8673706,18.0001831,9,18c0.1325684,0,0.2597046-0.0526733,0.3533936-0.1464233c0.1953125-0.1952515,0.1953125-0.5118408,0.0001221-0.7070923L4.2069702,12z M20.8534546,11.6465454l-5.5-5.5c-0.1937256-0.1871948-0.5009155-0.1871948-0.6947021,0c-0.1986084,0.1918335-0.2041016,0.5083618-0.0122681,0.7069702L19.7930298,12l-5.1465454,5.1464844c-0.09375,0.09375-0.1464233,0.2208862-0.1464233,0.3534546C14.5,17.776062,14.723877,17.999939,15,18c0.1326294,0.0001221,0.2598267-0.0525513,0.3534546-0.1464844l5.5-5.5c0.000061-0.000061,0.0001221-0.000061,0.0001831-0.0001221C21.0487671,12.1581421,21.0487061,11.8416748,20.8534546,11.6465454z"></path></svg>
 														</div>
 														<div class="ms-1">
-															<h6 class="mb-1"> <a asp-controller="ProjectDetails" asp-action="Index" class="float-start">Web Design</a> <span class="text-muted bg-light fs-11 mx-2">opened yesterday</span> </h6>
+															<h6 class="mb-1"> <a asp-controller="projects-details" asp-action="Index" class="float-start">Web Design</a> <span class="text-muted bg-light fs-11 mx-2">opened yesterday</span> </h6>
 															<span class="text-muted border-end pe-2 fs-11 float-start mt-1">28 tasks</span>
 															<span class="text-teritary ps-1 fs-11">11 Nov 19</span>
 														</div>
@@ -79,7 +79,7 @@
 														
 														<a href="#" class="option-dots" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fe fe-more-vertical"></i></a>
 														<div class="dropdown-menu dropdown-menu-start">
-															<a class="dropdown-item" href="#"><i class="fe fe-edit me-2"></i> Edit</a>
+															<a class="dropdown-item" asp-controller="projects-edit" asp-action="Index"><i class="fe fe-edit me-2"></i> Edit</a>
 														</div>
 													</div>
 												</div>
