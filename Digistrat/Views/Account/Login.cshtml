@@ -1,0 +1,95 @@
+﻿@using Digistrat.Configuration.Constants
+@model Digistrat.Models.Account.LoginInputModel
+
+@{
+    Layout = "_Layout1";
+
+}
+
+<!-- CONTAINER OPEN -->
+<div class="col col-login mx-auto text-center">
+    <a asp-controller="Account" asp-action="Login" class="text-center">
+        <img src="~/assets/images/brand/bi-logo.jpg" class="header-brand-img" alt="">
+    </a>
+</div>
+<div class="container-login100">
+    <div class="wrap-login100 p-0">
+        <div class="card-body">
+                <form asp-action="Login" asp-controller="Account" class="login100-form validate-form" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="ReturnUrl" />
+                <span class="login100-form-title">
+                    Login
+                </span>
+                <div class="wrap-input100 validate-input" data-bs-validate="Valid username is required: ex">
+                     <input asp-for="Username" class="input100" type="text" name="username" id="username" style="height: 48px; font-size: 14px;" autocomplete="off" maxlength="5" placeholder="Username" autofocus onchange="checkLogin();">
+                       
+                    <span class="focus-input100"></span>
+                    <span class="symbol-input100">
+                        <i class="zmdi zmdi-email" aria-hidden="true"></i>
+                    </span>
+                </div>
+                <div class="wrap-input100 validate-input" data-bs-validate="Password is required">
+                     <input asp-for="Password"  class="input100" type="password" name="password" id="password" style="height: 48px; font-size: 14px;" maxlength="20" autocomplete="off" placeholder="Masukkan Kata Sandi" onchange="checkLogin();">
+                     
+                    <span class="focus-input100"></span>
+                    <span class="symbol-input100">
+                        <i class="zmdi zmdi-lock" aria-hidden="true"></i>
+                    </span>
+                </div>
+                <div class="text-end pt-1">
+                    <p class="mb-0"><a asp-controller="CustomPages" asp-action="forgotpassword" class="text-primary ms-1">Forgot Password?</a></p>
+                </div>
+                <div class="container-login100-form-btn">
+                     <button type="submit" id="btnLogin" class="btn btn-primary" style="background-color: #E3E3E3; width: 520px; height: 48px;">
+                        <span>Login</span>
+                    </button>
+       
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<center>
+<span asp-validation-for="Username" class="text-danger"></span>
+<span asp-validation-for="Password" class="text-danger"></span>
+</center>
+<!-- CONTAINER CLOSED -->
+
+<script>
+
+    loadButtonLogin();
+
+    function loadButtonLogin() {
+        document.getElementById("btnLogin").style.backgroundColor = '#E3E3E3';
+        document.getElementById("btnLogin").style.color = '#FFFFFF';
+        document.getElementById("btnLogin").style.width = '620px';
+        document.getElementById("btnLogin").style.height = '48px';
+        document.getElementById("btnLogin").disabled = true;
+    }
+
+    function checkLogin() {
+        var username = document.getElementById("username").value;
+        var password = document.getElementById("password").value;
+
+        if (username !== "" && password !== "") {
+            document.getElementById("btnLogin").style.backgroundColor = '#087CB5';
+            document.getElementById("btnLogin").style.color = '#FFFFFF';
+            document.getElementById("btnLogin").style.width = '620px';
+            document.getElementById("btnLogin").style.height = '48px';
+            document.getElementById("btnLogin").className = 'btn btn-primary spanFontKBFG';
+            document.getElementById("btnLogin").disabled = false;
+
+        }
+        else {
+            document.getElementById("btnLogin").style.backgroundColor = '#E3E3E3';
+            document.getElementById("btnLogin").style.color = '#FFFFFF';
+            document.getElementById("btnLogin").style.width = '620px';
+            document.getElementById("btnLogin").style.height = '48px';
+            document.getElementById("btnLogin").disabled = true;
+        }
+    }
+
+
+</script>

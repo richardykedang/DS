@@ -1,4 +1,19 @@
-﻿<!-- PAGE-HEADER -->
+﻿@using Digistrat.Configuration.Constants
+@using Digistrat.Helpers
+@using Digistrat.Services.Interfaces
+@using Microsoft.Extensions.Configuration
+@using Digistrat.Shared.Dtos.Requests;
+@inject IUserApiService apiService
+@inject IConfiguration configuration
+
+@{
+	var user = User.GetClaims();
+	//Get menus from api
+	var apiResponse = await apiService.GetProfilUserAsync();
+	var Profil = apiResponse.Data;
+}
+
+<!-- PAGE-HEADER -->
 <div class="page-header">
 	<div>
 		<h1 class="page-title">Profile</h1>
@@ -31,36 +46,39 @@
 			<div class="tab-pane active show" id="accountSettings">
 				<div class="card">
 					<div class="card-body">
-						<form class="form-horizontal" data-select2-id="11">
-							<div class="mb-4 main-content-label">Account</div>
-							<div class="form-group ">
-								<div class="row row-sm">
-									<div class="col-md-3">
-										<label for="userName" class="form-label">User Name</label>
+								<form class="form-horizontal" data-select2-id="11">
+									<div class="mb-4 main-content-label">Account</div>
+									<div class="form-group ">
+										<div class="row row-sm">
+											<div class="col-md-3">
+												<label for="userName" class="form-label">User Name</label>
+											</div>
+											@*<div class="col-md-9">
+												<input type="text" class="form-control" id="userName" placeholder="User Name" value="@ProfilData.Nip">
+											</div>*@
+											<p class="text-gray-800"><span class="spanFontKBFG">@Profil.Name</span></p>
+										</div>
 									</div>
-									<div class="col-md-9">
-										<input type="text" class="form-control" id="userName" placeholder="User Name" value="Elena Gilbert">
+									<div class="form-group ">
+										<div class="row row-sm">
+											<div class="col-md-3">
+												<label for="eMail" class="form-label">Email</label>
+											</div>
+											@*<div class="col-md-9">
+												<input type="text" class="form-control" id="eMail" placeholder="Email" value="@ProfilData.Email">
+											</div>*@
+											<p class="text-gray-800"><span class="spanFontKBFG">@Profil.Email</span></p>
+										</div>
 									</div>
-								</div>
-							</div>
-							<div class="form-group ">
-								<div class="row row-sm">
-									<div class="col-md-3">
-										<label for="eMail" class="form-label">Email</label>
+									<div class="form-group float-end">
+										<div class="row row-sm">
+											<div class="col-md-12">
+												<a class="btn btn-info my-1" href="#">Change Password</a>
+											</div>
+										</div>
 									</div>
-									<div class="col-md-9">
-										<input type="text" class="form-control" id="eMail" placeholder="Email" value="info#elenagilbert.in">
-									</div>
-								</div>
-							</div>
-							<div class="form-group float-end">
-								<div class="row row-sm">
-									<div class="col-md-12">
-										<a class="btn btn-info my-1" href="#">Change Password</a>
-									</div>
-								</div>
-							</div>
-						</form>
+								</form>
+						
 					</div>
 				</div>
 			</div>

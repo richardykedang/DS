@@ -1,0 +1,21 @@
+﻿@using Digistrat.Configuration.Constants
+@model ErrorViewModel
+
+@{
+    Layout = "_Layout2";
+    var message = Model.ErrorDescription == ConfigurationConsts.ErrorMessageUnableConnectApi ? Model.ErrorDescription : "Internal Server Error";
+
+}
+
+<h2 class="text-white mb-2">500<span class="fs-20">error</span></h2>
+<h5 class="error-details text-white">
+    @message
+</h5>
+@if (Model.RequestId != null)
+{ 
+<strong>Request ID:</strong> <code>@Model.RequestId</code>
+} 
+
+<div class="text-center">
+    <a class="btn btn-primary mt-5 mb-5" asp-controller="Home" asp-action="Index"> Back to Home </a>
+</div>

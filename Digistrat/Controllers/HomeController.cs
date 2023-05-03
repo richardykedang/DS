@@ -1,5 +1,11 @@
-﻿using Digistrat.Models;
+﻿using Digistrat.Configuration.Constants;
+using Digistrat.Helpers;
+using Digistrat.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using Serilog;
 using System.Diagnostics;
 
 namespace Digistrat.Controllers
@@ -22,15 +28,64 @@ namespace Digistrat.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
+		[AllowAnonymous]
+		[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+		public IActionResult Error()
+		{
+			var model = GetErrorViewModel();
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
-    }
+            //Error tanpa layout base
+            if (User.Identity?.IsAuthenticated == false ||
+				model.ErrorDescription == ConfigurationConsts.ErrorMessageUnableConnectApi)
+				return View(nameof(InternalServerError), model);
+
+			return View(model);
+		}
+
+		[AllowAnonymous]
+		public IActionResult InternalServerError()
+		{
+			return View(GetErrorViewModel());
+		}
+
+		[AllowAnonymous]
+		public IActionResult Maintenance()
+		{
+			return View();
+		}
+
+		[AllowAnonymous]
+		public IActionResult AccessDenied()
+		{
+			return View();
+		}
+
+		[AllowAnonymous]
+		public IActionResult AccessFromMobile()
+		{
+			return View();
+		}
+
+		[AllowAnonymous]
+		public IActionResult PageNotFound()
+		{
+			return View();
+		}
+
+		private ErrorViewModel GetErrorViewModel()
+		{
+			var exception = HttpContext.Features.Get<IExceptionHandlerPathFeature>();
+			HttpContext.Response.StatusCode = StatusCodes.Status200OK;
+			var model = new ErrorViewModel();
+			if (exception != null)
+			{
+				var requestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier;
+				model = new ErrorViewModel { RequestId = requestId, RequestPath = exception.Path, ErrorDescription = exception.Error.Message };
+				Log.Error(exception.Error, $"{requestId} {exception.Path}");
+			}
+
+			return model;
+		}
+
+	}
 }

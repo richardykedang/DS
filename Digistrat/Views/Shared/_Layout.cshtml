@@ -1,4 +1,31 @@
-﻿
+﻿@*@using Digistrat.Configuration.Constants
+@using Digistrat.Helpers
+@using Digistrat.Services.Interfaces
+@using Microsoft.Extensions.Configuration
+
+@inject IUserApiService apiService
+@inject IConfiguration configuration
+
+@{
+    var initialNameList = User.GetClaims().Name.Split(' ').ToList();
+    var initialName = string.Empty;
+    var user = User.GetClaims();
+    //Get menus from api
+    //var apiResponse = await apiService.GetMenusAsync();
+
+    //var Menu = apiResponse.Data;
+    //Redirector
+    //.Redirector(user, Menu);
+    if (initialNameList.Count > 0)
+    {
+        foreach (string s in initialNameList)
+        {
+            initialName = initialName + s[0];
+        }
+    }
+    Layout = null;
+}*@
+
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -101,6 +128,7 @@
 			<script src="~/assets/plugins/datatable/dataTables.responsive.min.js"></script>
 
 			@* @RenderSection("Scripts",false/*required*/) *@
+			@await Component.InvokeAsync("Notyf")
             @await RenderSectionAsync("Scripts", required: false)
 
 			<!-- COLOR THEME JS -->

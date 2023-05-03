@@ -49,10 +49,10 @@
 			<!-- Perfect SCROLLBAR JS-->
 			<script src="~/assets/plugins/p-scroll/perfect-scrollbar.js"></script>
 
-			<!-- STICKY JS -->
-			<script src="~/assets/js/sticky.js"></script>
 
 			@* @RenderSection("Scripts",false/*required*/) *@
+			<script>var hostUrl = "/";</script>
+			@await Component.InvokeAsync("Notyf")
 			@await RenderSectionAsync("Scripts", required: false)
 
 			<!-- COLOR THEME JS -->

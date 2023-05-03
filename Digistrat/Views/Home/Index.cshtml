@@ -1,4 +1,19 @@
-﻿<!-- PAGE-HEADER -->
+﻿@using Digistrat.Configuration.Constants
+@using Digistrat.Helpers
+@using Digistrat.Services.Interfaces
+@using Microsoft.Extensions.Configuration
+@using Digistrat.Shared.Dtos.Requests;
+@inject IUserApiService apiService
+@inject IConfiguration configuration
+
+@{
+    var user = User.GetClaims();
+    //Get menus from api
+    var apiResponse = await apiService.GetProfilUserAsync();
+    var Profil = apiResponse.Data;
+}
+
+<!-- PAGE-HEADER -->
 <div class="page-header">
 	<div>
 		<h1 class="page-title">@ViewBag.Title</h1>
