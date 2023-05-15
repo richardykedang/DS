@@ -7,6 +7,8 @@ $(document).ready(function () {
         searching: false,
         orderable: false,
         bSort: false,
+        processing: true,
+        lengthMenu: [5, 10, 20],
     });
 });
 
@@ -20,6 +22,8 @@ function SearchProject() {
         searching: false,
         orderable: false,
         bSort: false,
+        processing: true,
+        lengthMenu: [5, 10, 20],
         bDestroy: true
     });
 
@@ -64,17 +68,17 @@ function SearchProject() {
                     let sdate = ("00" + (cdate.getMonth() + 1)).slice(-2) + "/" +
                         ("00" + cdate.getDate()).slice(-2) + "/" +
                         cdate.getFullYear() + " " +
-                        ("00" + cdate.getHours()).slice(-2) + ":" +
-                        ("00" + cdate.getMinutes()).slice(-2) + ":" +
+                        ("00" + cdate.getHours()).slice(-2) + "." +
+                        ("00" + cdate.getMinutes()).slice(-2) + "." +
                         ("00" + cdate.getSeconds()).slice(-2);
 
                     const edate = new Date(Date.parse(item.endDate));
-                    let ddate = ("00" + (cdate.getMonth() + 1)).slice(-2) + "/" +
-                        ("00" + cdate.getDate()).slice(-2) + "/" +
+                    let ddate = ("00" + (edate.getMonth() + 1)).slice(-2) + "/" +
+                        ("00" + edate.getDate()).slice(-2) + "/" +
                         cdate.getFullYear() + " " +
-                        ("00" + cdate.getHours()).slice(-2) + ":" +
-                        ("00" + cdate.getMinutes()).slice(-2) + ":" +
-                        ("00" + cdate.getSeconds()).slice(-2);
+                        ("00" + edate.getHours()).slice(-2) + "." +
+                        ("00" + edate.getMinutes()).slice(-2) + "." +
+                        ("00" + edate.getSeconds()).slice(-2);
 
                     const rows = $("<tr>" +
                         "<td class='text-muted fs-15 fw-semibold text-center'>" + item.projectId.toUpperCase() + "</td>" +

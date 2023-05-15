@@ -66,8 +66,8 @@
 					<ul>
 						<li class="select-status">
 							<select class="form-control select2-status-search" data-placeholder="Select Status" id="Status">
-								<option value="99" selected>All</option>
-								@foreach (var a  in dataStatus)
+								<option value="0" selected>All</option>
+								@foreach (var a in dataStatus)
 								{
 									<option value=@a.id>@a.name.ToTitleCase()</option>
 								}
@@ -96,16 +96,16 @@
 					<ul>
 						<li class="select-status">
 							<select class="form-control select2-status-search" data-placeholder="Select Status" id="Ascending">
-								<option value="" selected>A-Z</option>
-								<option value="1">Z-A</option>
+								<option value="" selected> A-Z &#8673;</option>
+								<option value="1">Z-A &#8675;</option>
 							</select>
 						</li>
 					</ul>
 				</div>
 			</div>
 		</div>
-		<button type="button" id="btnSearchProject" class="btn btn-primary" onclick="SearchProject();"> Search</button>
 	</div>
+	<button type="button" style="width:30%;margin-left:2%;margin-bottom:2%;" id="btnSearchProject" class="btn btn-primary" onclick="SearchProject();"> Search</button>
 </div>
 <div class="row">
 	<div class="col-12 col-sm-12">
@@ -130,63 +130,63 @@
 							@if (dataProject.Any())
 							{
 
-							foreach (var ProjectData in dataProject)
-							{
-							<tr>
-							<td class="text-muted fs-15 fw-semibold text-center">@ProjectData.ProjectId.ToUpper()</td>
-							<td class="text-muted fs-15 fw-semibold text-center">@ProjectData.ProjectName.ToUpper()</td>
-							<td class="text-muted fs-15 fw-semibold text-center">
+								foreach (var ProjectData in dataProject)
+								{
+									<tr>
+										<td class="text-muted fs-15 fw-semibold text-center">@ProjectData.ProjectId.ToUpper()</td>
+										<td class="text-muted fs-15 fw-semibold text-center">@ProjectData.ProjectName.ToUpper()</td>
+										<td class="text-muted fs-15 fw-semibold text-center">
 
-							@if (@ProjectData.Status == Convert.ToInt16(Level.NotStarted))
-							{
-							<span class="mb-0 mt-1 badge rounded-pill text-default bg-warning-transparent">Not Started</span>
-							}
-							@if (@ProjectData.Status == Convert.ToInt16(Level.WorkInprogress))
-							{
-							<span class="mb-0 mt-1 badge rounded-pill text-info bg-info-transparent">Work Inprogress</span>
-							}
-							@if (@ProjectData.Status == Convert.ToInt16(Level.Done))
-							{
-								<span class="mb-0 mt-1 badge rounded-pill bg-primary-transparent text-primary">Done</span>
-							}
-							@if (@ProjectData.Status == Convert.ToInt16(Level.Block))
-							{
-							<span class="mb-0 mt-1 badge rounded-pill text-default bg-warning-transparent">Block</span>
-							}
-							</td>
-							<td>
-							<div class="avatar-list avatar-list-stacked">
-							@if (ProjectData.AssignTo.Any())
-							{
-							if (ProjectData.AssignTo.Count() >= 1)
-							{
-							foreach (var MemberProject in ProjectData.AssignTo.Take(5).ToList())
-							{
-							<span><img src="~/assets/images/users/bi-logo.jpg" title="@MemberProject.EmployeeId" alt="profile-user" class="avatar bradius cover-image"></span>
-							}
-							<span class="avatar bradius bg-primary">+@ProjectData.AssignTo.Count()</span>
-							}
-							}
-							</div>
-							</td>
-							<td class="text-muted fs-15 fw-semibold text-center">@ProjectData.CreatedBy.ToTitleCase()</td>
-							<td class="text-muted fs-15 fw-semibold text-center">@ProjectData.CreatedDate.ToString("MM/dd/yyyy hh:mm:ss",new CultureInfo("id-ID"))</td>
+											@if (@ProjectData.Status == Convert.ToInt16(Level.NotStarted))
+											{
+												<span class="mb-0 mt-1 badge rounded-pill text-default bg-warning-transparent">Not Started</span>
+											}
+											@if (@ProjectData.Status == Convert.ToInt16(Level.WorkInprogress))
+											{
+												<span class="mb-0 mt-1 badge rounded-pill text-info bg-info-transparent">Work Inprogress</span>
+											}
+											@if (@ProjectData.Status == Convert.ToInt16(Level.Done))
+											{
+												<span class="mb-0 mt-1 badge rounded-pill bg-primary-transparent text-primary">Done</span>
+											}
+											@if (@ProjectData.Status == Convert.ToInt16(Level.Block))
+											{
+												<span class="mb-0 mt-1 badge rounded-pill text-default bg-warning-transparent">Block</span>
+											}
+										</td>
+										<td>
+											<div class="avatar-list avatar-list-stacked">
+												@if (ProjectData.AssignTo.Any())
+												{
+													if (ProjectData.AssignTo.Count() >= 1)
+													{
+														foreach (var MemberProject in ProjectData.AssignTo.Take(5).ToList())
+														{
+															<span><img src="~/assets/images/users/bi-logo.jpg" title="@MemberProject.EmployeeId" alt="profile-user" class="avatar bradius cover-image"></span>
+														}
+														<span class="avatar bradius bg-primary">+@ProjectData.AssignTo.Count()</span>
+													}
+												}
+											</div>
+										</td>
+										<td class="text-muted fs-15 fw-semibold text-center">@ProjectData.CreatedBy.ToTitleCase()</td>
+										<td class="text-muted fs-15 fw-semibold text-center">@ProjectData.CreatedDate.ToString("MM/dd/yyyy hh:mm:ss",new CultureInfo("id-ID"))</td>
 										<td class="text-muted fs-15 fw-semibold text-center">@ProjectData.EndDate.ToString("MM/dd/yyyy hh:mm:ss",new CultureInfo("id-ID"))</td>
 
-							<td>
-							<div class="d-flex align-items-stretch">
-							<a class="btn btn-sm btn-outline-secondary border me-2" data-bs-toggle="tooltip" data-bs-original-title="Delete">
-							<svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 0 24 24" width="16"><path d="M0 0h24v24H0V0z" fill="none" /><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM8 9h8v10H8V9zm7.5-5l-1-1h-5l-1 1H5v2h14V4h-3.5z" /></svg>
-							</a>
-							<a href="#" class="border br-5 px-2 py-1 text-muted d-flex align-items-center" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fe fe-more-vertical"></i></a>
-							<div class="dropdown-menu dropdown-menu-start">
-							<a class="dropdown-item" asp-controller="Projects" asp-action="Edit"><i class="fe fe-edit-2 me-2"></i> Edit</a>
-							<a class="dropdown-item" asp-controller="Projects" asp-action="Detail"><i class="fe fe-info me-2"></i> Detail</a>
-							</div>
-							</div>
-							</td>
-							</tr>
-							}
+										<td>
+											<div class="d-flex align-items-stretch">
+												<a class="btn btn-sm btn-outline-secondary border me-2" data-bs-toggle="tooltip" data-bs-original-title="Delete">
+													<svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 0 24 24" width="16"><path d="M0 0h24v24H0V0z" fill="none" /><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM8 9h8v10H8V9zm7.5-5l-1-1h-5l-1 1H5v2h14V4h-3.5z" /></svg>
+												</a>
+												<a href="#" class="border br-5 px-2 py-1 text-muted d-flex align-items-center" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fe fe-more-vertical"></i></a>
+												<div class="dropdown-menu dropdown-menu-start">
+													<a class="dropdown-item" asp-controller="Projects" asp-action="Edit"><i class="fe fe-edit-2 me-2"></i> Edit</a>
+													<a class="dropdown-item" asp-controller="Projects" asp-action="Detail"><i class="fe fe-info me-2"></i> Detail</a>
+												</div>
+											</div>
+										</td>
+									</tr>
+								}
 							}
 						</tbody>
 					</table>
