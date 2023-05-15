@@ -27,9 +27,10 @@ namespace Digistrat.Shared.Dtos.Responses.MsUser
 
 	public class ProfilUserResponse
     {
-        public string Name { get; set; }
-		public string Nip { get; set; }
-        public string Email { get; set; }
+		public string Username { get; set; } = null!;
+		public string Name { get; set; } = null!;
+		public string Nip { get; set; } = null!;
+		public string Email { get; set; } = null!;
 
     }
 }

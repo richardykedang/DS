@@ -1,32 +1,4 @@
-﻿@*@using Digistrat.Configuration.Constants
-@using Digistrat.Helpers
-@using Digistrat.Services.Interfaces
-@using Microsoft.Extensions.Configuration
-
-@inject IUserApiService apiService
-@inject IConfiguration configuration
-
-@{
-    var initialNameList = User.GetClaims().Name.Split(' ').ToList();
-    var initialName = string.Empty;
-    var user = User.GetClaims();
-    //Get menus from api
-    //var apiResponse = await apiService.GetMenusAsync();
-
-    //var Menu = apiResponse.Data;
-    //Redirector
-    //.Redirector(user, Menu);
-    if (initialNameList.Count > 0)
-    {
-        foreach (string s in initialNameList)
-        {
-            initialName = initialName + s[0];
-        }
-    }
-    Layout = null;
-}*@
-
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 	<head>
 		<meta charset="utf-8" />
@@ -36,7 +8,7 @@
 		<link rel="shortcut icon" type="image/x-icon" href="~/assets/images/brand/favicon.ico" />
 
 		<!-- TITLE -->
-		<title>@ViewBag.Title</title>
+		<title>@ViewBag.Title - Digistrat</title>
 
 		<!-- BOOTSTRAP CSS -->
 		<link id="style" href="~/assets/plugins/bootstrap/css/bootstrap.min.css" asp-append-version="true" rel="stylesheet" />
@@ -103,8 +75,10 @@
 			<script src="~/assets/plugins/sidemenu/sidemenu.js"></script>
 
 			<!-- Perfect SCROLLBAR JS-->
-			<script src="~/assets/plugins/p-scroll/perfect-scrollbar.js"></script>
-			<script src="~/assets/plugins/p-scroll/pscroll.js"></script>
+			@*<script src="~/assets/plugins/p-scroll/perfect-scrollbar.js"></script>
+			<script src="~/assets/plugins/p-scroll/pscroll.js"></script>*@
+
+			<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
 			<!-- FILE UPLOAD JS -->
@@ -121,6 +95,8 @@
 			<!-- INTERNAL Summernote Editor js -->
 			<script src="~/assets/plugins/summernote-editor/summernote1.js"></script>
 			<script src="~/assets/js/summernote.js"></script>
+
+			<script src="~/assets/plugins/select2/select2.full.min.js"></script>
 
 			<!-- INTERNAL DATA-TABLES JS-->
 			<script src="~/assets/plugins/datatable/js/jquery.dataTables.min.js"></script>

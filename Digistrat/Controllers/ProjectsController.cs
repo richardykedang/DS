@@ -18,7 +18,7 @@ namespace Digistrat.Controllers
 			return View();
 		}
 
-		[Route("/projects-details")]
+		[Route("/projects-detail")]
 		public IActionResult Detail()
 		{
 			ViewBag.Title = "Detail Project";

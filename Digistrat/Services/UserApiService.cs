@@ -6,10 +6,14 @@ using Digistrat.Services.Interfaces;
 using Digistrat.Shared.Dtos.Requests;
 using Digistrat.Shared.Dtos.Responses;
 using Digistrat.Shared.Dtos.Responses.MsUser;
+using Digistrat.Shared.Entities.MsUser;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using RestSharp;
+using System.Runtime.Intrinsics.Arm;
 using System.Security.Claims;
+using System.Security.Policy;
+using System.Text;
 
 namespace Digistrat.Services
 {
@@ -29,44 +33,25 @@ namespace Digistrat.Services
 			_client = new RestClient(_apiConfig.BaseUrl);
 		}
 
-		//public async Task<GlobalResponse> ChangePasswordAsync(ChangePasswordRequest requestDto, CancellationToken cancellationToken)
-		//{
-		//	var token = await _tokenService.CheckTokenAsync(cancellationToken);
-		//	_client.AddAuthenticator(token);
+		public async Task<GlobalResponse> ChangePasswordAsync(ChangePasswordRequest requestDto, CancellationToken cancellationToken)
+		{
+			var token = await _tokenService.CheckTokenAsync(cancellationToken);
+			_client.AddAuthenticator(token);
 
-		//	var request = new RestRequest(_apiConfig.UriChangePassword, Method.POST);
-
-
-		//	if (System.Text.RegularExpressions.Regex.IsMatch(requestDto.Password, "(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[~!@#$%^&*()_+={}\\[\\]:\"\"|\\;,./<>?'']).{8,}$"))
-		//	{
-		//		requestDto.Password = SecurityHelper.GetPasswordEncrypted(requestDto.Password);
-		//		requestDto.ConfirmPassword = SecurityHelper.GetPasswordEncrypted(requestDto.ConfirmPassword);
-		//	}
+			var request = new RestRequest(_apiConfig.UriChangePassword, Method.POST);
 
 
+			requestDto.Password = requestDto.Password;
+			requestDto.OldPassword = requestDto.OldPassword;
 
-		//	request.AddRequiredBody(requestDto);
-		//	request.AddRequiredHeaders(_apiConfig);
+			request.AddRequiredBody(requestDto);
+			request.AddRequiredHeaders(_apiConfig);
 
-		//	var response = await _client.ExecuteAsync(request, cancellationToken);
-		//	response.CheckError(request);
+			var response = await _client.ExecuteAsync(request, cancellationToken);
+			response.CheckError(request);
 
-		//	return response.GetContent<GlobalResponse>();
-		//}
-
-		//public async Task<GlobalObjectResponse<SystemControlResponse>> GetSystemControlAsync(CancellationToken cancellationToken)
-		//{
-		//    var token = await _tokenService.CheckTokenAsync(cancellationToken);
-		//    _client.AddAuthenticator(token);
-
-		//    var request = new RestRequest(_apiConfig.UriGetSystemControl, Method.GET);
-		//    request.AddRequiredHeaders(_apiConfig);
-
-		//    var response = await _client.ExecuteAsync(request, cancellationToken);
-		//    response.CheckError(request);
-
-		//    return response.GetContent<GlobalObjectResponse<SystemControlResponse>>();
-		//}
+			return response.GetContent<GlobalResponse>();
+		}
 
 
 		public async Task<GlobalObjectResponse<ProfilUserResponse>> GetProfilUserAsync(CancellationToken cancellationToken)
@@ -78,13 +63,16 @@ namespace Digistrat.Services
 			request.AddRequiredHeaders(_apiConfig);
 
 			var response = await _client.ExecuteAsync(request, cancellationToken);
-            response.CheckError(request);
+			response.CheckError(request);
 
+			//string jsonString = "{\"code\":200,\"error\":false,\"message\":\"Successfully get user roles.\",\"data\":[{\"name\":\"admin\",\"email\":\"alvin.joe49@bi.go.id\",\"nip\":\"12345\",\"username\":\"alvin\",\"path_signature\":null,\"is_active\":true,\"user_roles\":\"Administrator,\"}]}";
 			var jsonV = JsonConvert.DeserializeObject<GlobalObjectResponse<ProfilUserResponse>>(response.Content);
 			return jsonV;
+
 			//Console.WriteLine(jsonV);
 			//return response.GetContentTest<GlobalObjectListResponse<ProfilUserResponse>>();
 		}
+
 
 
 

@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using Digistrat.Models.Account;
+using Digistrat.Models.Project;
 using Digistrat.Shared.Dtos.Requests;
+using Digistrat.Shared.Dtos.Requests.Project;
 using Digistrat.Shared.Dtos.Responses;
 using Digistrat.Shared.Dtos.Responses.MsUser;
 using Digistrat.Shared.Entities;
@@ -14,7 +16,8 @@ namespace Digistrat.Helpers
 		{
 			//Domain to Dto
 			CreateMap<LoginInputModel, LoginRequest>();
-			//CreateMap<ChangePasswordInputModel, ChangePasswordRequest>();
+			CreateMap<ChangePasswordInputModel, ChangePasswordRequest>();
+			CreateMap<SearchProjectInputModel, SearchProjectRequest>();
 
 			//Dto to Domain 
 			CreateMap<MaintenanceResponse, Maintenance>();

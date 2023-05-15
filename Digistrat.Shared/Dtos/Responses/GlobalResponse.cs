@@ -15,6 +15,7 @@ namespace Digistrat.Shared.Dtos.Responses
 		public bool Error { get; set; }
 		public string Message { get; set; }
 	}
+
 	public class GlobalErrorResponse
 	{
 		public int Code { get; set; }

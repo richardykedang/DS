@@ -38,8 +38,9 @@ namespace Digistrat.Helpers
 			services.AddScoped<ITokenService, TokenService>();
 			services.AddScoped<IAuthenticationApiService, AuthenticationApiService>();
             services.AddScoped<IUserApiService, UserApiService>();
+			services.AddScoped<IProjectApiService, ProjectApiService>();
 
-            services.AddHttpContextAccessor();
+			services.AddHttpContextAccessor();
 
 			return services;
 		}
