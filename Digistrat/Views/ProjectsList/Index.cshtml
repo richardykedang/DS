@@ -2,7 +2,7 @@
 @using Digistrat.Helpers;
 @using Digistrat.Services.Interfaces;
 @using System.Globalization;
-@using static Digistrat.Configuration.GlobalHelper.Status;
+@using static Digistrat.Configuration.StatusResponseEnum;
 @inject IProjectApiService apiService
 @inject IConfiguration configuration
 
@@ -10,6 +10,9 @@
 	var user = User.GetClaims();
 	var apiResponseProject = await apiService.GetProjects();
 	var dataProject = apiResponseProject.Data;
+
+	var apiResponseStatus = await apiService.GetAutoCompleteStatus();
+	var dataStatus = apiResponseStatus.Data;
 
 }
 
@@ -64,10 +67,10 @@
 						<li class="select-status">
 							<select class="form-control select2-status-search" data-placeholder="Select Status" id="Status">
 								<option value="99" selected>All</option>
-								<option value="0">Not Started</option>
-								<option value="1">Work InProgress</option>
-								<option value="2">Block</option>
-								<option value="3">Done</option>
+								@foreach (var a  in dataStatus)
+								{
+									<option value=@a.id>@a.name.ToTitleCase()</option>
+								}
 							</select>
 						</li>
 					</ul>
@@ -142,13 +145,13 @@
 							{
 							<span class="mb-0 mt-1 badge rounded-pill text-info bg-info-transparent">Work Inprogress</span>
 							}
+							@if (@ProjectData.Status == Convert.ToInt16(Level.Done))
+							{
+								<span class="mb-0 mt-1 badge rounded-pill bg-primary-transparent text-primary">Done</span>
+							}
 							@if (@ProjectData.Status == Convert.ToInt16(Level.Block))
 							{
 							<span class="mb-0 mt-1 badge rounded-pill text-default bg-warning-transparent">Block</span>
-							}
-							@if (@ProjectData.Status == Convert.ToInt16(Level.Done))
-							{
-							<span class="mb-0 mt-1 badge rounded-pill bg-primary-transparent text-primary">Done</span>
 							}
 							</td>
 							<td>

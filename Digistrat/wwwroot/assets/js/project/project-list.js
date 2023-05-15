@@ -44,21 +44,21 @@ function SearchProject() {
 
                     var css;
                     var status;
-                    if (IsStatus == 0) {
+                    if (IsStatus == 1) {
                         css = 'text-default bg-warning-transparent';
                         status = 'Not Started';
                     }
-                    if (IsStatus == 1) {
+                    if (IsStatus == 2) {
                         css = 'text-info bg-info-transparent';
                         status = 'Work Inprogress';
-                    }
-                    if (IsStatus == 2) {
-                        css = 'text-default bg-warning-transparent';
-                        status = 'Block';
                     }
                     if (IsStatus == 3) {
                         css = 'bg-primary-transparent text-primary';
                         status = 'Done';
+                    }
+                    if (IsStatus == 4) {
+                        css = 'text-default bg-warning-transparent';
+                        status = 'Block';
                     }
                     const cdate = new Date(Date.parse(item.createdDate));
                     let sdate = ("00" + (cdate.getMonth() + 1)).slice(-2) + "/" +
@@ -104,7 +104,7 @@ function SearchProject() {
             } else {
                 dtTable.clear().draw();
                 Swal.fire({
-                    text: "Departement data not found.",
+                    text: "Project data not found.",
                     icon: "warning",
                     buttonsStyling: false,
                     confirmButtonText: "Oke",

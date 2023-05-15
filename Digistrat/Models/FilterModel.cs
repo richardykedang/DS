@@ -8,4 +8,10 @@ namespace Digistrat.Models
 		public int PageIndex { get; set; }
 		public List<Sort> Sort { get; set; }
 	}
+
+	public class FilterAutoCompleteModel
+	{
+		public int limit { get; set; }
+		public string q { get; set; }
+	}
 }

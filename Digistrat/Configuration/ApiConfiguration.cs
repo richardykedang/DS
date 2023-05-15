@@ -13,5 +13,6 @@
 		public string UriChangePassword { get; set; }
         public string UriGetProject { get; set; }
         public string UriSearchProject { get; set; }
-    }
+		public string UriAutoCompleteStatus { get; set; }
+}
 }

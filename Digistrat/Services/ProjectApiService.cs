@@ -62,5 +62,26 @@ namespace Digistrat.Services
 
             return response.GetContent<GlobalObjectListResponse<ProjectResponse>>();
         }
-    }
+
+		public async Task<GlobalObjectListResponse<ModelResponse>> GetAutoCompleteStatus(CancellationToken cancellationToken)
+		{
+			var token = await _tokenService.CheckTokenAsync(cancellationToken);
+			_client.AddAuthenticator(token);
+
+			var requestDto = new FilterAutoComplete();
+			var request = new RestRequest(_apiConfig.UriAutoCompleteStatus, Method.POST);
+			requestDto.limit = 5;
+			requestDto.q = "";
+
+
+			request.AddRequiredBody(requestDto);
+			request.AddRequiredHeaders(_apiConfig);
+
+
+			var response = await _client.ExecuteAsync(request, cancellationToken);
+			response.CheckError(request);
+
+			return response.GetContent<GlobalObjectListResponse<ModelResponse>>();
+		}
+	}
 }

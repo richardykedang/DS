@@ -13,4 +13,10 @@ namespace Digistrat.Shared.Dtos.Requests
 		public int PageIndex { get; set; }
 		public List<Sort> Sort { get; set; }
 	}
+
+	public class FilterAutoComplete
+	{
+		public int limit { get; set; }
+		public string q { get; set; }
+	}
 }

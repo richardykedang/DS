@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
+using Digistrat.Models;
 using Digistrat.Models.Project;
 using Digistrat.Services.Interfaces;
+using Digistrat.Shared.Dtos.Requests;
 using Digistrat.Shared.Dtos.Requests.Project;
 using Digistrat.Shared.Dtos.Responses;
 using Digistrat.Shared.Dtos.Responses.MsProject;
@@ -8,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Digistrat.Controllers
 {
-	public class ProjectsListController : Controller
+    public class ProjectsListController : Controller
 	{
 		private readonly ILogger<ProjectsListController> _logger;
         private readonly IMapper _mapper;
@@ -52,5 +54,15 @@ namespace Digistrat.Controllers
             return resultDepartment;
 
         }
-    }
+
+
+		[HttpPost]
+		public async Task<GlobalObjectListResponse<ModelResponse>> GetAutoCompleteStatus(CancellationToken cancellationToken)
+		{
+			var apiResponse = await _apiProjectService.GetAutoCompleteStatus(cancellationToken);
+			return apiResponse;
+
+		}
+
+	}
 }

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Digistrat.Models;
 using Digistrat.Models.Account;
 using Digistrat.Models.Project;
 using Digistrat.Shared.Dtos.Requests;
@@ -18,6 +19,7 @@ namespace Digistrat.Helpers
 			CreateMap<LoginInputModel, LoginRequest>();
 			CreateMap<ChangePasswordInputModel, ChangePasswordRequest>();
 			CreateMap<SearchProjectInputModel, SearchProjectRequest>();
+			CreateMap<FilterAutoCompleteModel, FilterAutoComplete>();
 
 			//Dto to Domain 
 			CreateMap<MaintenanceResponse, Maintenance>();
