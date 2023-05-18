@@ -20,6 +20,7 @@ namespace Digistrat.Helpers
 			CreateMap<ChangePasswordInputModel, ChangePasswordRequest>();
 			CreateMap<SearchProjectInputModel, SearchProjectRequest>();
 			CreateMap<FilterAutoCompleteModel, FilterAutoComplete>();
+			CreateMap<DetailProjectInputModel, DetailProjectRequest>();
 
 			//Dto to Domain 
 			CreateMap<MaintenanceResponse, Maintenance>();

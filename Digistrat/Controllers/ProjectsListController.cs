@@ -25,6 +25,7 @@ namespace Digistrat.Controllers
 			_apiProjectService = projectApiService;
 		}
 
+		[Route("/project")]
 		public IActionResult Index()
 		{
 			ViewBag.Title = "List Project";

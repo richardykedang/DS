@@ -5,7 +5,10 @@ using Digistrat.Shared.Dtos.Requests;
 using Digistrat.Shared.Dtos.Requests.Project;
 using Digistrat.Shared.Dtos.Responses;
 using Digistrat.Shared.Dtos.Responses.MsProject;
+using Digistrat.Shared.Dtos.Responses.MsUser;
+using Newtonsoft.Json;
 using RestSharp;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 
 namespace Digistrat.Services
@@ -62,7 +65,6 @@ namespace Digistrat.Services
 
             return response.GetContent<GlobalObjectListResponse<ProjectResponse>>();
         }
-
 		public async Task<GlobalObjectListResponse<ModelResponse>> GetAutoCompleteStatus(CancellationToken cancellationToken)
 		{
 			var token = await _tokenService.CheckTokenAsync(cancellationToken);
@@ -83,5 +85,20 @@ namespace Digistrat.Services
 
 			return response.GetContent<GlobalObjectListResponse<ModelResponse>>();
 		}
+        public async Task <GlobalObjectListResponse<ProjectResponse>> GetDetailProject(string ProjectId, CancellationToken cancellationToken)
+        {
+            var token = await _tokenService.CheckTokenAsync(cancellationToken);
+            _client.AddAuthenticator(token);
+
+            var request = new RestRequest(_apiConfig.UriDetailProject, Method.GET);
+			request.AddParameter("ProjectId", ProjectId, ParameterType.QueryString);
+		    request.AddRequiredHeaders(_apiConfig);
+            var response = await _client.ExecuteGetAsync(request, cancellationToken);
+            response.CheckError(request);
+			//var jsonV = JsonConvert.DeserializeObject<GlobalObjectListResponse<ProjectResponse>>(response.Content);
+			//return jsonV;
+			return response.GetContent<GlobalObjectListResponse<ProjectResponse>>();
+		}
+
 	}
 }

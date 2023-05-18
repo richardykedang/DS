@@ -6,7 +6,6 @@ using Digistrat.Services.Interfaces;
 using Digistrat.Shared.Configuration.Constants;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Globalization;
-
 namespace Digistrat.Helpers
 {
 	public static class StartupHelper
@@ -39,6 +38,7 @@ namespace Digistrat.Helpers
 			services.AddScoped<IAuthenticationApiService, AuthenticationApiService>();
             services.AddScoped<IUserApiService, UserApiService>();
 			services.AddScoped<IProjectApiService, ProjectApiService>();
+
 
 			services.AddHttpContextAccessor();
 

@@ -14,5 +14,6 @@
         public string UriGetProject { get; set; }
         public string UriSearchProject { get; set; }
 		public string UriAutoCompleteStatus { get; set; }
+		public string UriDetailProject { get; set; }
 }
 }

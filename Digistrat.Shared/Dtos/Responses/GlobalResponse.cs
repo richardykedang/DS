@@ -31,6 +31,7 @@ namespace Digistrat.Shared.Dtos.Responses
 		public object Data { get; set; }
 	}
 
+
 	public class GlobalObjectListResponse<T>
 	{
 		public int Code { get; set; }
