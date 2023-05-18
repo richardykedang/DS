@@ -26,7 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Digistrat.Shared\Digistrat.Shared.csproj" />
+    <ProjectReference Include="..\Digistrat.Shared\Digiproj.Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>
