@@ -1,7 +1,7 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
 
-namespace Digistrat.Helpers
+namespace DigiProj.Helpers
 {
 	public class Encryption
 	{

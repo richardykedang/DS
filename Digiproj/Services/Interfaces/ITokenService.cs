@@ -1,8 +1,8 @@
-﻿using Digistrat.Shared.Dtos.Requests;
-using Digistrat.Shared.Dtos.Responses;
+﻿using DigiProj.Shared.Dtos.Requests;
+using DigiProj.Shared.Dtos.Responses;
 using System.IdentityModel.Tokens.Jwt;
 
-namespace Digistrat.Services.Interfaces
+namespace DigiProj.Services.Interfaces
 {
     public interface ITokenService
 	{

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Digistrat.Shared.Configuration.Constants
+namespace DigiProj.Shared.Configuration.Constants
 {
 	public class JwtClaimTypeConsts
 	{

@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Xml.Linq;
 
-namespace Digistrat.Models.Account
+namespace DigiProj.Models.Account
 {
 	public class LoginInputModel
 	{

@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
-using Digistrat.Configuration;
-using Digistrat.Helpers;
-using Digistrat.Services.Interfaces;
+using DigiProj.Configuration;
+using DigiProj.Helpers;
+using DigiProj.Configuration;
+using DigiProj.Helpers;
+using DigiProj.Services.Interfaces;
 
-namespace Digistrat.Infrastructure.Middlewares
+namespace DigiProj.Infrastructure.Middlewares
 {
 	public class DataDependenciesMiddleware
 	{

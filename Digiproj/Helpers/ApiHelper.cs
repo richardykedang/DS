@@ -1,15 +1,15 @@
-﻿using Digistrat.Configuration.Constants;
-using Digistrat.Configuration;
-using Digistrat.Shared.Dtos.Responses;
-using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using RestSharp.Authenticators;
 using RestSharp;
 using Serilog.Events;
 using Serilog;
 using System.Net;
+using DigiProj.Configuration.Constants;
+using DigiProj.Configuration;
+using DigiProj.Shared.Dtos.Responses;
 
-namespace Digistrat.Helpers
+namespace DigiProj.Helpers
 {
 	public static class ApiHelper
 	{

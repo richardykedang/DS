@@ -1,8 +1,9 @@
-﻿using Digistrat.Shared.Configuration.Constants;
-using Digistrat.Shared.Entities.MsUser;
+﻿using DigiProj.Shared.Configuration.Constants;
+using DigiProj.Shared.Configuration.Constants;
+using DigiProj.Shared.Entities.MsUser;
 using System.Security.Claims;
 
-namespace Digistrat.Helpers
+namespace DigiProj.Helpers
 {
 	public static class UserHelper
 	{

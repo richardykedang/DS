@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Digistrat.Shared.Entities
+namespace DigiProj.Shared.Entities
 {
 	public class ProfileUser
 	{

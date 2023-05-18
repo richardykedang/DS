@@ -1,14 +1,14 @@
 ﻿using AutoMapper;
-using Digistrat.Models;
-using Digistrat.Models.Project;
-using Digistrat.Services.Interfaces;
-using Digistrat.Shared.Dtos.Requests;
-using Digistrat.Shared.Dtos.Requests.Project;
-using Digistrat.Shared.Dtos.Responses;
-using Digistrat.Shared.Dtos.Responses.MsProject;
+using DigiProj.Models;
+using DigiProj.Models.Project;
+using DigiProj.Services.Interfaces;
+using DigiProj.Shared.Dtos.Requests;
+using DigiProj.Shared.Dtos.Requests.Project;
+using DigiProj.Shared.Dtos.Responses;
+using DigiProj.Shared.Dtos.Responses.MsProject;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Digistrat.Controllers
+namespace DigiProj.Controllers
 {
     public class ProjectsListController : Controller
 	{

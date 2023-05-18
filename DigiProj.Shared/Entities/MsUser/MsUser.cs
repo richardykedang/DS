@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace Digistrat.Shared.Entities.MsUser
+namespace DigiProj.Shared.Entities.MsUser
 {
 	public class MsUser
 	{

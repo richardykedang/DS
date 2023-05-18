@@ -1,6 +1,6 @@
 {
   "profiles": {
-    "Digistrat": {
+    "DigiProj": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {

@@ -1,9 +1,10 @@
-﻿using Digistrat.Configuration.Constants;
-using Digistrat.Shared.Dtos.Responses;
+﻿using DigiProj.Configuration.Constants;
+using DigiProj.Helpers;
+using DigiProj.Shared.Dtos.Responses;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Serilog;
 
-namespace Digistrat.Helpers
+namespace DigiProj.Helpers
 {
 	public static class CookiesHelper
 	{

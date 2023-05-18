@@ -1,7 +1,7 @@
-using Digistrat;
+using DigiProj;
 using Serilog;
 
-namespace Digistrat
+namespace DigiProj
 {
 	public class Program
 	{

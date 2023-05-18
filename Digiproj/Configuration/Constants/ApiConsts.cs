@@ -1,4 +1,4 @@
-﻿namespace Digistrat.Configuration.Constants
+﻿namespace DigiProj.Configuration.Constants
 {
 	public class ApiConsts
 	{

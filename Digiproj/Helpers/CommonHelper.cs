@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 
-namespace Digistrat.Helpers
+namespace DigiProj.Helpers
 {
 	public static class CommonHelper
 	{

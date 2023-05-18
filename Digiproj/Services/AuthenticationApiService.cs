@@ -1,12 +1,12 @@
-﻿using Digistrat.Configuration;
-using Digistrat.Helpers;
-using Digistrat.Services.Interfaces;
-using Digistrat.Shared.Dtos.Requests;
-using Digistrat.Shared.Dtos.Responses;
+﻿using DigiProj.Configuration;
+using DigiProj.Helpers;
+using DigiProj.Services.Interfaces;
+using DigiProj.Shared.Dtos.Requests;
+using DigiProj.Shared.Dtos.Responses;
 using Microsoft.Extensions.Configuration;
 using RestSharp;
 
-namespace Digistrat.Services
+namespace DigiProj.Services
 {
 	public class AuthenticationApiService : IAuthenticationApiService
 	{

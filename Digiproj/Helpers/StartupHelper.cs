@@ -1,12 +1,14 @@
 ﻿using AspNetCoreHero.ToastNotification;
-using Digistrat.Configuration.Constants;
-using Digistrat.Infrastructure.Middlewares;
-using Digistrat.Services;
-using Digistrat.Services.Interfaces;
-using Digistrat.Shared.Configuration.Constants;
+using DigiProj.Configuration.Constants;
+using DigiProj.Infrastructure.Middlewares;
+using DigiProj.Services;
+using DigiProj.Shared.Configuration.Constants;
+using DigiProj.Services;
+using DigiProj.Services.Interfaces;
+using DigiProj.Shared.Configuration.Constants;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Globalization;
-namespace Digistrat.Helpers
+namespace DigiProj.Helpers
 {
 	public static class StartupHelper
 	{

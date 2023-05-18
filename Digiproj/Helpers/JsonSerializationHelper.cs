@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json;
 
-namespace Digistrat.Helpers
+namespace DigiProj.Helpers
 {
 	public static class JsonSerializationHelper
 	{

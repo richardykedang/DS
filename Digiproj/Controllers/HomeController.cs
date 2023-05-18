@@ -1,6 +1,6 @@
-﻿using Digistrat.Configuration.Constants;
-using Digistrat.Helpers;
-using Digistrat.Models;
+﻿using DigiProj.Configuration.Constants;
+using DigiProj.Helpers;
+using DigiProj.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
@@ -8,7 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Serilog;
 using System.Diagnostics;
 
-namespace Digistrat.Controllers
+namespace DigiProj.Controllers
 {
     public class HomeController : Controller
     {

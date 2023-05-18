@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Digistrat.Models.Account
+namespace DigiProj.Models.Account
 {
 	public class ChangePasswordInputModel
 	{

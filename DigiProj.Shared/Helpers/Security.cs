@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Digistrat.Shared.Helpers
+namespace DigiProj.Shared.Helpers
 {
 	public static class Security
 	{

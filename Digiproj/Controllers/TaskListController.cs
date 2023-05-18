@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace Digistrat.Controllers
+namespace DigiProj.Controllers
 {
 	public class TaskListController : Controller
 	{

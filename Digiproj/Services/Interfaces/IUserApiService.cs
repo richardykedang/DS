@@ -1,8 +1,8 @@
-﻿using Digistrat.Shared.Dtos.Requests;
-using Digistrat.Shared.Dtos.Responses;
-using Digistrat.Shared.Dtos.Responses.MsUser;
+﻿using DigiProj.Shared.Dtos.Responses.MsUser;
+using DigiProj.Shared.Dtos.Requests;
+using DigiProj.Shared.Dtos.Responses;
 
-namespace Digistrat.Services.Interfaces
+namespace DigiProj.Services.Interfaces
 {
     public interface IUserApiService
 	{

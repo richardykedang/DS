@@ -1,4 +1,4 @@
-﻿namespace Digistrat.Models
+﻿namespace DigiProj.Models
 {
 	public class Sort
 	{

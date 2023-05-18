@@ -1,9 +1,10 @@
-﻿using Digistrat.Shared.Dtos.Requests;
-using Digistrat.Shared.Dtos.Requests.Project;
-using Digistrat.Shared.Dtos.Responses;
-using Digistrat.Shared.Dtos.Responses.MsProject;
+﻿
 
-namespace Digistrat.Services.Interfaces
+using DigiProj.Shared.Dtos.Requests.Project;
+using DigiProj.Shared.Dtos.Responses;
+using DigiProj.Shared.Dtos.Responses.MsProject;
+
+namespace DigiProj.Services.Interfaces
 {
     public interface IProjectApiService
     {

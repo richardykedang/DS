@@ -1,7 +1,7 @@
-﻿using Digistrat.Configuration;
-using Digistrat.Shared.Helpers;
+﻿using DigiProj.Configuration;
+using DigiProj.Shared.Helpers;
 
-namespace Digistrat.Helpers
+namespace DigiProj.Helpers
 {
 		public static class SecurityHelper
 		{

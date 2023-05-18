@@ -1,11 +1,11 @@
-﻿using Digistrat.Helpers;
+﻿using DigiProj.Helpers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace Digistrat
+namespace DigiProj
 {
     public class Startup
     {

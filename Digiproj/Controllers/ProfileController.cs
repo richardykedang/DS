@@ -1,12 +1,15 @@
 ﻿using AutoMapper;
-using Digistrat.Helpers;
-using Digistrat.Models.Account;
-using Digistrat.Services.Interfaces;
-using Digistrat.Shared.Dtos.Requests;
-using Digistrat.Shared.Dtos.Responses;
+using DigiProj.Helpers;
+using DigiProj.Models.Account;
+using DigiProj.Shared.Dtos.Responses;
+using DigiProj.Helpers;
+using DigiProj.Models.Account;
+using DigiProj.Services.Interfaces;
+using DigiProj.Shared.Dtos.Requests;
+using DigiProj.Shared.Dtos.Responses;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Digistrat.Controllers
+namespace DigiProj.Controllers
 {
 	public class ProfileController : Controller
 	{

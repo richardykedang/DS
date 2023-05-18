@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Digistrat.Shared.Dtos.Responses.MsAssignTo
+namespace DigiProj.Shared.Dtos.Responses.MsAssignTo
 {
     public class AssignToResponse
     {

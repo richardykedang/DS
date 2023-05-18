@@ -1,12 +1,14 @@
 ﻿using AspNetCoreHero.ToastNotification.Helpers;
 using AutoMapper;
-using Digistrat.Configuration;
-using Digistrat.Helpers;
-using Digistrat.Services.Interfaces;
-using Digistrat.Shared.Dtos.Requests;
-using Digistrat.Shared.Dtos.Responses;
-using Digistrat.Shared.Dtos.Responses.MsUser;
-using Digistrat.Shared.Entities.MsUser;
+using DigiProj.Configuration;
+using DigiProj.Helpers;
+using DigiProj.Shared.Dtos.Responses;
+using DigiProj.Shared.Dtos.Responses.MsUser;
+using DigiProj.Configuration;
+using DigiProj.Helpers;
+using DigiProj.Services.Interfaces;
+using DigiProj.Shared.Dtos.Requests;
+using DigiProj.Shared.Dtos.Responses;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using RestSharp;
@@ -15,7 +17,7 @@ using System.Security.Claims;
 using System.Security.Policy;
 using System.Text;
 
-namespace Digistrat.Services
+namespace DigiProj.Services
 {
     public class UserApiService : IUserApiService
 	{

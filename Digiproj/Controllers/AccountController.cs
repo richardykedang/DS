@@ -1,17 +1,17 @@
 ﻿using AspNetCoreHero.ToastNotification.Abstractions;
 using AutoMapper;
-using Digistrat.Helpers;
-using Digistrat.Services.Interfaces;
-using Digistrat.Shared.Dtos.Requests;
+using DigiProj.Helpers;
+using DigiProj.Services.Interfaces;
+using DigiProj.Shared.Dtos.Requests;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
-using Digistrat.Models.Account;
-using Digistrat.Shared.Configuration.Constants;
+using DigiProj.Models.Account;
+using DigiProj.Shared.Configuration.Constants;
 
-namespace Digistrat.Controllers
+namespace DigiProj.Controllers
 {
 	public class AccountController : Controller
 	{

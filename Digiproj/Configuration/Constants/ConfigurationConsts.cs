@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace Digistrat.Configuration.Constants
+namespace DigiProj.Configuration.Constants
 {
 	public class ConfigurationConsts
 	{

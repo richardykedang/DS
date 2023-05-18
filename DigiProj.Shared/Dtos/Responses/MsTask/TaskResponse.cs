@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Digistrat.Shared.Dtos.Responses.MsTask
+namespace DigiProj.Shared.Dtos.Responses.MsTask
 {
 	public class TaskResponse
 	{

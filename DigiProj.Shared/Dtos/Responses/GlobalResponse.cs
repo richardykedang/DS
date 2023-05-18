@@ -1,5 +1,4 @@
-﻿using Digistrat.Shared.Dtos.Responses.MsUser;
-using Digistrat.Shared.Entities;
+﻿using DigiProj.Shared.Entities;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -7,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Digistrat.Shared.Dtos.Responses
+namespace DigiProj.Shared.Dtos.Responses
 {
 	public class GlobalResponse
 	{

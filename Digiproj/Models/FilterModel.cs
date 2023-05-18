@@ -1,6 +1,6 @@
-﻿using Digistrat.Models.Project;
+﻿using DigiProj.Models.Project;
 
-namespace Digistrat.Models
+namespace DigiProj.Models
 {
 	public class Filter
 	{

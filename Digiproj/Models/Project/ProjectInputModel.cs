@@ -1,7 +1,7 @@
-﻿using Digistrat.Shared.Dtos.Requests.Project;
+﻿using DigiProj.Shared.Dtos.Requests.Project;
 using System.ComponentModel;
 
-namespace Digistrat.Models.Project
+namespace DigiProj.Models.Project
 {
 	public class SearchProjectInputModel: Filter
 	{

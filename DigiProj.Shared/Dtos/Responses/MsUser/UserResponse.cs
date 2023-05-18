@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Digistrat.Shared.Dtos.Responses.MsUser
+namespace DigiProj.Shared.Dtos.Responses.MsUser
 {
     public class UserMenusResponse
     {

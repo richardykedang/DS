@@ -1,11 +1,12 @@
-﻿using Digistrat.Configuration.Constants;
-using Microsoft.AspNetCore.Authentication.Cookies;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Digistrat.Shared.Entities.MsUser;
-using Digistrat.Shared.Dtos.Responses.MsUser;
+using DigiProj.Helpers;
+using DigiProj.Configuration.Constants;
+using DigiProj.Shared.Dtos.Responses.MsUser;
+using DigiProj.Shared.Entities.MsUser;
 
-namespace Digistrat.Helpers
+namespace DigiProj.Helpers
 {
     public static class HtmlHelper
 	{

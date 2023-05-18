@@ -1,4 +1,4 @@
-﻿namespace Digistrat.Configuration
+﻿namespace DigiProj.Configuration
 {
 	public class JwtConfiguration
 	{

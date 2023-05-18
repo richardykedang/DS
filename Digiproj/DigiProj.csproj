@@ -26,12 +26,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Digistrat.Shared\Digiproj.Shared.csproj" />
+    <ProjectReference Include="..\Digiproj.Shared\Digiproj.Shared.csproj" />
+    <ProjectReference Include="..\DigiProj.Shared\Digiproj.Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Reference Include="FMFLibSecurity">
-      <HintPath>..\Digistrat.Shared\Libraries\FMFLibSecurity.DLL</HintPath>
+      <HintPath>..\DigiProj.Shared\Libraries\FMFLibSecurity.DLL</HintPath>
     </Reference>
   </ItemGroup>
 

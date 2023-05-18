@@ -1,15 +1,16 @@
 ﻿using AutoMapper;
-using Digistrat.Models;
-using Digistrat.Models.Account;
-using Digistrat.Models.Project;
-using Digistrat.Shared.Dtos.Requests;
-using Digistrat.Shared.Dtos.Requests.Project;
-using Digistrat.Shared.Dtos.Responses;
-using Digistrat.Shared.Dtos.Responses.MsUser;
-using Digistrat.Shared.Entities;
+using DigiProj.Models.Account;
+using DigiProj.Shared.Dtos.Responses.MsUser;
+using DigiProj.Models;
+using DigiProj.Models.Account;
+using DigiProj.Models.Project;
+using DigiProj.Shared.Dtos.Requests;
+using DigiProj.Shared.Dtos.Requests.Project;
+using DigiProj.Shared.Dtos.Responses;
+using DigiProj.Shared.Entities;
 using System.Diagnostics;
 
-namespace Digistrat.Helpers
+namespace DigiProj.Helpers
 {
     public class MappingProfile : Profile
 	{

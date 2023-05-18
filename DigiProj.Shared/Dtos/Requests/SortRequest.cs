@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Digistrat.Shared.Dtos.Requests
+namespace DigiProj.Shared.Dtos.Requests
 {
 	public class Sort
 	{

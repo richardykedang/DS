@@ -1,14 +1,14 @@
-﻿using Digistrat.Shared.Dtos.Responses.MsProject;
-using Digistrat.Shared.Dtos.Responses;
+﻿using DigiProj.Shared.Dtos.Responses.MsProject;
+using DigiProj.Shared.Dtos.Responses;
 using Microsoft.AspNetCore.Mvc;
 using AutoMapper;
-using Digistrat.Services.Interfaces;
-using Digistrat.Shared.Dtos.Requests.Project;
+using DigiProj.Services.Interfaces;
+using DigiProj.Shared.Dtos.Requests.Project;
 using System.Reflection;
-using Digistrat.Models.Project;
-using Digistrat.Helpers;
+using DigiProj.Models.Project;
+using DigiProj.Helpers;
 
-namespace Digistrat.Controllers
+namespace DigiProj.Controllers
 {
 	public class ProjectsController : Controller
 	{

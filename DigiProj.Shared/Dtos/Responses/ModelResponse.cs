@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Digistrat.Shared.Dtos.Responses
+namespace DigiProj.Shared.Dtos.Responses
 {
     public class ModelResponse
     {

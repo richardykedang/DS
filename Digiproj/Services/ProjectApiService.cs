@@ -1,17 +1,16 @@
-﻿using Digistrat.Configuration;
-using Digistrat.Helpers;
-using Digistrat.Services.Interfaces;
-using Digistrat.Shared.Dtos.Requests;
-using Digistrat.Shared.Dtos.Requests.Project;
-using Digistrat.Shared.Dtos.Responses;
-using Digistrat.Shared.Dtos.Responses.MsProject;
-using Digistrat.Shared.Dtos.Responses.MsUser;
+﻿using DigiProj.Configuration;
+using DigiProj.Helpers;
+using DigiProj.Services.Interfaces;
+using DigiProj.Shared.Dtos.Requests;
+using DigiProj.Shared.Dtos.Requests.Project;
+using DigiProj.Shared.Dtos.Responses;
+using DigiProj.Shared.Dtos.Responses.MsProject;
 using Newtonsoft.Json;
 using RestSharp;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 
-namespace Digistrat.Services
+namespace DigiProj.Services
 {
     public class ProjectApiService : IProjectApiService
     {
