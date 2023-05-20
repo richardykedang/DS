@@ -11,9 +11,14 @@
 		public string UriCheckConnection { get; set; }
 		public string UriGetProfileUser { get; set; }
 		public string UriChangePassword { get; set; }
+		public string UriGetUserMenus { get; set; }
+
+		public string UriGetMenuController { get; set; }
+		public string UriGetUserRoles { get; set; }
+
         public string UriGetProject { get; set; }
         public string UriSearchProject { get; set; }
 		public string UriAutoCompleteStatus { get; set; }
 		public string UriDetailProject { get; set; }
-}
+	}
 }

@@ -1,12 +1,15 @@
-﻿using DigiProj.Configuration.Constants;
+﻿using Digiproj.Shared.Dtos.Requests;
+using DigiProj.Configuration.Constants;
 using DigiProj.Helpers;
 using DigiProj.Models;
+using DigiProj.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Serilog;
 using System.Diagnostics;
+using System.Threading;
 
 namespace DigiProj.Controllers
 {
@@ -14,11 +17,13 @@ namespace DigiProj.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IConfiguration _config;
+		private readonly IMenuApiService _apiMenuService;
 
-        public HomeController(ILogger<HomeController> logger, IConfiguration config)
+		public HomeController(ILogger<HomeController> logger, IConfiguration config,IMenuApiService menuApiService)
         {
             _logger = logger;
             _config = config;
+			_apiMenuService = menuApiService;
         }
 
         public IActionResult Index()
@@ -27,6 +32,7 @@ namespace DigiProj.Controllers
 
             return View();
         }
+
 
 		[AllowAnonymous]
 		[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

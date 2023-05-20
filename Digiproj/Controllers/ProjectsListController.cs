@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Digiproj.Shared.Dtos.Requests;
 using DigiProj.Models;
 using DigiProj.Models.Project;
 using DigiProj.Services.Interfaces;
@@ -16,19 +17,28 @@ namespace DigiProj.Controllers
         private readonly IMapper _mapper;
         private readonly IConfiguration _config;
         private readonly IProjectApiService _apiProjectService;
+        private readonly IMenuApiService _apiMenuService;
 
-        public ProjectsListController(ILogger<ProjectsListController> logger, IConfiguration config, IMapper mapper, IProjectApiService projectApiService)
+        public ProjectsListController(ILogger<ProjectsListController> logger, IConfiguration config, IMapper mapper, IProjectApiService projectApiService, IMenuApiService menuApiService)
 		{
 			_logger = logger;
 			_mapper = mapper;
 			_config = config;
 			_apiProjectService = projectApiService;
+            _apiMenuService = menuApiService;
 		}
 
 		[Route("/project")]
-		public IActionResult Index()
+		public async Task<IActionResult> Index(CancellationToken cancellationToken)
 		{
-			ViewBag.Title = "List Project";
+            MenuControllerRequest request = new MenuControllerRequest();
+            string controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
+            request.ControllerName = controllerName;
+
+            var apiResponse = await _apiMenuService.GetMenuController(request, cancellationToken);
+            ViewBag.DataMenu = apiResponse.Data;
+
+            ViewBag.Title = "List Project";
 			return View();
 		}
 

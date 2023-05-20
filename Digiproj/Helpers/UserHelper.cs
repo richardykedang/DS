@@ -14,7 +14,7 @@ namespace DigiProj.Helpers
 				Name = user.FindFirstValue(JwtClaimTypeConsts.Name),
 				Username = user.FindFirstValue(JwtClaimTypeConsts.PreferredUserName),
 				LastLogin = DateTimeOffset.FromUnixTimeSeconds(Convert.ToInt64(user.FindFirstValue(JwtClaimTypeConsts.LastLogin))).DateTime.ToLocalTime(),
-				IsForceChangePassword = Convert.ToBoolean(user.FindFirstValue(JwtClaimTypeConsts.IsForceChangePassword)),
+				//IsForceChangePassword = Convert.ToBoolean(user.FindFirstValue(JwtClaimTypeConsts.IsForceChangePassword)),
 			};
 		}
 	}

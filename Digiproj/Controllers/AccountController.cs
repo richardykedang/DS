@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using DigiProj.Models.Account;
 using DigiProj.Shared.Configuration.Constants;
+using DigiProj.Shared.Dtos.Responses.MsUser;
 
 namespace DigiProj.Controllers
 {
@@ -50,7 +51,6 @@ namespace DigiProj.Controllers
 			}
 
 			var apiRequest = _mapper.Map<LoginRequest>(model);
-
 			var apiResponse = await _tokenService.GenerateTokenAsync(apiRequest, cancellationToken);
 
             
@@ -63,13 +63,13 @@ namespace DigiProj.Controllers
 			var jwtToken = _tokenService.GetToken();
 
 			//Get user roles from api
-			//var apiResponseRoles = await _apiService.GetRolesAsync(cancellationToken);
-			//var roles = _mapper.Map<IEnumerable<UserRolesResponse>>(apiResponseRoles.Data);
-			//if (!roles.Any())
-			//{
-			//	_notifyService.Error("User tidak terdaftar pada role apapun");
-			//	return View(model);
-			//}
+			var apiResponseRoles = await _apiService.GetRolesAsync(cancellationToken);
+			var roles = _mapper.Map<IEnumerable<UserRolesResponse>>(apiResponseRoles.Data);
+			if (!roles.Any())
+			{
+				_notifyService.Error("User have not role");
+				return View(model);
+			}
 
 			/*COOKIE AUTH*/
 			var claims = jwtToken.Claims.ToList();
@@ -77,10 +77,10 @@ namespace DigiProj.Controllers
 			//Additional claims for web 
 			claims.Add(new Claim(ClaimTypes.Name, claims.Find(claim => claim.Type == JwtClaimTypeConsts.PreferredUserName)?.Value));
 			claims.Add(new Claim(ClaimTypes.NameIdentifier, claims.Find(claim => claim.Type == JwtClaimTypeConsts.Name)?.Value));
-			
+
 			//Roles
-			//foreach (var role in roles)
-			//	claims.Add(new Claim(ClaimTypes.Role, role.RoleName));
+			foreach (var role in roles)
+				claims.Add(new Claim(ClaimTypes.Role,  role.RoleName));
 
 
 			var claimsIdentity = new ClaimsIdentity(
@@ -97,14 +97,6 @@ namespace DigiProj.Controllers
 				CookieAuthenticationDefaults.AuthenticationScheme,
 				new ClaimsPrincipal(claimsIdentity),
 				authProperties);
-
-			////Get system control from api
-			//var apiResponseSysControl = await _apiService.GetSystemControlAsync(cancellationToken);
-			//var sysControl = _mapper.Map<SystemControl>(apiResponseSysControl.Data);
-			//sysControl.AddSystemControl();
-
-			//if (Url.IsLocalUrl(model.ReturnUrl))
-			//    return Redirect(model.ReturnUrl);
 
 			return RedirectToAction("Index", "Profile");
 

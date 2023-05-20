@@ -76,9 +76,33 @@ namespace DigiProj.Services
 		}
 
 
+        public async Task<GlobalObjectListResponse<UserRolesResponse>> GetRolesAsync(CancellationToken cancellationToken)
+        {
+            var token = await _tokenService.CheckTokenAsync(cancellationToken);
+            _client.AddAuthenticator(token);
 
+            var request = new RestRequest(_apiConfig.UriGetUserRoles, Method.GET);
+            request.AddRequiredHeaders(_apiConfig);
 
+            var response = await _client.ExecuteAsync(request, cancellationToken);
+            response.CheckError(request);
 
+            return response.GetContent<GlobalObjectListResponse<UserRolesResponse>>();
+        }
+
+        public async Task<GlobalObjectListResponse<UserMenusResponse>> GetMenusAsync(CancellationToken cancellationToken)
+		{
+			var token = await _tokenService.CheckTokenAsync(cancellationToken);
+			_client.AddAuthenticator(token);
+
+			var request = new RestRequest(_apiConfig.UriGetUserMenus, Method.GET);
+			request.AddRequiredHeaders(_apiConfig);
+
+			var response = await _client.ExecuteAsync(request, cancellationToken);
+			response.CheckError(request);
+
+			return response.GetContent<GlobalObjectListResponse<UserMenusResponse>>();
+		}
 
 	}
 }

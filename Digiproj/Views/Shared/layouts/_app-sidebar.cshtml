@@ -1,4 +1,24 @@
 
+@using DigiProj.Configuration.Constants
+@using DigiProj.Helpers
+@using DigiProj.Services.Interfaces
+@using Microsoft.Extensions.Configuration
+
+@inject IUserApiService apiService
+@inject IConfiguration configuration
+
+@{
+    var initialNameList = User.GetClaims().Name.Split(' ').ToList();
+    var initialName = string.Empty;
+    var user = User.GetClaims();
+
+	var apiResponse = await apiService.GetMenusAsync();
+    var Menu = apiResponse.Data;
+	Context.Redirector(user, Menu); //ini buat access denied
+
+    Layout = null;
+}
+
                 <!--APP-SIDEBAR-->
 				<div class="sticky">
 					<div class="app-sidebar__overlay" data-bs-toggle="sidebar"></div>
@@ -19,32 +39,96 @@
 										<span class="side-menu__label">Dashboard</span>
 									</a>
 								</li>
-								
 								<li class="slide">
 									<a class="side-menu__item" data-bs-toggle="slide" href="#">
 										<svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" enable-background="new 0 0 24 24" viewBox="0 0 24 24"><path d="M21.5,13h-8.0005493C13.2234497,13.0001831,12.9998169,13.223999,13,13.5v8.0005493C13.0001831,21.7765503,13.223999,22.0001831,13.5,22h8.0006104C21.7765503,21.9998169,22.0001831,21.776001,22,21.5v-8.0006104C21.9998169,13.2234497,21.776001,12.9998169,21.5,13z M21,21h-7v-7h7V21z M10.5,2H2.4993896C2.2234497,2.0001831,1.9998169,2.223999,2,2.5v8.0005493C2.0001831,10.7765503,2.223999,11.0001831,2.5,11h8.0006104C10.7765503,10.9998169,11.0001831,10.776001,11,10.5V2.4993896C10.9998169,2.2234497,10.776001,1.9998169,10.5,2z M10,10H3V3h7V10z M10.5,13H2.4993896C2.2234497,13.0001831,1.9998169,13.223999,2,13.5v8.0005493C2.0001831,21.7765503,2.223999,22.0001831,2.5,22h8.0006104C10.7765503,21.9998169,11.0001831,21.776001,11,21.5v-8.0006104C10.9998169,13.2234497,10.776001,12.9998169,10.5,13z M10,21H3v-7h7V21z M21.5,2h-8.0005493C13.2234497,2.0001831,12.9998169,2.223999,13,2.5v8.0005493C13.0001831,10.7765503,13.223999,11.0001831,13.5,11h8.0006104C21.7765503,10.9998169,22.0001831,10.776001,22,10.5V2.4993896C21.9998169,2.2234497,21.776001,1.9998169,21.5,2z M21,10h-7V3h7V10z"/></svg>
 										<span class="side-menu__label">Apps</span><i class="angle fa fa-angle-right"></i>
 									</a>
+									
 									<ul class="slide-menu">
 										<li class="side-menu-label1"><a href="javascript:void(0)">Apps</a></li>
+
+						@*@if*@
+						@if (Menu.Any())
+						{
+							Int32 ParentId = 0;
+							Int32 MenuParentId = 0;
+							Int32 MenuParentIdChild = 0;
+							//Int32 MenuId = 0;
+							Int32 IdMenu = 0;
+							string Icon = "";
+							foreach (var menu_data in Menu)
+							{
+								MenuParentId = menu_data.MenuParentId;
+
+								Icon = menu_data.Icon;
+
+								if (ParentId != MenuParentId)
+								{
+									//@if (ViewBag.DataMenu != null)
+									//{
+										#region
+										@*@foreach (var MenuData in ViewBag.DataMenu)
+										{
+											MenuId = MenuData.MenuId;
+											if (MenuParentId == MenuData.ParentId)
+											{
+												<li class="sub-slide">
+													<a class="sub-side-menu__item" data-bs-toggle="sub-slide" href="#"><span class="sub-side-menu__label">@menu_data.MenuParentName</span><i class="sub-angle fa fa-angle-right"></i></a>
+
+													@foreach (var menu_data_child in Menu)
+													{
+														MenuParentIdChild = menu_data_child.MenuParentId;
+														IdMenu = menu_data_child.MenuId;
+														if (MenuParentId == MenuParentIdChild)
+														{
+															@if (MenuId == IdMenu)
+															{
+																<ul class="sub-slide-menu">
+																	<li><a class="sub-slide-item" asp-controller="@menu_data_child.Controller" asp-action="@menu_data_child.Action">@menu_data_child.MenuName</a></li>
+																</ul>
+															}
+														}
+													}
+												</li>
+											}
+										}*@
+										#endregion
+									//}
+									//else
+									//{
 										<li class="sub-slide">
-											<a class="sub-side-menu__item" data-bs-toggle="sub-slide" href="#"><span
-													class="sub-side-menu__label">Projects</span><i
-													class="sub-angle fa fa-angle-right"></i></a>
-											<ul class="sub-slide-menu">
-												<li><a class="sub-slide-item" asp-controller="ProjectsList" asp-action="Index">Projects</a></li>
-												<li><a class="sub-slide-item" asp-controller="ProjectNew" asp-action="Index">Project New</a></li>
-											</ul>
+													<a class="sub-side-menu__item" data-bs-toggle="sub-slide" href="#"><span class="sub-side-menu__label">@menu_data.MenuParentName</span><i class="sub-angle fa fa-angle-right"></i></a>
+
+											@foreach (var menu_data_child in Menu)
+											{
+												MenuParentIdChild = menu_data_child.MenuParentId;
+												IdMenu = menu_data_child.MenuId;
+												if (MenuParentId == MenuParentIdChild)
+												{
+													<ul class="sub-slide-menu">
+														<li><a class="sub-slide-item" asp-controller="@menu_data_child.Controller" asp-action="@menu_data_child.Action">@menu_data_child.MenuName</a></li>
+													</ul>
+												}
+											}
 										</li>
-										<li class="sub-slide">
+									//}
+								}
+							}
+						}
+						@*@endif*@
+
+										@*<li class="sub-slide">
 											<a class="sub-side-menu__item" data-bs-toggle="sub-slide" href="#"><span
 													class="sub-side-menu__label">Tasks</span><i
 													class="sub-angle fa fa-angle-right"></i></a>
 											<ul class="sub-slide-menu">
 												<li><a class="sub-slide-item" asp-controller="TaskList" asp-action="Index">Task List</a></li>
 											</ul>
-										</li>
+										</li>*@
+
 									</ul>
+
 								</li>
 
 								<li>

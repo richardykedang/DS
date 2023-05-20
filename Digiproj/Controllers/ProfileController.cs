@@ -2,11 +2,8 @@
 using DigiProj.Helpers;
 using DigiProj.Models.Account;
 using DigiProj.Shared.Dtos.Responses;
-using DigiProj.Helpers;
-using DigiProj.Models.Account;
 using DigiProj.Services.Interfaces;
 using DigiProj.Shared.Dtos.Requests;
-using DigiProj.Shared.Dtos.Responses;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DigiProj.Controllers
@@ -17,20 +14,22 @@ namespace DigiProj.Controllers
 		private readonly IConfiguration _config;
 		private readonly IMapper _mapper;
 		private readonly IUserApiService _apiService;
+        private readonly IMenuApiService _apiMenuService;
 
-		public ProfileController(ILogger<ProfileController> logger, IConfiguration config, IMapper mapper, IUserApiService apiService)
+        public ProfileController(ILogger<ProfileController> logger, IConfiguration config, IMapper mapper, IUserApiService apiService, IMenuApiService menuApiService)
 		{
 			_logger = logger;
 			_config = config;
 			_mapper = mapper;
 			_apiService = apiService;
+			_apiMenuService = menuApiService;
 		}
 
 
 		[Route("/profile")]
-		public IActionResult Index()
+		public async Task <IActionResult> Index(CancellationToken cancellationToken)
 		{
-			ViewBag.Title = "My Profile";
+            ViewBag.Title = "My Profile";
 			return View();
 		}
 

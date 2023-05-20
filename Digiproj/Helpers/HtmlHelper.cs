@@ -10,17 +10,17 @@ namespace DigiProj.Helpers
 {
     public static class HtmlHelper
 	{
-		public static string IsActive(this IHtmlHelper htmlHelper, string controller, string action)
-		{
-			var routeData = htmlHelper.ViewContext.RouteData;
+		//public static string IsActive(this IHtmlHelper htmlHelper, string controller, string action)
+		//{
+		//	var routeData = htmlHelper.ViewContext.RouteData;
 
-			var routeAction = routeData.Values["action"].ToString();
-			var routeController = routeData.Values["controller"].ToString();
+		//	var routeAction = routeData.Values["action"].ToString();
+		//	var routeController = routeData.Values["controller"].ToString();
 
-			var returnActive = (routeController.Contains(controller, StringComparison.OrdinalIgnoreCase) && routeAction.Contains(action, StringComparison.OrdinalIgnoreCase));
+		//	var returnActive = (routeController.Contains(controller, StringComparison.OrdinalIgnoreCase) && routeAction.Contains(action, StringComparison.OrdinalIgnoreCase));
 
-			return returnActive ? "active" : "";
-		}
+		//	return returnActive ? "active" : "";
+		//}
 
 		public static async Task SignOutCookieAsync(this HttpContext context)
 		{
@@ -48,10 +48,9 @@ namespace DigiProj.Helpers
 
 			if (requestPath != "/" && requestPath != "")
 			{
-				var allowedMenus = ConfigurationConsts.AllowedMenus.Any(x =>
-					requestPath != null && requestPath.Contains(x, StringComparison.OrdinalIgnoreCase));
-				if (!allowedMenus
-					&& !menus.Any(menu => requestPath.Contains(menu.Action, StringComparison.OrdinalIgnoreCase)
+				var allowedMenus = ConfigurationConsts.AllowedMenus.Any(x =>requestPath != null && requestPath.Contains(x, StringComparison.OrdinalIgnoreCase));
+				
+				if (!allowedMenus && !menus.Any(menu => requestPath.Contains(menu.Action, StringComparison.OrdinalIgnoreCase)
 										  && requestPath.Contains(menu.Controller, StringComparison.OrdinalIgnoreCase)))
 				{
 					context.Response.Redirect(context.GetUrl("/Home/AccessDenied"));
@@ -60,5 +59,6 @@ namespace DigiProj.Helpers
 			}
 
 		}
+
 	}
 }
