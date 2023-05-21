@@ -1,21 +1,12 @@
-﻿using AspNetCoreHero.ToastNotification.Helpers;
-using AutoMapper;
+﻿using AutoMapper;
 using DigiProj.Configuration;
 using DigiProj.Helpers;
 using DigiProj.Shared.Dtos.Responses;
 using DigiProj.Shared.Dtos.Responses.MsUser;
-using DigiProj.Configuration;
-using DigiProj.Helpers;
 using DigiProj.Services.Interfaces;
 using DigiProj.Shared.Dtos.Requests;
-using DigiProj.Shared.Dtos.Responses;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using RestSharp;
-using System.Runtime.Intrinsics.Arm;
-using System.Security.Claims;
-using System.Security.Policy;
-using System.Text;
 
 namespace DigiProj.Services
 {
@@ -68,11 +59,9 @@ namespace DigiProj.Services
 			response.CheckError(request);
 
 			//string jsonString = "{\"code\":200,\"error\":false,\"message\":\"Successfully get user roles.\",\"data\":[{\"name\":\"admin\",\"email\":\"alvin.joe49@bi.go.id\",\"nip\":\"12345\",\"username\":\"alvin\",\"path_signature\":null,\"is_active\":true,\"user_roles\":\"Administrator,\"}]}";
-			var jsonV = JsonConvert.DeserializeObject<GlobalObjectResponse<ProfilUserResponse>>(response.Content);
-			return jsonV;
-
+			//var jsonV = JsonConvert.DeserializeObject<GlobalObjectResponse<ProfilUserResponse>>(response.Content);
 			//Console.WriteLine(jsonV);
-			//return response.GetContentTest<GlobalObjectListResponse<ProfilUserResponse>>();
+			return response.GetContent<GlobalObjectResponse<ProfilUserResponse>>();
 		}
 
 

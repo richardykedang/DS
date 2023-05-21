@@ -39,10 +39,13 @@ namespace DigiProj.Shared.Dtos.Responses.MsUser
 
 	public class ProfilUserResponse
     {
-		public string Username { get; set; } = null!;
-		public string Name { get; set; } = null!;
-		public string Nip { get; set; } = null!;
-		public string Email { get; set; } = null!;
+		public string Name { get; set; }
+		public string Email { get; set; }
+		public string Nip { get; set; }
+		public string Username { get; set; }
+		public string Path_signature { get; set; }
+		public bool IsActive { get; set; }
+		public bool IsFirstTime { get; set; }
 		public string Role { get; set; }
 
 	}

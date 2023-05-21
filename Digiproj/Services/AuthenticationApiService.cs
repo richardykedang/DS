@@ -34,6 +34,20 @@ namespace DigiProj.Services
 			return response.GetContent<TokenResponse>();
 		}
 
+		public async Task<LogoutResponse> LogoutAsync(string userName, CancellationToken cancellationToken)
+		{
+
+			var request = new RestRequest(_apiConfig.UriLogout, Method.GET);
+			request.AddParameter("UserName", userName, ParameterType.QueryString);
+			//request.AddRequiredBody(userName);
+			request.AddRequiredHeaders(_apiConfig);
+
+			var response = await _client.ExecuteAsync(request, cancellationToken);
+			//response.CheckError(request);
+
+			return response.GetContent<LogoutResponse>();
+		}
+
 		public async Task<TokenResponse> RefreshTokenAsync(RefreshTokenRequest requestDto, CancellationToken cancellationToken)
 		{
 			var request = new RestRequest(_apiConfig.UriRefreshToken, Method.POST);

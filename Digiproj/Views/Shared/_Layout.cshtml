@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using DigiProj.Configuration.Constants;
+<!DOCTYPE html>
 <html lang="en">
 	<head>
 		<meta charset="utf-8" />
@@ -8,7 +9,7 @@
 		<link rel="shortcut icon" type="image/x-icon" href="~/assets/images/brand/favicon.ico" />
 
 		<!-- TITLE -->
-		<title>@ViewBag.Title - Digiproj</title>
+		<title>@ViewBag.Title - @ConfigurationConsts.AppName</title>
 
 		<!-- BOOTSTRAP CSS -->
 		<link id="style" href="~/assets/plugins/bootstrap/css/bootstrap.min.css" asp-append-version="true" rel="stylesheet" />
@@ -70,6 +71,9 @@
 			<script src="~/assets/plugins/bootstrap/js/popper.min.js"></script>
 			<script src="~/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
 
+			<!-- CUSTOM FORMAT DATE JS -->
+			<script src="~/assets/js/formatType.js"></script>
+			
 			<!-- SIDE-MENU JS -->
 			<script src="~/assets/plugins/sidemenu/sidemenu.js"></script>
 

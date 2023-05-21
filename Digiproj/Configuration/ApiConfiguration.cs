@@ -6,6 +6,7 @@
 		public string ApiKey { get; set; }
 		public string ApiSecret { get; set; }
 		public string UriLogin { get; set; }
+		public string UriLogout { get; set; }
 		public string UriRefreshToken { get; set; }
 		public string UriGetMaintenance { get; set; }
 		public string UriCheckConnection { get; set; }

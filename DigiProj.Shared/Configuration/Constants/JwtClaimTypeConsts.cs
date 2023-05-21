@@ -9,12 +9,12 @@ namespace DigiProj.Shared.Configuration.Constants
 	public class JwtClaimTypeConsts
 	{
 		public const string EmployeeId = "employee_id";
-		public const string CollectorName = "collector_name";
 		public const string IsLogin = "is_login";
 		public const string LastLogin = "last_login";
 		public const string LastResetPassword = "last_reset_password";
 		public const string LastChangePassword = "last_change_password";
-		public const string IsForceChangePassword = "is_force_change_password";
+		//public const string IsForceChangePassword = "is_force_change_password";
+		public const string IsFirstTime = "is_first_time";
 
 		public const string Name = "name";
 		public const string GivenName = "given_name";

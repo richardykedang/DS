@@ -20,13 +20,15 @@ namespace DigiProj.Controllers
 		private readonly IUserApiService _apiService;
 		private readonly IMapper _mapper;
 		private readonly INotyfService _notifyService;
+		private readonly IAuthenticationApiService _apiAuthService;
 
-		public AccountController(ITokenService tokenService, IUserApiService apiService, IMapper mapper, INotyfService notifyService)
+		public AccountController(ITokenService tokenService, IUserApiService apiService, IMapper mapper, INotyfService notifyService, IAuthenticationApiService apiAuthService)
 		{
 			_tokenService = tokenService;
 			_apiService = apiService;
 			_mapper = mapper;
 			_notifyService = notifyService;
+			_apiAuthService = apiAuthService;
 		}
 
 		[AllowAnonymous]
@@ -67,7 +69,7 @@ namespace DigiProj.Controllers
 			var roles = _mapper.Map<IEnumerable<UserRolesResponse>>(apiResponseRoles.Data);
 			if (!roles.Any())
 			{
-				_notifyService.Error("User have not role");
+				_notifyService.Error("User do not have role");
 				return View(model);
 			}
 
@@ -110,11 +112,17 @@ namespace DigiProj.Controllers
 		//}
 
 
+		
+
 		[HttpGet]
-		public async Task<IActionResult> Logout()
+		public async Task<IActionResult> Logout([FromQuery]string userName, CancellationToken cancellationToken)
 		{
+		    userName = User.FindFirstValue(JwtClaimTypeConsts.PreferredUserName);
+			var apiRequest = _mapper.Map<string>(userName);
+			var apiResponse = await _apiAuthService.LogoutAsync(apiRequest, cancellationToken);
 			await HttpContext.SignOutCookieAsync();
 
+			//return apiResponse;
 			return RedirectToAction(nameof(AccountController.Logout), "Account");
 
 		}

@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using DigiProj.Helpers;
 using DigiProj.Configuration.Constants;
 using DigiProj.Shared.Dtos.Responses.MsUser;
 using DigiProj.Shared.Entities.MsUser;
@@ -33,11 +31,11 @@ namespace DigiProj.Helpers
 		public static void Redirector(this HttpContext context, MsUser user, IEnumerable<UserMenusResponse> menus)
 		{
 			//Redirect force change password
-			if (user.IsForceChangePassword)
-			{
-				context.Response.Redirect(context.GetUrl("/Account/ChangePassword"));
-				return;
-			}
+			//if (user.IsForceChangePassword)
+			//{
+			//	context.Response.Redirect(context.GetUrl("/Account/ChangePassword"));
+			//	return;
+			//}
 
 
 			//Redirect menu not allowed

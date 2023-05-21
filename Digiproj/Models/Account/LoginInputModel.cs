@@ -15,4 +15,9 @@ namespace DigiProj.Models.Account
 
 
 	}
+
+	public class UsernameInputModel
+	{
+		public string Username { get; set; }
+	}
 }

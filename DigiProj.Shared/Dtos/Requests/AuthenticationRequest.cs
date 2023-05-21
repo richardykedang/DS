@@ -17,7 +17,7 @@ namespace DigiProj.Shared.Dtos.Requests
 
 	public class UsernameRequest
 	{
-		public string Username { get; set; }
+		public string userName { get; set; }
 	}
 
 	public class RefreshTokenRequest

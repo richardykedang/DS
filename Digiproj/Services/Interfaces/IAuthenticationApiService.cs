@@ -6,6 +6,7 @@ namespace DigiProj.Services.Interfaces
 	public interface IAuthenticationApiService
 	{
 		Task<TokenResponse> LoginAsync(LoginRequest requestDto, CancellationToken cancellationToken = default);
+		Task<LogoutResponse> LogoutAsync(string userName, CancellationToken cancellationToken = default);
 		Task<TokenResponse> RefreshTokenAsync(RefreshTokenRequest requestDto, CancellationToken cancellationToken = default);
 		Task<GlobalObjectResponse<MaintenanceResponse>> GetMaintenanceAsync(CancellationToken cancellationToken = default);
 	}

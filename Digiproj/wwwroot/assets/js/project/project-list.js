@@ -1,7 +1,3 @@
-function capitalizeFirstLetter(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-}
-
 $(document).ready(function () {
     $('#project-table').DataTable({
         searching: false,
@@ -11,7 +7,6 @@ $(document).ready(function () {
         lengthMenu: [5, 10, 20],
     });
 });
-
 
 function SearchProject() {
     var ProjectName = document.getElementById("ProjectName").value;
@@ -72,13 +67,17 @@ function SearchProject() {
                     }
 
                     const cdate = new Date(Date.parse(item.createdDate));
-                    let sdate = ("00" + (cdate.getMonth() + 1)).slice(-2) + "/" +
-                        ("00" + cdate.getDate()).slice(-2) + "/" +
-                        cdate.getFullYear() + " " +
-                        ("00" + cdate.getHours()).slice(-2) + "." +
-                        ("00" + cdate.getMinutes()).slice(-2) + "." +
-                        ("00" + cdate.getSeconds()).slice(-2);
+                    let actions = "<a class='dropdown-item' href='project/projects-edit?ProjectId=" + encodeURIComponent(item.aesProj) + "'><i class='fe fe-info me-2'> </i> Edit</a><a class='dropdown-item' href='project/projects-detail?ProjectId=" + encodeURIComponent(item.aesProj) + "'><i class='fe fe-info me-2'> </i> Detail</a>";     
+                    var DataMember = item.assignTo;
+                   
+                    //var b = DataMember.forEach(function (DataMember) {
+                    //        console.log(DataMember.employeeId);
+                    //    });
 
+
+                    const person = {
+                        eid: DataMember[i].employeeId
+                    };
 
                     let rows = $("<tr>" +
                         "<td class='text-muted fs-15 fw-semibold text-center'>" + i++ + "</td>" +
@@ -86,21 +85,20 @@ function SearchProject() {
                         "<td class='text-muted fs-15 fw-semibold text-center'>" + item.projectName.toUpperCase() + "</td>" +
                         "<td class='text-muted fs-15 fw-semibold text-center'><span class='mb-0 mt-1 badge rounded-pill " + css + "'>" + status + "</span></td>" +
                         "<td class='text-muted fs-15 fw-semibold text-center'>" + capitalizeFirstLetter(item.name) + "</td>" +
-                        "<div class='avatar-list avatar-list-stacked'><td class='text-muted fs-15 fw-semibold text-center'><span class='avatar bradius bg-primary'>+" + item.memberTotal + "</span> Members</td></div>" +
+                        "<td><div class='avatar-list avatar-list-stacked'>"+
+                        "<span><img src='/assets/images/users/bi-logo.jpg' title='" + person.eid + "' alt='profile-user' class='avatar bradius cover-image'></span>" +
+                        "<span class= 'avatar bradius bg-primary' > +" + item.memberTotal + "</span>" +
+                        "</div></td>" +
                         "<td class='text-muted fs-15 fw-semibold text-center'>" + capitalizeFirstLetter(apprv) + "</td>" +
                         "<td class='text-muted fs-15 fw-semibold text-center'>" + capitalizeFirstLetter(item.createdBy) + "</td>" +
-                        "<td class='text-muted fs-15 fw-semibold text-center'>" + sdate + "</td>" +
+                        "<td class='text-muted fs-15 fw-semibold text-center'>" + formatDateID(cdate) + "</td>" +
                         "<td>" +
                         "<div class='d-flex align-items-stretch'>" +
                         "<a class='btn btn-sm btn-outline-secondary border me-2' data-bs-toggle='tooltip' data-bs-original-title='Delete'>" +
                         "<svg xmlns='http://www.w3.org/2000/svg' height='20' viewBox='0 0 24 24' width='16'> <path d='M0 0h24v24H0V0z' fill='none' /> <path d='M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM8 9h8v10H8V9zm7.5-5l-1-1h-5l-1 1H5v2h14V4h-3.5z' /> </svg></a>" +
                         "<a href='#' class='border br-5 px-2 py-1 text-muted d-flex align-items-center' data-bs-toggle='dropdown' aria-haspopup='true' aria-expanded='false'> <i class='fe fe-more-vertical'> </i></a>" +
                         "<div class='dropdown-menu dropdown-menu-start'>" +
-                        "<a class='dropdown-item' href='project/projects-edit?ProjectId=" + encodeURIComponent(item.aesProj) + "'> <i class='fe fe-edit-2 me-2'> </i> Edit</a>" +
-                        "<a class='dropdown-item' href='project/projects-detail?ProjectId=" + encodeURIComponent(item.aesProj) + "'> <i class='fe fe-info me-2'> </i> Detail</a>" +
-
-
-
+                        " "+ actions +" " +
                         "</div></div>" +
                         "</td>" + "</tr>"
                     );
@@ -143,10 +141,4 @@ function SearchProject() {
             return;
         }
     });
-}
-
-function parseBool(value) {
-    return (typeof value === "undefined") ?
-        false :
-        value.replace(/^\s+|\s+$/g, "").toLowerCase() === "true";
 }

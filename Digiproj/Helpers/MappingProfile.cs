@@ -20,6 +20,7 @@ namespace DigiProj.Helpers
 		{
 			//Domain to Dto
 			CreateMap<LoginInputModel, LoginRequest>();
+			CreateMap<UsernameInputModel, UsernameRequest>();
 			CreateMap<ChangePasswordInputModel, ChangePasswordRequest>();
 			CreateMap<SearchProjectInputModel, SearchProjectRequest>();
 			CreateMap<FilterAutoCompleteModel, FilterAutoComplete>();

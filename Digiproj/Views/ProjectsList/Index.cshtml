@@ -1,4 +1,5 @@
 ﻿@using DigiProj.Configuration;
+@using DigiProj.Configuration.Constants;
 @using DigiProj.Helpers;
 @using System.Globalization;
 @using DigiProj.Services.Interfaces;
@@ -118,7 +119,7 @@
 								<th class="bg-transparent border-bottom-0 w-5">Project ID</th>
 								<th class="bg-transparent border-bottom-0">Project Name</th>
 								<th class="bg-transparent border-bottom-0">Status</th>
-								<th class="bg-transparent border-bottom-0">Project Owner / Lead</th>
+								<th class="bg-transparent border-bottom-0">Project Lead</th>
 								<th class="bg-transparent border-bottom-0">Members</th>
 								<th class="bg-transparent border-bottom-0">Approval</th>
 								<th class="bg-transparent border-bottom-0">Created By</th>
@@ -163,7 +164,7 @@
 												{
 													if (ProjectData.AssignTo.Count() >= 1)
 													{
-														foreach (var MemberProject in ProjectData.AssignTo.Take(5).ToList())
+														foreach (var MemberProject in ProjectData.AssignTo.Take(1).ToList())
 														{
 															<span><img src="~/assets/images/users/bi-logo.jpg" title="@MemberProject.EmployeeId" alt="profile-user" class="avatar bradius cover-image"></span>
 														}
@@ -184,7 +185,7 @@
 											
 										</td>
 										<td class="text-muted fs-15 fw-semibold text-center">@ProjectData.CreatedBy.ToTitleCase()</td>
-										<td class="text-muted fs-15 fw-semibold text-center">@ProjectData.CreatedDate.ToString("MM/dd/yyyy HH:mm:ss",new CultureInfo("id-ID"))</td>
+										<td class="text-muted fs-15 fw-semibold text-center">@ProjectData.CreatedDate.ToString(ConfigurationConsts.DateFormatID,new CultureInfo("id-ID"))</td>
 										<td>
 											<div class="d-flex align-items-stretch">
 												<a class="btn btn-sm btn-outline-secondary border me-2" data-bs-toggle="tooltip" data-bs-original-title="Delete">

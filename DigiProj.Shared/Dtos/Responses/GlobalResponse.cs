@@ -8,6 +8,12 @@ using System.Threading.Tasks;
 
 namespace DigiProj.Shared.Dtos.Responses
 {
+	public class LogoutResponse
+	{
+		public bool Status { get; set; }
+		public string Message { get; set; }
+	}
+
 	public class GlobalResponse
 	{
 		public int Code { get; set; }
