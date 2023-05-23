@@ -1,0 +1,50 @@
+﻿@using DigiProj.Services.Interfaces;
+@inject IUserApiService apiUserService
+
+@{
+	var apiMenu = await apiUserService.GetMenusAsync();
+	var Menu = apiMenu.Data;
+}
+
+@*Permission CRUD*@
+@if (Menu.First().Controller == "user" && Menu.First().IsCreate == false)
+{
+	<style>
+		#cr {
+			display: none;
+		}
+	</style>
+}
+@if (Menu.First().Controller == "user" && Menu.First().IsDelete == false)
+{
+	<style>
+		#dlt {
+			display: none;
+		}
+	</style>
+}
+@if (Menu.First().Controller == "user" && Menu.First().IsRead == false)
+{
+	<style>
+		#ed {
+			display: none;
+		}
+	</style>
+}
+@if (Menu.First().Controller == "user" && Menu.First().IsEdit == false)
+{
+	<style>
+		#dt {
+			display: none;
+		}
+	</style>
+}
+@if (Menu.First().Controller == "user" && Menu.First().IsUpload == false)
+{
+	<style>
+		#up {
+			display: none;
+		}
+	</style>
+}
+@*End Permission CRUD*@

@@ -14,7 +14,6 @@ namespace DigiProj.Shared.Dtos.Responses.MsProject
         public string Id { get; set; }
         public string ProjectId { get; set; }
 		public string AesProj { get; set; }
-        public string Approval { get; set; }
 		public string ProjectName { get; set; }
         public string Name { get; set; }
         public string Summary { get; set; }

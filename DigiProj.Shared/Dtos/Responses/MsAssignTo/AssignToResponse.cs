@@ -13,4 +13,10 @@ namespace DigiProj.Shared.Dtos.Responses.MsAssignTo
         public string Email { get; set; }
         public string Name { get; set; }
     }
+
+	public class OwnerProjectResponse
+	{
+		public string EmployeeId { get; set; }
+		public string Name { get; set; }
+	}
 }

@@ -14,6 +14,11 @@ namespace DigiProj.Models.Project
 		public bool Y { get; set; }
 	}
 
+	public class DeleteProjectInputModel
+	{
+		public string ProjectId { get; set; }
+	}
+
 	public class DetailProjectInputModel
 	{
 		public string ProjectId { get; set; }

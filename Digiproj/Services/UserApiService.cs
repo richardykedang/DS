@@ -7,6 +7,11 @@ using DigiProj.Services.Interfaces;
 using DigiProj.Shared.Dtos.Requests;
 using Newtonsoft.Json;
 using RestSharp;
+using DigiProj.Shared.Dtos.Responses.MsProject;
+using Digiproj.Shared.Dtos.Requests.Users;
+using System.Diagnostics;
+using System.Net;
+using System;
 
 namespace DigiProj.Services
 {
@@ -91,6 +96,20 @@ namespace DigiProj.Services
 			response.CheckError(request);
 
 			return response.GetContent<GlobalObjectListResponse<UserMenusResponse>>();
+		}
+
+		public async Task<GlobalObjectListResponse<UserResponse>> GetUsers(CancellationToken cancellationToken)
+		{
+			var token = await _tokenService.CheckTokenAsync(cancellationToken);
+			_client.AddAuthenticator(token);
+
+			var request = new RestRequest(_apiConfig.UriGetUser, Method.GET);
+			request.AddRequiredHeaders(_apiConfig);
+
+			var response = await _client.ExecuteAsync(request, cancellationToken);
+			response.CheckError(request);
+
+			return response.GetContent<GlobalObjectListResponse<UserResponse>>();
 		}
 
 	}

@@ -1,0 +1,158 @@
+﻿@using DigiProj.Configuration;
+@using DigiProj.Configuration.Constants;
+@using DigiProj.Helpers;
+@using System.Globalization;
+@using DigiProj.Services.Interfaces;
+@using static DigiProj.Configuration.StatusResponseEnum;
+@inject IUserApiService apiService
+@inject IConfiguration configuration
+
+@{
+	var user = User.GetClaims();
+	var apiResponseUser = await apiService.GetUsers();
+	var dataUser = apiResponseUser.Data;
+
+}
+<partial name="~/Views/User/_permission.cshtml" />
+
+<!-- PAGE-HEADER -->
+<div class="page-header">
+	<div>
+		<h1 class="page-title">Users-List</h1>
+	</div>
+	<div class="ms-auto pageheader-btn">
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item">Apps</li>
+			<li class="breadcrumb-item"><a href="javascript:void(0);">Users</a></li>
+			<li class="breadcrumb-item active" aria-current="page">Users-List</li>
+		</ol>
+	</div>
+</div>
+<!-- PAGE-HEADER END -->
+<!--ROW OPENED-->
+<div class="row">
+	<div class="col-md-12">
+		<div class="card">
+			<div class="card-body project-type-container projects p-4">
+				<h4 class="m-0" id="typeTitle">All Users</h4>
+				<div class="d-sm-flex align-items-center">
+					<div class="btn-list mx-4">
+						<a  id="cr" class="btn btn-outline-primary" asp-controller="User" asp-action="Create"><i class="fe fe-edit-2 me-2"></i> Create User</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+@*START FORM FILTER*@
+@*<div class="card">
+	<div class="card-header border-0 pt-6">
+		<div class="input-group" id="group">
+			<div class="col-sm-6 col-md-6 col-xl-4">
+				<div class="form-group">
+					<label class="form-label text-muted">Project Name: </label>
+					<input id="ProjectName" type="text" class="form-control form-control-solid" placeholder="Project Name">&nbsp;
+				</div>
+			</div>
+			<div class="col-sm-6 col-md-6 col-xl-4">
+				<div class="form-group">
+					<label class="form-label text-muted">Project Status: </label>
+					<ul>
+						<li class="select-status">
+							<select class="form-control select2-status-search" data-placeholder="Select Status" id="Status">
+								<option value="0" selected>All</option>
+								@foreach (var a in dataStatus)
+								{
+										<option value=@a.id>@a.name.ToTitleCase()</option>
+								}
+							</select>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="col-sm-6 col-md-6 col-xl-4">
+				<div class="form-group">
+					<label class="form-label text-muted">Sort by: </label>
+					<ul>
+						<li class="select-status">
+							<select class="form-control select2-status-search" data-placeholder="Select Status" id="OrderBy">
+								<option value="project_name">Project Name</option>
+								<option value="status">Status</option>
+								<option value="created_date">Created Date</option>
+							</select>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="col-sm-6 col-md-6 col-xl-4">
+				<div class="form-group">
+					<label class="form-label text-muted">Ascending or Descending: </label>
+					<ul>
+						<li class="select-status">
+							<select class="form-control select2-status-search" data-placeholder="Select Status" id="Ascending">
+								<option value="" selected> A-Z &#8673;</option>
+								<option value="1">Z-A &#8675;</option>
+							</select>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	<button type="button" style="width:30%;margin-left:2%;margin-bottom:2%;" id="btnSearchProject" class="btn btn-primary" onclick="SearchProject();"> Search</button>
+</div>*@
+@*END FORM FILTER*@
+
+<div class="row">
+	<div class="col-12 col-sm-12">
+		<div class="card">
+			<div class="card-body project-list-table-container">
+				<div class="table-responsive">
+					<table id="project-table" class="table text-nowrap mb-0 table-bordered border-top border-bottom project-list-main">
+						<thead class="table-head">
+							<tr>
+								<th class="bg-transparent border-bottom-0 w-5">No</th>
+								<th class="bg-transparent border-bottom-0 w-5">Employee ID</th>
+							</tr>
+						</thead>
+						<tbody class="table-body">
+
+							@if (dataUser.Any())
+							{
+								int n = 1;
+								foreach (var UserData in dataUser)
+								{
+											<tr>
+												<td class="text-muted fs-15 fw-semibold text-center">@n</td>
+										<td class="text-muted fs-15 fw-semibold text-center">@UserData.EmployeeId</td>
+												<td>
+													<div class="d-flex align-items-stretch">
+														<a class="btn btn-sm btn-outline-secondary border me-2" data-bs-toggle="tooltip" data-bs-original-title="Delete">
+															<svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 0 24 24" width="16"><path d="M0 0h24v24H0V0z" fill="none" /><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM8 9h8v10H8V9zm7.5-5l-1-1h-5l-1 1H5v2h14V4h-3.5z" /></svg>
+														</a>
+														<a href="#" class="border br-5 px-2 py-1 text-muted d-flex align-items-center" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fe fe-more-vertical"></i></a>
+														<div class="dropdown-menu dropdown-menu-start">
+													<a class="dropdown-item" asp-controller="User" asp-action="Edit" asp-route-id="@UserData.Id"><i class="fe fe-edit-2 me-2"></i> Edit</a>
+													<a class="dropdown-item" asp-controller="User" asp-action="Detail" asp-route-ProjectId="@UserData.Id"><i class="fe fe-info me-2"></i> Detail</a>
+														</div>
+													</div>
+												</td>
+											</tr>
+									n++;
+								}
+							}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- COL END -->
+</div>
+
+<!--ROW CLOSED-->
+@section scripts {
+
+}
+

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication;
 using DigiProj.Configuration.Constants;
 using DigiProj.Shared.Dtos.Responses.MsUser;
 using DigiProj.Shared.Entities.MsUser;
+using DigiProj.Shared.Dtos.Responses;
 
 namespace DigiProj.Helpers
 {
@@ -27,8 +28,17 @@ namespace DigiProj.Helpers
 			await context.SignOutAsync(
 				CookieAuthenticationDefaults.AuthenticationScheme);
 		}
+		public static void RedirectornoAuth(this HttpContext context, MaintenanceResponse maintenance)
+		{
 
-		public static void Redirector(this HttpContext context, MsUser user, IEnumerable<UserMenusResponse> menus)
+			if (maintenance.Enabled == true)
+			{
+				context.Response.Redirect(context.GetUrl("/Home/Maintenance"));
+				return;
+			}
+		}
+
+		public static void Redirector(this HttpContext context, MsUser user, IEnumerable<UserMenusResponse> menus, MaintenanceResponse maintenance)
 		{
 			//Redirect force change password
 			//if (user.IsForceChangePassword)
@@ -37,6 +47,12 @@ namespace DigiProj.Helpers
 			//	return;
 			//}
 
+
+			if (maintenance.Enabled == true)
+			{
+				context.Response.Redirect(context.GetUrl("/Home/Maintenance"));
+				return;
+			}
 
 			//Redirect menu not allowed
 			var requestPath = context.Request.Path.Value;

@@ -12,7 +12,8 @@ namespace DigiProj.Services.Interfaces
 		Task<GlobalObjectListResponse<ProjectResponse>> GetDetailProject(string ProjectId, CancellationToken cancellationToken = default);
 		Task<GlobalObjectListResponse<ProjectResponse>> GetProjects(CancellationToken cancellationToken = default);
         Task<GlobalObjectListResponse<ProjectResponse>> GetSearchProject(SearchProjectRequest requestDto, CancellationToken cancellationToken = default);
+		Task<GlobalResponse> DeleteProject(DeleteProjectRequest requestDto, CancellationToken cancellationToken = default);
 
 
-    }
+	}
 }

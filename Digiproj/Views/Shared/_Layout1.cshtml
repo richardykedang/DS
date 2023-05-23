@@ -1,4 +1,18 @@
 ﻿@using DigiProj.Configuration.Constants;
+@using DigiProj.Configuration.Constants
+@using DigiProj.Helpers
+@using DigiProj.Services.Interfaces
+@using Microsoft.Extensions.Configuration
+@inject IAuthenticationApiService authservice
+
+@{
+	var apiMaintenanceResponse = await authservice.GetMaintenanceAsync();
+	var Maintenance = apiMaintenanceResponse.Data;
+	Context.RedirectornoAuth(Maintenance); //ini buat access denied
+	Layout = null;
+}
+
+
 <!DOCTYPE html>
 <html lang="en">
 	<head>

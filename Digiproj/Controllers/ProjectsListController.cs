@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using Digiproj.Shared.Dtos.Requests;
-using DigiProj.Models;
+using Digiproj.Shared.Dtos.Responses;
+using DigiProj.Helpers;
 using DigiProj.Models.Project;
 using DigiProj.Services.Interfaces;
-using DigiProj.Shared.Dtos.Requests;
 using DigiProj.Shared.Dtos.Requests.Project;
 using DigiProj.Shared.Dtos.Responses;
 using DigiProj.Shared.Dtos.Responses.MsProject;
@@ -75,5 +75,65 @@ namespace DigiProj.Controllers
 
 		}
 
+
+		#region CRUD
+		[Route("/projects-new")]
+		public IActionResult Create()
+		{
+			ViewBag.Title = "Add Project";
+			return View();
+		}
+
+		[Route("/projects-edit")]
+		public IActionResult Edit()
+		{
+			ViewBag.Title = "Edit Project";
+			return View();
+		}
+
+		[HttpPost]
+		public async Task<DeleteResponse> Delete([FromBody] DeleteProjectInputModel model, CancellationToken cancellationToken)
+		{
+
+			DeleteResponse msg = new DeleteResponse();
+			var apiRequest = _mapper.Map<DeleteProjectRequest>(model);
+			var apiResponse = await _apiProjectService.DeleteProject(apiRequest, cancellationToken);
+
+			if (apiResponse.Error)
+			{
+				msg.success = false;
+				msg.message = apiResponse.Message;
+				return msg;
+			}
+
+			msg.success = true;
+			msg.message = apiResponse.Message;
+			return msg;
+
+		}
+
+		[HttpGet()]
+		[Route("/project/projects-detail")]
+		public async Task<IActionResult> Detail([FromQuery] string ProjectId, CancellationToken cancellationToken)
+		{
+			ViewBag.Title = "Detail Project";
+			ViewBag.ID = Encryption.Decrypt(ProjectId);
+			var m = await _apiProjectService.GetDetailProject(Encryption.Decrypt(ProjectId), cancellationToken);
+
+			ProjectResponse model = new();
+			model = new()
+			{
+				ProjectName = m.Data.First().ProjectName,
+				Status = m.Data.First().Status,
+				Name = m.Data.First().Name,
+				Summary = m.Data.First().Summary,
+				CreatedBy = m.Data.First().CreatedBy,
+				CreatedDate = m.Data.First().CreatedDate,
+				EndDate = m.Data.First().EndDate,
+			};
+
+			return View(model);
+		}
+		#endregion
 	}
 }

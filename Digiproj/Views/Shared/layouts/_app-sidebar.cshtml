@@ -6,6 +6,7 @@
 
 @inject IUserApiService apiService
 @inject IConfiguration configuration
+@inject IAuthenticationApiService authservice
 
 @{
     var initialNameList = User.GetClaims().Name.Split(' ').ToList();
@@ -14,7 +15,11 @@
 
 	var apiResponse = await apiService.GetMenusAsync();
     var Menu = apiResponse.Data;
-	Context.Redirector(user, Menu); //ini buat access denied
+
+	var apiMaintenanceResponse = await authservice.GetMaintenanceAsync();
+	var Maintenance = apiMaintenanceResponse.Data;
+
+	Context.Redirector(user, Menu, Maintenance); //ini buat access denied
 
     Layout = null;
 }
@@ -154,8 +159,8 @@
 													class="sub-side-menu__label">Error Pages</span><i
 													class="sub-angle fa fa-angle-right"></i></a>
 											<ul class="sub-slide-menu">
-								<li><a class="sub-slide-item" asp-controller="CustomPages" asp-action="construction">UnderConstruction</a></li>
-								<li><a class="sub-slide-item" asp-controller="CustomPages" asp-action="error404">404 Error</a></li>
+												<li><a class="sub-slide-item" asp-controller="CustomPages" asp-action="construction">UnderConstruction</a></li>
+												<li><a class="sub-slide-item" asp-controller="CustomPages" asp-action="error404">404 Error</a></li>
 												<li><a class="sub-slide-item" asp-controller="CustomPages" asp-action="error500">500 Error</a></li>
 												<li><a class="sub-slide-item" asp-controller="CustomPages" asp-action="error501">501 Error</a></li>
 											</ul>

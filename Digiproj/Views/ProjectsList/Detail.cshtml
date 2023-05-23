@@ -20,20 +20,11 @@
 }
 
 
-@if (Menu.Any())
+@if (Menu.First().IsRead == false)
 {
-	foreach (var menu_data in Menu)
-	{
-        @if (menu_data.IsRead == false)
-        {
-            @section scripts {
-                 <script>   
-                              window.location.href = '@Url.Content("/Home/AccessDenied")';
-                 </script>
-
-            }
-        }
-    }
+    <script>
+        window.location.href = '@Url.Content("/Home/AccessDenied")';
+    </script>
 }
 
 <link href="~/assets/css/timeline.css" rel="stylesheet" />
@@ -158,33 +149,14 @@
                                                             </h5>
                                                         </div>
                                                     </div>
-                                                    <div class="col-xl-2 col-lg-12">
-                                                        <div class="text-center border py-5 br-5 details">
-                                                            <div>
-                                                                <span class="m-0 text-muted">
-                                                                    <i class="fe fe-check"></i> Approval:
-                                                                </span>
-                                                            </div>
-                                                            <h5 class="mt-3 text-mute">
-                                                                @if (!string.IsNullOrEmpty(@a.Approval))
-                                                                {
-                                                                    <span>@a.Approval.ToUpper()</span>
-                                                                }
-                                                                else
-                                                                {
-                                                                    <span>-</span>
-                                                                }
-
-                                                            </h5>
-                                                        </div>
-                                                    </div>
+                                                   
                                                     <div class="col-xl-3 col-lg-12">
                                                         <div class="d-f-ai-c-jc-c flex-column border py-5 br-5 details">
                                                             <div>
                                                                 <span class="m-0 text-muted">Owner :</span>
                                                             </div>
                                                             <div class="media mt-3 d-flex align-items-center">
-                                                                @if (!string.IsNullOrEmpty(@a.Name.ToUpper()))
+                                                                @if (@a.Name != null)
                                                                 {
                                                                     <img class="avatar-sm rounded-circle me-3 my-auto" src="~/assets/images/users/bi-logo.jpg" alt="Image description">
                                                                     <p class="mb-0 text-dark-light text-15">@a.Name.ToUpper()</p>
@@ -451,4 +423,7 @@
 
 
 <!-- PROJECT-DETAILS JS-->
-<script src="~/assets/js/project/project-details.js"></script>
+@section scripts {
+    <script src="~/assets/js/project/project-details.js"></script>
+
+            }

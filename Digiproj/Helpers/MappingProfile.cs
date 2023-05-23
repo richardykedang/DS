@@ -22,10 +22,14 @@ namespace DigiProj.Helpers
 			CreateMap<LoginInputModel, LoginRequest>();
 			CreateMap<UsernameInputModel, UsernameRequest>();
 			CreateMap<ChangePasswordInputModel, ChangePasswordRequest>();
+			CreateMap<MenuControllerInputModel, MenuControllerRequest>();
+
+			//crud project
 			CreateMap<SearchProjectInputModel, SearchProjectRequest>();
 			CreateMap<FilterAutoCompleteModel, FilterAutoComplete>();
 			CreateMap<DetailProjectInputModel, DetailProjectRequest>();
-			CreateMap<MenuControllerInputModel, MenuControllerRequest>();
+			CreateMap<DeleteProjectInputModel, DeleteProjectRequest>();
+			
 
 			//Dto to Domain 
 			CreateMap<MaintenanceResponse, Maintenance>(); //api with sp

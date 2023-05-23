@@ -84,7 +84,24 @@ namespace DigiProj.Services
 
 			return response.GetContent<GlobalObjectListResponse<ModelResponse>>();
 		}
-        public async Task <GlobalObjectListResponse<ProjectResponse>> GetDetailProject(string ProjectId, CancellationToken cancellationToken)
+
+		public async Task<GlobalResponse> DeleteProject(DeleteProjectRequest requestDto, CancellationToken cancellationToken)
+		{
+			var token = await _tokenService.CheckTokenAsync(cancellationToken);
+			_client.AddAuthenticator(token);
+
+			var request = new RestRequest(_apiConfig.UriDeleteProject, Method.POST);
+			request.AddRequiredBody(requestDto);
+			request.AddRequiredHeaders(_apiConfig);
+
+			var response = await _client.ExecuteAsync(request, cancellationToken);
+			response.CheckError(request);
+
+			return response.GetContent<GlobalResponse>();
+		}
+
+
+		public async Task <GlobalObjectListResponse<ProjectResponse>> GetDetailProject(string ProjectId, CancellationToken cancellationToken)
         {
             var token = await _tokenService.CheckTokenAsync(cancellationToken);
             _client.AddAuthenticator(token);

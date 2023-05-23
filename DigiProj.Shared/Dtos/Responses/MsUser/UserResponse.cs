@@ -49,4 +49,11 @@ namespace DigiProj.Shared.Dtos.Responses.MsUser
 		public string Role { get; set; }
 
 	}
+
+	public class UserResponse
+	{
+		public Guid Id { get; set; }
+		public string EmployeeId { get; set; }
+
+	}
 }

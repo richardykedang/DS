@@ -15,7 +15,7 @@
 	var apiResponseStatus = await apiService.GetAutoCompleteStatus();
 	var dataStatus = apiResponseStatus.Data;
 }
-
+<partial name="~/Views/ProjectsList/_permission.cshtml" />
 
 <!-- PAGE-HEADER -->
 <div class="page-header">
@@ -39,6 +39,7 @@
 				<h4 class="m-0" id="typeTitle">All Projects</h4>
 				<div class="d-sm-flex align-items-center">
 					<div class="btn-list mx-4">
+						<a id="cr" class="btn btn-outline-primary" asp-controller="ProjectsList" asp-action="Create"><i class="fe fe-edit-2 me-2"></i> Create Project</a>
 						<a class="btn btn-outline-primary" asp-controller="Projects" asp-action="Index">
 							<svg xmlns="http://www.w3.org/2000/svg" class="w-inner-icn" enable-background="new 0 0 24 24" viewBox="0 0 24 24"><path d="M21.5,13h-8.0005493C13.2234497,13.0001831,12.9998169,13.223999,13,13.5v8.0005493C13.0001831,21.7765503,13.223999,22.0001831,13.5,22h8.0006104C21.7765503,21.9998169,22.0001831,21.776001,22,21.5v-8.0006104C21.9998169,13.2234497,21.776001,12.9998169,21.5,13z M21,21h-7v-7h7V21z M10.5,2H2.4993896C2.2234497,2.0001831,1.9998169,2.223999,2,2.5v8.0005493C2.0001831,10.7765503,2.223999,11.0001831,2.5,11h8.0006104C10.7765503,10.9998169,11.0001831,10.776001,11,10.5V2.4993896C10.9998169,2.2234497,10.776001,1.9998169,10.5,2z M10,10H3V3h7V10z M10.5,13H2.4993896C2.2234497,13.0001831,1.9998169,13.223999,2,13.5v8.0005493C2.0001831,21.7765503,2.223999,22.0001831,2.5,22h8.0006104C10.7765503,21.9998169,11.0001831,21.776001,11,21.5v-8.0006104C10.9998169,13.2234497,10.776001,12.9998169,10.5,13z M10,21H3v-7h7V21z M21.5,2h-8.0005493C13.2234497,2.0001831,12.9998169,2.223999,13,2.5v8.0005493C13.0001831,10.7765503,13.223999,11.0001831,13.5,11h8.0006104C21.7765503,10.9998169,22.0001831,10.776001,22,10.5V2.4993896C21.9998169,2.2234497,21.776001,1.9998169,21.5,2z M21,10h-7V3h7V10z" /></svg>
 						</a>
@@ -51,6 +52,8 @@
 		</div>
 	</div>
 </div>
+
+@*START FORM FILTER*@
 <div class="card">
 	<div class="card-header border-0 pt-6">
 		<div class="input-group" id="group">
@@ -82,6 +85,7 @@
 					<ul>
 						<li class="select-status">
 							<select class="form-control select2-status-search" data-placeholder="Select Status" id="OrderBy">
+								<option value="project_id">Project ID</option>
 								<option value="project_name">Project Name</option>
 								<option value="status">Status</option>
 								<option value="created_date">Created Date</option>
@@ -107,6 +111,8 @@
 	</div>
 	<button type="button" style="width:30%;margin-left:2%;margin-bottom:2%;" id="btnSearchProject" class="btn btn-primary" onclick="SearchProject();"> Search</button>
 </div>
+@*END FORM FILTER*@
+
 <div class="row">
 	<div class="col-12 col-sm-12">
 		<div class="card">
@@ -121,7 +127,6 @@
 								<th class="bg-transparent border-bottom-0">Status</th>
 								<th class="bg-transparent border-bottom-0">Project Lead</th>
 								<th class="bg-transparent border-bottom-0">Members</th>
-								<th class="bg-transparent border-bottom-0">Approval</th>
 								<th class="bg-transparent border-bottom-0">Created By</th>
 								<th class="bg-transparent border-bottom-0">Submit Date</th>
 								<th class="bg-transparent border-bottom-0">Action</th>
@@ -173,28 +178,17 @@
 												}
 											</div>
 										</td>
-										<td class="text-muted fs-15 fw-semibold text-center">
-											@if (!string.IsNullOrEmpty(ProjectData.Approval))
-											{
-												<span>@ProjectData.Approval.ToTitleCase()</span>
-											}
-											else
-											{
-												<span>Null</span>
-											}
-											
-										</td>
 										<td class="text-muted fs-15 fw-semibold text-center">@ProjectData.CreatedBy.ToTitleCase()</td>
 										<td class="text-muted fs-15 fw-semibold text-center">@ProjectData.CreatedDate.ToString(ConfigurationConsts.DateFormatID,new CultureInfo("id-ID"))</td>
 										<td>
 											<div class="d-flex align-items-stretch">
-												<a class="btn btn-sm btn-outline-secondary border me-2" data-bs-toggle="tooltip" data-bs-original-title="Delete">
-													<svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 0 24 24" width="16"><path d="M0 0h24v24H0V0z" fill="none" /><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM8 9h8v10H8V9zm7.5-5l-1-1h-5l-1 1H5v2h14V4h-3.5z" /></svg>
+												<a id="dlt" class="btn btn-sm btn-outline-secondary border me-2" data-bs-toggle="tooltip" data-bs-original-title="Delete" onclick="PopupModalProject('@ProjectData.ProjectId', '@ProjectData.ProjectName');">
+														<svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 0 24 24" width="16"><path d="M0 0h24v24H0V0z" fill="none" /><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM8 9h8v10H8V9zm7.5-5l-1-1h-5l-1 1H5v2h14V4h-3.5z" /></svg>
 												</a>
 												<a href="#" class="border br-5 px-2 py-1 text-muted d-flex align-items-center" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fe fe-more-vertical"></i></a>
 												<div class="dropdown-menu dropdown-menu-start">							
-												<a class="dropdown-item" asp-controller="Projects" asp-action="Edit" asp-route-id="@ProjectData.ProjectId"><i class="fe fe-edit-2 me-2"></i> Edit</a>
-												<a class="dropdown-item" asp-controller="Projects" asp-action="Detail" asp-route-ProjectId="@ProjectData.AesProj"><i class="fe fe-info me-2"></i> Detail</a>
+													<a id="ed" class="dropdown-item" asp-controller="ProjectsList" asp-action="Edit" asp-route-id="@ProjectData.ProjectId"><i class="fe fe-edit-2 me-2"></i> Edit</a>
+													<a id="dt" class="dropdown-item" asp-controller="ProjectsList" asp-action="Detail" asp-route-ProjectId="@ProjectData.AesProj"><i class="fe fe-info me-2"></i> Detail</a>
 												</div>
 											</div>
 										</td>
@@ -211,8 +205,36 @@
 	<!-- COL END -->
 </div>
 
+
+@*Modal Delete*@
+	<div class="modal fade" id="modal_delete_project" tabindex="-1" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-body">
+					<div class="fv-row mb-7">
+						<div class="text-center pt-15">
+							<input class="form-control" type="text" name="ProjectId" id="InfoProjectId" hidden />
+							<h1 class="fw-bolder"><span>Delete Project ?</span></h1>
+							<br />
+							<label class="fs-6 fw-bold form-label mb-2">
+								<span>Are you sure to delete this project <span id="InfoProjectName"></span> ?</span>
+							</label>
+						</div>
+					</div>
+					<div class="text-center pt-15">
+						<button type="button" class="btn btn-success" onclick="DeleteProject();">Ok</button>
+						<button type="button" class="btn btn-danger" onclick="CancelProject();">Cancel</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
 <!--ROW CLOSED-->
 @section scripts {
-	<script src="~/assets/js/project/project-list.js"></script>
+    <script src="~/assets/js/project/project-list.js"></script>
+	<script src="~/assets/js/project/project-delete.js"></script>
 }
 
