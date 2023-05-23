@@ -84,7 +84,7 @@
 					<label class="form-label text-muted">Sort by: </label>
 					<ul>
 						<li class="select-status">
-							<select class="form-control select2-status-search" data-placeholder="Select Status" id="OrderBy">
+							<select class="form-control select2-status-search" data-placeholder="Select OrderBy" id="OrderBy">
 								<option value="project_id">Project ID</option>
 								<option value="project_name">Project Name</option>
 								<option value="status">Status</option>
@@ -99,7 +99,7 @@
 					<label class="form-label text-muted">Ascending or Descending: </label>
 					<ul>
 						<li class="select-status">
-							<select class="form-control select2-status-search" data-placeholder="Select Status" id="Ascending">
+							<select class="form-control select2-status-search" data-placeholder="Select Ascending" id="Ascending">
 								<option value="" selected> A-Z &#8673;</option>
 								<option value="1">Z-A &#8675;</option>
 							</select>
@@ -186,8 +186,8 @@
 														<svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 0 24 24" width="16"><path d="M0 0h24v24H0V0z" fill="none" /><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM8 9h8v10H8V9zm7.5-5l-1-1h-5l-1 1H5v2h14V4h-3.5z" /></svg>
 												</a>
 												<a href="#" class="border br-5 px-2 py-1 text-muted d-flex align-items-center" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fe fe-more-vertical"></i></a>
-												<div class="dropdown-menu dropdown-menu-start">							
-													<a id="ed" class="dropdown-item" asp-controller="ProjectsList" asp-action="Edit" asp-route-id="@ProjectData.ProjectId"><i class="fe fe-edit-2 me-2"></i> Edit</a>
+												<div class="dropdown-menu dropdown-menu-start">
+													<a id="ed" class="dropdown-item" asp-controller="ProjectsList" asp-action="Edit" asp-route-ProjectId="@ProjectData.ProjectId"><i class="fe fe-edit-2 me-2"></i> Edit</a>
 													<a id="dt" class="dropdown-item" asp-controller="ProjectsList" asp-action="Detail" asp-route-ProjectId="@ProjectData.AesProj"><i class="fe fe-info me-2"></i> Detail</a>
 												</div>
 											</div>
