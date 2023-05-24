@@ -7,6 +7,7 @@ namespace DigiProj.Models.Project
 	{
 
 		public string ProjectName { get; set; }
+		public string DepartmentName { get; set; }
 
 		[DefaultValue(0)]
 		public int? Status { get; set; }

@@ -40,7 +40,8 @@ namespace DigiProj.Helpers
 			services.AddScoped<IAuthenticationApiService, AuthenticationApiService>();
             services.AddScoped<IUserApiService, UserApiService>();
 			services.AddScoped<IProjectApiService, ProjectApiService>();
-            services.AddScoped<IMenuApiService, MenuApiService>();
+			services.AddScoped<IDepartmentService, DepartmentService>();
+			services.AddScoped<IMenuApiService, MenuApiService>();
 
 
             services.AddHttpContextAccessor();

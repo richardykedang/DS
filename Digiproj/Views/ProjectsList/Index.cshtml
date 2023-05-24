@@ -5,12 +5,16 @@
 @using DigiProj.Services.Interfaces;
 @using static DigiProj.Configuration.StatusResponseEnum;
 @inject IProjectApiService apiService
+@inject IDepartmentService apiDepartmentService
 @inject IConfiguration configuration
 
 @{
 	var user = User.GetClaims();
 	var apiResponseProject = await apiService.GetProjects();
 	var dataProject = apiResponseProject.Data;
+
+	var apiResponseDepartment = await apiDepartmentService.GetDepartment();
+	var dataDepartment = apiResponseDepartment.Data;
 
 	var apiResponseStatus = await apiService.GetAutoCompleteStatus();
 	var dataStatus = apiResponseStatus.Data;
@@ -61,6 +65,22 @@
 				<div class="form-group">
 					<label class="form-label text-muted">Project Name: </label>
 					<input id="ProjectName" type="text" class="form-control form-control-solid" placeholder="Project Name">&nbsp;
+				</div>
+			</div>
+			<div class="col-sm-6 col-md-6 col-xl-4">
+				<div class="form-group">
+					<label class="form-label text-muted">Department: </label>
+					<ul>
+						<li class="select-status">
+							<select class="form-control select2-status-search" data-placeholder="Select Department" id="DepartName">
+								<option value="" selected>All</option>
+								@foreach (var a in dataDepartment)
+								{
+									<option value=@a.DepartmentName>@a.DepartmentName.ToUpper()</option>
+								}
+							</select>
+						</li>
+					</ul>
 				</div>
 			</div>
 			<div class="col-sm-6 col-md-6 col-xl-4">
@@ -124,6 +144,7 @@
 								<th class="bg-transparent border-bottom-0 w-5">No</th>
 								<th class="bg-transparent border-bottom-0 w-5">Project ID</th>
 								<th class="bg-transparent border-bottom-0">Project Name</th>
+								<th class="bg-transparent border-bottom-0">Department</th>
 								<th class="bg-transparent border-bottom-0">Status</th>
 								<th class="bg-transparent border-bottom-0">Project Lead</th>
 								<th class="bg-transparent border-bottom-0">Members</th>
@@ -144,6 +165,9 @@
 										<td class="text-muted fs-15 fw-semibold text-center">@ProjectData.ProjectId.ToUpper()</td>
 										<td class="text-muted fs-15 fw-semibold text-center">@ProjectData.ProjectName.ToUpper()</td>
 										<td class="text-muted fs-15 fw-semibold text-center">
+											@ProjectData.DepartmentName.ToUpper()
+										</td>
+										<td class="text-muted fs-15 fw-semibold text-center">
 
 											@if (@ProjectData.Status == Convert.ToInt16(Level.NotStarted))
 											{
@@ -162,7 +186,7 @@
 												<span class="mb-0 mt-1 badge rounded-pill text-default bg-warning-transparent">Block</span>
 											}
 										</td>
-										<td class="text-muted fs-15 fw-semibold text-center">@ProjectData.Name.ToTitleCase()</td>
+										<td class="text-muted fs-15 fw-semibold text-center">@ProjectData.ProjectOwner.ToTitleCase()</td>
 										<td>
 											<div class="avatar-list avatar-list-stacked">
 												@if (ProjectData.AssignTo.Any())

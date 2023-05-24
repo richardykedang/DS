@@ -12,28 +12,32 @@
     var ID = ViewBag.ID;
     var user = User.GetClaims();
 
+	//Lastnumber ID
+	var apiLastNumberResponse = await projectService.GetProjectLastNumber();
+	var LastNumberData = apiLastNumberResponse;
+
+	var apiUserAll = await apiUserService.GetUsers();
+	var UserData = apiUserAll.Data;
+
+	//detail
     var apiResponse = await projectService.GetDetailProject(ID);
     var DetailData = apiResponse.Data;
 
+	//menu
     var apiMenu = await apiUserService.GetMenusAsync();
     var Menu = apiMenu.Data;
+
 }
 
 
-@if (Menu.Any())
+@if (Menu.First().Controller == "project" && Menu.First().IsCreate == false)
 {
-	foreach (var menu_data in Menu)
-	{
-        @if (menu_data.IsRead == false)
-        {
-            @section scripts {
+	@section scripts {
                  <script>   
                               window.location.href = '@Url.Content("/Home/AccessDenied")';
                  </script>
 
             }
-        }
-    }
 }
 
 
@@ -62,9 +66,34 @@
 				<div class="row p-5 border-bottom">
 					<div class="col-sm-12 col-md-12 col-xl-3">
 						<div class="form-group">
+							<label for="project-name" class="form-label text-muted">Project ID:</label>
+							<div class="input-group">
+								<input id="project-id" type="text" class="form-control text-dark" value="@LastNumberData" disabled>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-sm-12 col-md-12 col-xl-3">
+						<div class="form-group">
 							<label for="project-name" class="form-label text-muted">Project Name:</label>
 							<div class="input-group">
 								<input id="project-name" type="text" class="form-control text-dark" placeholder="Enter Project Name">
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-12 col-md-12 col-xl-3">
+						<div class="form-group">
+							<label for="project-name" class="form-label text-muted">Project Leader:</label>
+							<div class="input-group">
+							<select class="form-control select2-show-search" id="project-owner" data-placeholder="Choose One...">
+								<option label="Choose one"></option>
+									@if (UserData.Any()) {
+										foreach (var row in UserData)
+										{
+											<option value="@row.EmployeeId">@row.Name</option>
+										}
+									}
+							</select>
 							</div>
 						</div>
 					</div>
