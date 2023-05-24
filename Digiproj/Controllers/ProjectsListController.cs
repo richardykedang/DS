@@ -42,7 +42,7 @@ namespace DigiProj.Controllers
 			return View();
 		}
 
-        [HttpGet]
+		[HttpGet]
         public async Task<GlobalObjectListResponse<ProjectResponse>> ListProject(CancellationToken cancellationToken)
         {
             var apiResponse = await _apiProjectService.GetProjects(cancellationToken);
@@ -125,7 +125,7 @@ namespace DigiProj.Controllers
 			{
 				ProjectName = m.Data.First().ProjectName,
 				Status = m.Data.First().Status,
-				Name = m.Data.First().Name,
+				ProjectOwner = m.Data.First().ProjectOwner,
 				Summary = m.Data.First().Summary,
 				CreatedBy = m.Data.First().CreatedBy,
 				CreatedDate = m.Data.First().CreatedDate,

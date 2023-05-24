@@ -10,6 +10,7 @@ $(document).ready(function () {
 
 function SearchProject() {
     var ProjectName = document.getElementById("ProjectName").value;
+    var DepartName = document.getElementById("DepartName").value;
     var Status = document.getElementById("Status").value;
     var OrderBy = document.getElementById("OrderBy").value;
     var Ascending = document.getElementById("Ascending").value;
@@ -25,6 +26,7 @@ function SearchProject() {
 
     var dataObject = JSON.stringify({
         'ProjectName': ProjectName,
+        'DepartmentName': DepartName,
         'Status': Status,
         'Column': OrderBy,
         'Y': Boolean(Ascending)
@@ -78,8 +80,9 @@ function SearchProject() {
                         "<td class='text-muted fs-15 fw-semibold text-center'>" + i++ + "</td>" +
                         "<td class='text-muted fs-15 fw-semibold text-center'>" + item.projectId.toUpperCase() + "</td>" +
                         "<td class='text-muted fs-15 fw-semibold text-center'>" + item.projectName.toUpperCase() + "</td>" +
+                        "<td class='text-muted fs-15 fw-semibold text-center'>" + item.departmentName.toUpperCase() + "</td>" +
                         "<td class='text-muted fs-15 fw-semibold text-center'><span class='mb-0 mt-1 badge rounded-pill " + css + "'>" + status + "</span></td>" +
-                        "<td class='text-muted fs-15 fw-semibold text-center'>" + capitalizeFirstLetter(item.name) + "</td>" +
+                        "<td class='text-muted fs-15 fw-semibold text-center'>" + capitalizeFirstLetter(item.projectOwner) + "</td>" +
                         "<td><div class='avatar-list avatar-list-stacked'>" +
                         "<span><img src='/assets/images/users/bi-logo.jpg' title='" + item.assignTo.employeeId + "' alt='profile-user' class='avatar bradius cover-image'></span>" +
                         "<span class= 'avatar bradius bg-primary' > +" + item.memberTotal + "</span>" +

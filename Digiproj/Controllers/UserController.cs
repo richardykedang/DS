@@ -42,14 +42,6 @@ namespace DigiProj.Controllers
 			return View();
 		}
 
-		[HttpGet]
-		public async Task<GlobalObjectListResponse<UserResponse>> ListUser(CancellationToken cancellationToken)
-		{
-			var apiResponse = await _apiUserService.GetUsers(cancellationToken);
-
-			return apiResponse;
-		}
-
 		//[HttpPost]
 		//public async Task<IEnumerable<ProjectResponse>> SearchProject([FromBody] SearchProjectInputModel model, CancellationToken cancellationToken)
 		//{

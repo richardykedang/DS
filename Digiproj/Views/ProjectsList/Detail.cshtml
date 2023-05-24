@@ -156,16 +156,16 @@
                                                                 <span class="m-0 text-muted">Owner :</span>
                                                             </div>
                                                             <div class="media mt-3 d-flex align-items-center">
-                                                                @if (@a.Name != null)
-                                                                {
+                                                             @if (@a.ProjectOwner != null)
+                                                             {
                                                                     <img class="avatar-sm rounded-circle me-3 my-auto" src="~/assets/images/users/bi-logo.jpg" alt="Image description">
-                                                                    <p class="mb-0 text-dark-light text-15">@a.Name.ToUpper()</p>
-                                                                }
+                                                                     <p class="mb-0 text-dark-light text-15">@a.ProjectOwner.ToUpper()</p>
+                                                             }
 
-                                                                else
-                                                                {
-                                                                    <p class="mb-0 text-dark-light text-15">-</p>
-                                                                }
+                                                             else
+                                                             {
+                                                                 <p class="mb-0 text-dark-light text-15">-</p>
+                                                             }
                                                             </div>
                                                         </div>
                                                     </div>

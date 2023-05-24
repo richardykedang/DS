@@ -18,6 +18,9 @@
 
 		public string UriGetUser { get; set; }
 
+		public string UriGetDepartment { get; set; }
+
+		public string UriGetProjectLastNumber { get; set; }
 		public string UriGetProject { get; set; }
         public string UriSearchProject { get; set; }
 		public string UriAutoCompleteStatus { get; set; }

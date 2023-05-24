@@ -11,8 +11,9 @@ namespace DigiProj.Shared.Dtos.Requests.Project
     public class SearchProjectRequest: Filter
 	{
 		public string ProjectName { get; set; }
-		
-		[DefaultValue(0)]
+        public string DepartmentName { get; set; }
+
+        [DefaultValue(0)]
 		public int? Status { get; set; }
 
 		public string Column { get; set; }
