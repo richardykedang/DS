@@ -5,12 +5,9 @@ using DigiProj.Models;
 using DigiProj.Models.Project;
 using DigiProj.Shared.Dtos.Requests;
 using DigiProj.Shared.Dtos.Requests.Project;
-using DigiProj.Shared.Dtos.Responses;
-using DigiProj.Shared.Entities;
-using Digiproj.Shared.Entities.MsRole;
-using Digiproj.Shared.Entities;
 using Digiproj.Shared.Dtos.Requests;
 using Digiproj.Shared.Dtos.Responses.MsMenu;
+using DigiProj.Shared.Dtos.Responses.MsTask;
 
 namespace DigiProj.Helpers
 {
@@ -29,14 +26,7 @@ namespace DigiProj.Helpers
 			CreateMap<FilterAutoCompleteModel, FilterAutoComplete>();
 			CreateMap<DetailProjectInputModel, DetailProjectRequest>();
 			CreateMap<DeleteProjectInputModel, DeleteProjectRequest>();
-			
-
-			//Dto to Domain 
-			CreateMap<MaintenanceResponse, Maintenance>(); //api with sp
-            CreateMap<UserRolesResponse, MsRole>(); //api with sp
-            CreateMap<ProfilUserResponse, ProfileUser>(); //api with sp
-            CreateMap<UserMenusResponse, MsMenu>(); //api with sp
-            CreateMap<MsMenusResponse, MsMenus>(); //api with sp
+			CreateMap<CreateProjectInputModel, CreateProjectRequest>();
 		}
 	}
 }

@@ -42,7 +42,7 @@ function SearchProject() {
                 dtTable.clear().draw();
                 $.each(data, function (i, item) {
                     i += 1;
-                    console.log(data);
+                    //console.log(data);
                     var IsStatus = "" + item.status + "";
 
                     var css;
@@ -103,21 +103,23 @@ function SearchProject() {
 
                 });
                 return;
-            } else {
+            }
+            else {
                 dtTable.clear().draw();
-                Swal.fire({
-                    text: "Project data not found.",
-                    icon: "warning",
-                    buttonsStyling: false,
-                    confirmButtonText: "Oke",
-                    customClass: {
-                        confirmButton: "btn btn-warning"
-                    }
-                }).then(function (result) {
-                    if (result.isConfirmed) {
-                        return;
-                    }
-                });
+                //Swal.fire({
+                //    text: "Project data not found.",
+                //    icon: "warning",
+                //    buttonsStyling: false,
+                //    confirmButtonText: "Oke",
+                //    timer: 3000,
+                //    customClass: {
+                //        confirmButton: "btn btn-warning"
+                //    }
+                //}).then(function (result) {
+                //    if (result.isConfirmed) {
+                //        return;
+                //    }
+                //});
                 return;
             }
         },

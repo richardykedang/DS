@@ -4,12 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Digiproj.Shared.Entities.MsRole
+namespace Digiproj.Shared.Dtos.Responses.MsRole
 {
-    public class MsRole
+    public class RoleResponse
     {
-        public int RoleId { get; set; }
+        public short RoleId { get; set; }
         public string RoleName { get; set; }
-
     }
 }

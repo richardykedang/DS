@@ -32,6 +32,7 @@ function DeleteProject() {
                     text: "" + res.message + "",
                     showCloseButton: false
                 })
+                return;
             }
             else {
                 Swal.fire(

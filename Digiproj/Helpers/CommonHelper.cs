@@ -4,9 +4,15 @@ namespace DigiProj.Helpers
 {
 	public static class CommonHelper
 	{
-		public static string ToTitleCase(this string title)
+		public static string ToTitleCase(this string str)
 		{
-			return CultureInfo.CurrentCulture.TextInfo.ToTitleCase(title.ToLower());
-		}
+            if (str == null)
+                return null;
+
+            if (str.Length > 1)
+                return char.ToUpper(str[0]) + str.Substring(1);
+
+            return str.ToUpper();
+        }
 	}
 }

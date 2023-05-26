@@ -4,9 +4,12 @@
 @using DigiProj.Shared.Dtos.Requests;
 @using DigiProj.Shared.Dtos.Responses.MsProject;
 @using System.Globalization;
+@using HtmlAgilityPack;
+@using System.Net;
 @using static DigiProj.Configuration.StatusResponseEnum;
 @inject IProjectApiService projectService
 @inject IUserApiService apiUserService
+@inject ITaskApiService apiTaskService
 
 @{
     var ID = ViewBag.ID;
@@ -15,8 +18,23 @@
     var apiResponse = await projectService.GetDetailProject(ID);
     var DetailData = apiResponse.Data;
 
+    var apiTaskResponse = await apiTaskService.GetDetailTask(ID);
+    var DetailTaskData = apiTaskResponse.Data;
+
+    var apiTaskTotalResponse = await apiTaskService.GetTotalTaskProject(ID);
+    var TotalTaskData = apiTaskTotalResponse.Data;
+
     var apiMenu = await apiUserService.GetMenusAsync();
     var Menu = apiMenu.Data;
+
+    //calculate percent task
+    var c = 0;
+    
+
+    foreach (var b in TotalTaskData)
+    {
+        c = 100 * b.Task / b.TotalTask;
+    }
 }
 
 
@@ -67,8 +85,8 @@
                                 <nav class="nav border-bottom px-4 d-block d-lg-flex flex-2">
                                     <a class="nav-link border py-1 mb-2 mb-lg-0 br-lg-5 mx-1 mx-md-1 active" data-bs-toggle="tab" href="#tab_1"> Overview </a>
                                     <a class="nav-link border py-1 mb-2 mb-lg-0 br-lg-5 mx-1 mx-md-1" data-bs-toggle="tab" href="#tab_2"> Tasks </a>
-                                    <a class="nav-link border py-1 mb-2 mb-lg-0 br-lg-5 mx-1 mx-md-1" data-bs-toggle="tab" href="#tab_3"> Files </a>
-                                    <a class="nav-link border py-1 mb-2 mb-lg-0 br-lg-5 mx-1 mx-md-1" data-bs-toggle="tab" href="#tab_4"> Log Approval </a>
+                                    <a class="nav-link border py-1 mb-2 mb-lg-0 br-lg-5 mx-1 mx-md-1" data-bs-toggle="tab" href="#tab_3"> Files </a>@*
+                                    <a class="nav-link border py-1 mb-2 mb-lg-0 br-lg-5 mx-1 mx-md-1" data-bs-toggle="tab" href="#tab_4"> Log Approval </a>*@
                                 </nav>
                             </div>
                             <!-- /Tabs -->
@@ -114,7 +132,7 @@
                                             </div>
                                             <div class="card-body">
                                                 <h5 class="mb-2">Project Details:</h5>
-                                                <p class="line-height-5 m-0 text-muted">@a.Summary</p>
+                                                @Html.Raw(WebUtility.HtmlDecode(@a.Summary));   
                                             </div>
                                         </div> 
 
@@ -127,7 +145,7 @@
                                                                 <span class="m-0 text-muted">
                                                                     <i class="fe fe-calendar"></i> Submit Date: </span>
                                                             </div>
-                                                            <h5 class="mt-3 text-teritary">@a.CreatedDate.ToString("dd MMM yyyy",new CultureInfo("id-ID"))</h5>
+                                                            <h5 class="mt-3 text-teritary">@a.CreatedDate.ToString("dd MMM yyyy hh:mm:ss:ttt",new CultureInfo("id-ID"))</h5>
                                                         </div>
                                                     </div>
                                                     <div class="col-xl-2 col-lg-12">
@@ -144,7 +162,7 @@
 
                                                                 else
                                                                 {
-                                                                    @a.EndDate.ToString("dd MMM yyyy",new CultureInfo("id-ID"))
+                                                                @a.EndDate.ToString("dd MMM yyyy hh:mm:ss:ttt",new CultureInfo("id-ID"))
                                                                 }
                                                             </h5>
                                                         </div>
@@ -159,7 +177,7 @@
                                                              @if (@a.ProjectOwner != null)
                                                              {
                                                                     <img class="avatar-sm rounded-circle me-3 my-auto" src="~/assets/images/users/bi-logo.jpg" alt="Image description">
-                                                                     <p class="mb-0 text-dark-light text-15">@a.ProjectOwner.ToUpper()</p>
+                                                                     <p class="mb-0 text-dark-light text-12">@a.ProjectOwner.ToUpper()</p>
                                                              }
 
                                                              else
@@ -177,11 +195,18 @@
                                                                     <div class="percentage-title mb-4">
                                                                         <span class="text-muted">
                                                                             <i class="fe fe-clipboard"></i> Tasks </span>
-                                                                        <span class="progress-main font-weight-semibold text-13 mb-1">41 / 75</span>
+                                                                          
+                                                                            @foreach(var b in TotalTaskData)
+                                                                            {
+                                                                             <span title="Done:@b.Done , Block:@b.Block" class="progress-main font-weight-semibold text-13 mb-1">@b.Task / @b.TotalTask</span>
+                                                                              
+
+                                                                            }
                                                                     </div>
-                                                                    <div class="progress fileprogress mb-2 h-auto">
-                                                                        <div class="progress-bar" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                                                    <div class="progress">
+                                                                        <div class="progress-bar" role="progressbar" style="width:@c%" aria-valuenow="@c" aria-valuemin="0" aria-valuemax="100"></div>
                                                                     </div>
+                                                                    
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -208,7 +233,7 @@
                                                 <table id="members-table" class="table text-nowrap mb-0 table-bordered border-top border-bottom">
                                                     <thead class="table-head">
                                                         <tr>
-                                                            <th class="bg-transparent border-bottom-0 text-center w-5">S.no</th>
+                                                            <th class="bg-transparent border-bottom-0 text-center w-5">No</th>
                                                             <th class="bg-transparent border-bottom-0">Name</th>
                                                             <th class="bg-transparent border-bottom-0">Tasks</th>
                                                             <th class="bg-transparent border-bottom-0">Role</th>
@@ -216,41 +241,38 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody class="table-body">
-                                                        <tr>
-                                                            <td class="text-muted fs-15 fw-semibold text-center">01.</td>
-                                                            <td>
-                                                                <div class="d-flex align-items-center">
-                                                                    <div class="me-2">
-                                                                        <img alt="User Avatar" class="rounded-circle avatar-md d-md-none-max" src="~/assets/images/users/1.jpg">
-                                                                    </div>
-                                                                    <div>
-                                                                        <p class="text-14 mb-0">Lisbon Taylor</p>
-                                                                        <span class="text-muted fs-13">member@spruko.com</span>
-                                                                    </div>
+                                                
+                                                    @foreach (var Rowdata in DetailTaskData)
+                                                    {
+                                                        int n = 1;
+                                                    <tr>
+
+                                                        <td class="text-muted fs-15 fw-semibold text-center">@n</td>
+                                                        <td>
+                                                            <div class="d-flex align-items-center">
+                                                                <div class="me-2">
+                                                                    <img alt="User Avatar" class="rounded-circle avatar-md d-md-none-max" src="~/assets/images/users/bi-logo.jpg">
                                                                 </div>
-                                                            </td>
-                                                            <td class="text-muted fs-15 fw-semibold">6</td>
-                                                            <td class="text-muted fs-15 fw-semibold"> Member </td>
-                                                            <td>
-                                                                <div class="d-flex align-items-stretch">
-                                                                    <a class="btn btn-sm btn-outline-secondary border me-2" data-bs-toggle="tooltip" data-bs-original-title="Delete">
-                                                                        <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 0 24 24" width="16">
-                                                                            <path d="M0 0h24v24H0V0z" fill="none" />
-                                                                            <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM8 9h8v10H8V9zm7.5-5l-1-1h-5l-1 1H5v2h14V4h-3.5z" />
-                                                                        </svg>
-                                                                    </a>
-                                                                    <a href="#" class="d-flex align-items-center btn btn-sm btn-outline-secondary border me-2" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                                        <i class="fe fe-more-vertical"></i>
-                                                                    </a>
-                                                                    <div class="dropdown-menu dropdown-menu-start">
-                                                                        <a class="dropdown-item" href="#">
-                                                                            <i class="fe fe-info me-2"></i> Info </a>
-                                                                        <a class="dropdown-item" href="javascript:void(0)">
-                                                                            <i class="fe fe-shield me-2"></i> Remove Admin </a>
-                                                                    </div>
+                                                                <div>
+                                                                    <p class="text-14 mb-0">@Rowdata.Name</p>
+                                                                    <span class="text-muted fs-13">@Rowdata.Email</span>
                                                                 </div>
-                                                            </td>
-                                                        </tr>
+                                                            </div>
+                                                        </td>
+                                                        <td class="text-muted fs-15 fw-semibold">@Rowdata.TotalTask</td>
+                                                    <td class="text-muted fs-15 fw-semibold">@Rowdata.RoleProject.ToUpper()</td>
+                                                        <td>
+                                                            <div class="d-flex align-items-stretch">
+                                                            <a class="btn btn-outline-secondary btn-md" data-bs-toggle="tooltip" data-bs-original-title="Info" onclick="PopupModalProject('@Rowdata.EmployeeId', '@Rowdata.Name');">
+                                                                <i class="fe fe-info me-2"></i>
+                                                                Info
+                                                            </a>
+                                                        </div>
+                                                        </td>
+                                                    </tr>
+                                                    n++;
+                                                    }
+               
                                                     </tbody>
                                                 </table>
                                             </div>
@@ -399,7 +421,7 @@
                             </div>
                         </div>
 
-                        <div class="tab-pane" id="tab_4">
+                        @*<div class="tab-pane" id="tab_4">
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="card-header border-bottom">
@@ -414,7 +436,7 @@
                                     </ul>
                                 </div>
                             </div>
-                        </div>
+                        </div>*@
 
                     </div>
                 </div>

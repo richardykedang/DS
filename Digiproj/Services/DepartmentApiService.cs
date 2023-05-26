@@ -8,14 +8,14 @@ using DigiProj.Helpers;
 
 namespace DigiProj.Services
 {
-	public class DepartmentService : IDepartmentService
+	public class DepartmentApiService : IDepartmentService
 	{
 		private readonly ITokenService _tokenService;
 
 		private readonly RestClient _client;
 		private readonly ApiConfiguration _apiConfig;
 
-		public DepartmentService(IConfiguration configuration, ITokenService tokenService)
+		public DepartmentApiService(IConfiguration configuration, ITokenService tokenService)
 		{
 			_tokenService = tokenService;
 			_apiConfig = configuration.GetSection(nameof(ApiConfiguration)).Get<ApiConfiguration>();

@@ -1,4 +1,4 @@
-﻿using Digiproj.Shared.Dtos.Responses;
+﻿using Digiproj.Shared.Dtos.Responses.MsRole;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
