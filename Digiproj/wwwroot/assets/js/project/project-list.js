@@ -71,10 +71,14 @@ function SearchProject() {
                     let actionsDelete = '<a id="dlt" class="btn btn-sm btn-outline-secondary border me-2" data-bs-toggle="tooltip" data-bs-original-title="Delete" onclick="PopupModalProject(' + pid + ', ' + pname + ');">';
                     let actions = "<a id='ed' class='dropdown-item' href='project/projects-edit?ProjectId=" + encodeURIComponent(item.aesProj) + "'><i class='fe fe-info me-2'> </i> Edit</a><a id='dt' class='dropdown-item' href='project/projects-detail?ProjectId=" + encodeURIComponent(item.aesProj) + "'><i class='fe fe-info me-2'> </i> Detail</a>";
 
+                    let DataMember = item.assignTo[0];
+
+                    //DataMember.name
                     //var b = DataMember.forEach(function (DataMember) {
                     //        console.log(DataMember.employeeId);
                     //    });
 
+                    //alert(b);
 
                     let rows = $("<tr>" +
                         "<td class='text-muted fs-15 fw-semibold text-center'>" + i++ + "</td>" +
@@ -83,8 +87,8 @@ function SearchProject() {
                         "<td class='text-muted fs-15 fw-semibold text-center'>" + item.departmentName.toUpperCase() + "</td>" +
                         "<td class='text-muted fs-15 fw-semibold text-center'><span class='mb-0 mt-1 badge rounded-pill " + css + "'>" + status + "</span></td>" +
                         "<td class='text-muted fs-15 fw-semibold text-center'>" + capitalizeFirstLetter(item.projectOwner) + "</td>" +
-                        "<td><div class='avatar-list avatar-list-stacked'>" +
-                        "<span><img src='/assets/images/users/bi-logo.jpg' title='" + item.assignTo.employeeId + "' alt='profile-user' class='avatar bradius cover-image'></span>" +
+                        "<td><div class='avatar-list avatar-list-stacked'>"+
+                        "<span><img src='/assets/images/users/bi-logo.jpg' title='" + DataMember.name + "' alt='profile-user' class='avatar bradius cover-image'></span>"+
                         "<span class= 'avatar bradius bg-primary' > +" + item.memberTotal + "</span>" +
                         "</div></td>" +
                         "<td class='text-muted fs-15 fw-semibold text-center'>" + capitalizeFirstLetter(item.createdBy) + "</td>" +

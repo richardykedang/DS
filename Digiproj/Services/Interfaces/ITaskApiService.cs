@@ -8,6 +8,7 @@ namespace DigiProj.Services.Interfaces
     {
         Task<GlobalObjectListResponse<TaskDetailResponse>> GetDetailTask(string ProjectId, CancellationToken cancellationToken = default);
         Task<GlobalObjectListResponse<TaskTotalResponse>> GetTotalTaskProject(string ProjectId, CancellationToken cancellationToken = default);
+        Task<GlobalObjectListResponse<TaskProjectesponse>> GetTaskProject(string ProjectId, CancellationToken cancellationToken = default);
 
     }
 }

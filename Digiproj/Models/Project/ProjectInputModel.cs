@@ -3,6 +3,7 @@ using DigiProj.Shared.Dtos.Requests.Project;
 using DigiProj.Shared.Dtos.Responses.MsUser;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.Metrics;
 
 namespace DigiProj.Models.Project
@@ -30,6 +31,9 @@ namespace DigiProj.Models.Project
 		public DateTime StartDate { get; set; }
 		public DateTime EndDate { get; set; }
 		public bool IsActive { get; set; }
+
+		////parameter array
+		[Required]
 		public List<string> EmployeeId { get; set; }
 		public List<AssignToInputModel> AssignTo { get; set; }
 

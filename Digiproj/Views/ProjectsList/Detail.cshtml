@@ -1,10 +1,8 @@
-﻿@using DigiProj.Configuration.Constants
-@using DigiProj.Helpers
-@using DigiProj.Services.Interfaces
-@using DigiProj.Shared.Dtos.Requests;
-@using DigiProj.Shared.Dtos.Responses.MsProject;
+﻿@using DigiProj.Configuration;
+@using DigiProj.Configuration.Constants;
+@using DigiProj.Helpers;
 @using System.Globalization;
-@using HtmlAgilityPack;
+@using DigiProj.Services.Interfaces;
 @using System.Net;
 @using static DigiProj.Configuration.StatusResponseEnum;
 @inject IProjectApiService projectService
@@ -24,13 +22,18 @@
     var apiTaskTotalResponse = await apiTaskService.GetTotalTaskProject(ID);
     var TotalTaskData = apiTaskTotalResponse.Data;
 
+    var apiTaskProjectResponse = await apiTaskService.GetTaskProject(ID);
+    var TaskProjectData = apiTaskProjectResponse.Data;
+
+
     var apiMenu = await apiUserService.GetMenusAsync();
     var Menu = apiMenu.Data;
 
+    int m = 1;
+     int n = 1;
+
     //calculate percent task
     var c = 0;
-    
-
     foreach (var b in TotalTaskData)
     {
         c = 100 * b.Task / b.TotalTask;
@@ -244,7 +247,6 @@
                                                 
                                                     @foreach (var Rowdata in DetailTaskData)
                                                     {
-                                                        int n = 1;
                                                     <tr>
 
                                                         <td class="text-muted fs-15 fw-semibold text-center">@n</td>
@@ -295,67 +297,86 @@
                                                 <table id="tasks-table" class="table text-nowrap mb-0 table-bordered border-top border-bottom project-tasks-main">
                                                     <thead class="table-head">
                                                         <tr>
-                                                            <th class="bg-transparent border-bottom-0 w-5">S.no</th>
+                                                            <th class="bg-transparent border-bottom-0 w-5">No</th>
                                                             <th class="bg-transparent border-bottom-0">Task</th>
                                                             <th class="bg-transparent border-bottom-0">Project</th>
-                                                            <th class="bg-transparent border-bottom-0">Due Date</th>
+                                                            <th class="bg-transparent border-bottom-0">End Date</th>
                                                             <th class="bg-transparent border-bottom-0">Assigned To</th>
                                                             <th class="bg-transparent border-bottom-0">Status</th>
+                                                            <th class="bg-transparent border-bottom-0">Priority</th>
                                                             <th class="bg-transparent border-bottom-0 no-btn">Action</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody class="table-body">
-                                                        <tr>
-                                                            <td class="text-muted fs-15 fw-semibold text-center">01.</td>
-                                                            <td class="text-muted fs-15 fw-semibold">
-                                                                <p>Sit sed takimata sanctus invidunt</p>
-                                                            </td>
-                                                            <td class="text-muted fs-15 fw-semibold">Noa Dashboard UI</td>
-                                                            <td class="text-danger fs-15 fw-semibold">31 Oct 21</td>
-                                                            <td>
-                                                                <div class="d-flex align-items-center">
-                                                                    <div class="me-2">
-                                                                        <span>
-                                                                            <img src="~/assets/images/users/bi-logo.jpg" class="data-image avatar avatar-md rounded-circle">
-                                                                        </span>
-                                                                    </div>
-                                                                    <div>
-                                                                        <h6 class="mb-0">Skyler Hilda</h6>
-                                                                        <span class="text-muted fs-12">member@spruko.com</span>
-                                                                    </div>
+                                            
+                                                @foreach (var Rowdata in TaskProjectData)
+                                                {
+                                                    <tr>
+                                                        <td class="text-muted fs-15 fw-semibold text-center">@m</td>
+                                                        <td class="text-muted fs-15 fw-semibold">
+                                                            <p>@Rowdata.TaskName</p>
+                                                        </td>
+                                                        <td class="text-muted fs-15 fw-semibold">@Rowdata.ProjectName</td>
+                                                        <td>
+                                                            @if (@Rowdata.EndDate == new DateTime())
+                                                            {
+                                                                <span class="m-0 text-muted">-</span>
+                                                            }
+
+                                                            else
+                                                            {
+                                                                @Rowdata.EndDate.ToString("dd MMM yyyy hh:mm:ss:ttt",new CultureInfo("id-ID"))
+                                                            }
+                                                        </td>
+                                                        <td>
+                                                            <div class="d-flex align-items-center">
+                                                                <div class="me-2">
+                                                                    <span>
+                                                                        <img src="~/assets/images/users/bi-logo.jpg" class="data-image avatar avatar-md rounded-circle">
+                                                                    </span>
                                                                 </div>
-                                                            </td>
-                                                            <td>
-                                                                <div class="form-group mb-0">
-                                                                    <span class="mb-0 mt-1 badge rounded-pill text-info bg-info-transparent">Work Inprogress</span>
+                                                                <div>
+                                                                    <h6 class="mb-0">@Rowdata.Fullname</h6>
                                                                 </div>
-                                                            </td>
-                                                            <td>
-                                                                <div class="d-flex align-items-stretch">
-                                                                    <a class="btn btn-sm btn-outline-primary border me-2" data-bs-toggle="tooltip" data-bs-original-title="Mark As Completed">
-                                                                        <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="20" width="16" viewBox="0 0 24 24">
-                                                                            <path d="M15.8085327,8.6464844l-5.6464233,5.6464844l-2.4707031-2.4697266c-0.0023804-0.0023804-0.0047607-0.0047607-0.0072021-0.0071411c-0.1972046-0.1932373-0.5137329-0.1900635-0.7069702,0.0071411c-0.1932983,0.1972656-0.1900635,0.5137939,0.0071411,0.7070312l2.8242188,2.8232422C9.9022217,15.4474487,10.02948,15.5001831,10.1621094,15.5c0.1326294,0.0001221,0.2598267-0.0525513,0.3534546-0.1464844l6-6c0.0023804-0.0023804,0.0047607-0.0046997,0.0071411-0.0071411c0.1932373-0.1972046,0.1900635-0.5137329-0.0071411-0.7069702C16.3183594,8.446106,16.0018311,8.4493408,15.8085327,8.6464844z M12,2C6.4771729,2,2,6.4771729,2,12s4.4771729,10,10,10c5.5201416-0.0064697,9.9935303-4.4798584,10-10C22,6.4771729,17.5228271,2,12,2z M12,21c-4.9705811,0-9-4.0294189-9-9s4.0294189-9,9-9c4.9683228,0.0054321,8.9945679,4.0316772,9,9C21,16.9705811,16.9705811,21,12,21z" />
-                                                                        </svg>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="form-group mb-0">
+                                                            @if (@Rowdata.Status == Convert.ToInt16(Level.NotStarted))
+                                                            {
+                                                                <span class="mb-0 mt-1 badge rounded-pill text-default bg-warning-transparent">Not Started</span>
+                                                            }
+                                                            @if (@Rowdata.Status == Convert.ToInt16(Level.WorkInprogress))
+                                                            {
+                                                                <span class="mb-0 mt-1 badge rounded-pill text-info bg-info-transparent">Work Inprogress</span>
+                                                            }
+                                                            @if (@Rowdata.Status == Convert.ToInt16(Level.Done))
+                                                            {
+                                                                <span class="mb-0 mt-1 badge rounded-pill bg-primary-transparent text-primary">Done</span>
+                                                            }
+                                                            @if (@Rowdata.Status == Convert.ToInt16(Level.Block))
+                                                            {
+                                                                <span class="mb-0 mt-1 badge rounded-pill text-default bg-danger-transparent">Block</span>
+                                                            }
+                                                            </div>
+                                                        </td>
+                                                        <td class="text-muted fs-15 fw-semibold text-center">@Rowdata.Priority</td>
+                                                        <td>
+                                                            <div class="d-flex align-items-stretch">
+                                                                <a href="#" class="d-flex align-items-center btn btn-sm btn-outline-secondary border me-2" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                    <i class="fe fe-more-vertical"></i>
+                                                                </a>
+                                                                <div class="dropdown-menu dropdown-menu-start">
+                                                                    <a class="dropdown-item" href="#">
+                                                                        <i class="fe fe-info me-2"></i> Info
                                                                     </a>
-                                                                    <a class="btn btn-sm btn-outline-secondary border me-2" data-bs-toggle="tooltip" data-bs-original-title="Delete">
-                                                                        <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 0 24 24" width="16">
-                                                                            <path d="M0 0h24v24H0V0z" fill="none" />
-                                                                            <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM8 9h8v10H8V9zm7.5-5l-1-1h-5l-1 1H5v2h14V4h-3.5z" />
-                                                                        </svg>
-                                                                    </a>
-                                                                    <a href="#" class="d-flex align-items-center btn btn-sm btn-outline-secondary border me-2" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                                        <i class="fe fe-more-vertical"></i>
-                                                                    </a>
-                                                                    <div class="dropdown-menu dropdown-menu-start">
-                                                                        <a class="dropdown-item" href="#">
-                                                                            <i class="fe fe-edit-2 me-2"></i> Edit </a>
-                                                                        <a class="dropdown-item" href="#">
-                                                                            <i class="fe fe-info me-2"></i> Info </a>
-                                                                    </div>
                                                                 </div>
-                                                            </td>
-                                                        </tr>
-                                                    </tbody>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    m++;
+                                                }
+                                        </tbody>
                                                 </table>
                                             </div>
                                         </div>

@@ -87,7 +87,7 @@
 								<label for="project-name" class="form-label text-muted">Project Leader:</label>
 								<div class="input-group">
 									<select class="form-control select2-show-search" id="project-owner" data-placeholder="Choose One...">
-										<option label="Choose one"></option>
+										<option value="0" selected> Choose one</option>
 										@if (UserData.Any())
 										{
 											foreach (var row in UserData)
@@ -104,7 +104,7 @@
 								<label for="project-name" class="form-label text-muted">Department:</label>
 								<div class="input-group">
 									<select class="form-control select2-show-search" id="department" data-placeholder="Choose One...">
-										<option label="Choose one"></option>
+										<option value="0" selected> Choose one</option>
 										@if (UserData.Any())
 										{
 											foreach (var row in dataDepartment)
@@ -148,7 +148,8 @@
 							<div class="form-group">
 								<ul>
 									<li class="select-client">
-										<select class="form-control select2-client-search" id="employee-id" multiple="multiple">
+										<select required="required" class="form-control select2-client-search" id="employee-id" multiple>
+											<option value="" selected>Select Person</option>
 											@if (UserData.Any())
 											{
 												foreach (var row in UserData)

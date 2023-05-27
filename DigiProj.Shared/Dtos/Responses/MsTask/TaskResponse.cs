@@ -41,7 +41,17 @@ namespace DigiProj.Shared.Dtos.Responses.MsTask
         public int Task { get; set; }
         public int Block { get; set; }
         public int Done { get; set; }
-
         public int TotalTask { get; set; }
+    }
+
+    public class TaskProjectesponse
+    {
+        public Guid Id { get; set; }
+        public string ProjectName { get; set; }
+        public string TaskName { get; set; }
+        public int Status { get; set; }
+        public string Priority { get; set; }
+        public string Fullname { get; set; }
+        public DateTime EndDate { get; set; }
     }
 }

@@ -3,6 +3,18 @@
 
 $(function () {
 	document.getElementById("project-id").value = makeid(7);
+
+	var date = new Date();
+	var day = date.getDate();
+	var month = date.getMonth() + 1;
+	var year = date.getFullYear();
+
+	if (month < 10) month = "0" + month;
+	if (day < 10) day = "0" + day;
+
+	var today = year + "-" + month + "-" + day + "T00:00";
+	$("#project-start-date").attr("value", today);
+	$("#project-end-date").attr("value", today);
 });
 
 // Select2
@@ -99,6 +111,7 @@ function addElementsOnCheck(checkboxContainer, checkboxMain, elementToRemove) {
 
 
 
+
 function PostProject() {
 	var ProjectId = document.getElementById("project-id").value;
 	var ProjectName = document.getElementById("project-name").value;
@@ -123,6 +136,7 @@ function PostProject() {
 		'Summary': Summary,
 		'EmployeeId': values
 	});
+
 
 	$.ajax({
 		url: "/ProjectsList/Create",

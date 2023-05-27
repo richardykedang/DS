@@ -47,5 +47,18 @@ namespace DigiProj.Services
             response.CheckError(request);
             return response.GetContent<GlobalObjectListResponse<TaskDetailResponse>>();
         }
+
+        public async Task<GlobalObjectListResponse<TaskProjectesponse>> GetTaskProject(string ProjectId, CancellationToken cancellationToken)
+        {
+            var token = await _tokenService.CheckTokenAsync(cancellationToken);
+            _client.AddAuthenticator(token);
+
+            var request = new RestRequest(_apiConfig.UriGetTaskProject, Method.GET);
+            request.AddParameter("ProjectId", ProjectId, ParameterType.QueryString);
+            request.AddRequiredHeaders(_apiConfig);
+            var response = await _client.ExecuteGetAsync(request, cancellationToken);
+            response.CheckError(request);
+            return response.GetContent<GlobalObjectListResponse<TaskProjectesponse>>();
+        }
     }
 }

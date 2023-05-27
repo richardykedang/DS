@@ -35,6 +35,7 @@ namespace DigiProj.Shared.Dtos.Requests.Project
 		public bool IsActive { get; set; }
 
 		////parameter array
+		[Required]
 		public List<string> EmployeeId { get; set; }
 		public List<AssignToRequest> AssignTo { get; set; }
 	}
