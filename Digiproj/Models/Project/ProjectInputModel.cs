@@ -8,7 +8,7 @@ using System.Diagnostics.Metrics;
 
 namespace DigiProj.Models.Project
 {
-	public class SearchProjectInputModel: Filter
+	public class SearchProjectInputModel : Filter
 	{
 
 		public string ProjectName { get; set; }

@@ -27,8 +27,9 @@
 		public string UriDeleteProject { get; set; }
 		public string UriTaskProjectTotal { get; set; }
 
-		public string UriGetTaskProject { get; set; }
-        public string UriTaskDetail { get; set; }
+        public string UriGetTaskEmployeeProject { get; set; }
+        public string UriGetTaskProject { get; set; }
+        public string UriGetMemberTaskProject { get; set; }
 
     }
 }

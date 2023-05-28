@@ -35,12 +35,12 @@ namespace DigiProj.Services
             return response.GetContent<GlobalObjectListResponse<TaskTotalResponse>>();
         }
 
-        public async Task<GlobalObjectListResponse<TaskDetailResponse>> GetDetailTask(string ProjectId, CancellationToken cancellationToken)
+        public async Task<GlobalObjectListResponse<TaskDetailResponse>> GetMemberProjectDetailAsync(string ProjectId, CancellationToken cancellationToken)
         {
             var token = await _tokenService.CheckTokenAsync(cancellationToken);
             _client.AddAuthenticator(token);
 
-            var request = new RestRequest(_apiConfig.UriTaskDetail, Method.GET);
+            var request = new RestRequest(_apiConfig.UriGetMemberTaskProject, Method.GET);
             request.AddParameter("ProjectId", ProjectId, ParameterType.QueryString);
             request.AddRequiredHeaders(_apiConfig);
             var response = await _client.ExecuteGetAsync(request, cancellationToken);
@@ -54,6 +54,20 @@ namespace DigiProj.Services
             _client.AddAuthenticator(token);
 
             var request = new RestRequest(_apiConfig.UriGetTaskProject, Method.GET);
+            request.AddParameter("ProjectId", ProjectId, ParameterType.QueryString);
+            request.AddRequiredHeaders(_apiConfig);
+            var response = await _client.ExecuteGetAsync(request, cancellationToken);
+            response.CheckError(request);
+            return response.GetContent<GlobalObjectListResponse<TaskProjectesponse>>();
+        }
+
+        public async Task<GlobalObjectListResponse<TaskProjectesponse>> GetTaskEmployeeProject(string EmployeeId, string ProjectId, CancellationToken cancellationToken)
+        {
+            var token = await _tokenService.CheckTokenAsync(cancellationToken);
+            _client.AddAuthenticator(token);
+
+            var request = new RestRequest(_apiConfig.UriGetTaskEmployeeProject, Method.GET);
+            request.AddParameter("EmployeeId", EmployeeId, ParameterType.QueryString);
             request.AddParameter("ProjectId", ProjectId, ParameterType.QueryString);
             request.AddRequiredHeaders(_apiConfig);
             var response = await _client.ExecuteGetAsync(request, cancellationToken);

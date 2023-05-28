@@ -47,6 +47,8 @@ namespace DigiProj.Shared.Dtos.Responses.MsTask
     public class TaskProjectesponse
     {
         public Guid Id { get; set; }
+        public string ProjectId { get; set; }
+        public string EmployeeId { get; set; }
         public string ProjectName { get; set; }
         public string TaskName { get; set; }
         public int Status { get; set; }

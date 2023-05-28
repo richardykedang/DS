@@ -10,6 +10,7 @@ using DigiProj.Shared.Dtos.Responses;
 using DigiProj.Shared.Dtos.Responses.MsProject;
 using DigiProj.Shared.Dtos.Responses.MsTask;
 using Microsoft.AspNetCore.Mvc;
+using System.Reflection;
 
 namespace DigiProj.Controllers
 {
@@ -102,8 +103,17 @@ namespace DigiProj.Controllers
 			ViewBag.Title = "Edit Project";
 			return View();
 		}
+        
+		[HttpGet]
+        [Route("/project/projects-detail")]
+        public async Task<IActionResult> Detail([FromQuery] string ProjectId, CancellationToken cancellationToken)
+        {
+            ViewBag.Title = "Detail Project";
+            ViewBag.ID = Encryption.Decrypt(ProjectId);
+            return View();
+        }
 
-		[HttpPost]
+        [HttpPost]
 		public async Task<GlblMsg> Create([FromBody] CreateProjectInputModel model, CancellationToken cancellationToken)
 		{
 			GlblMsg msg = new GlblMsg();
@@ -143,39 +153,19 @@ namespace DigiProj.Controllers
 
 		}
 
-		[HttpGet]
-		[Route("/project/projects-detail")]
-		public async Task<IActionResult> Detail([FromQuery] string ProjectId, CancellationToken cancellationToken)
+        [HttpGet]
+        public async Task<IEnumerable<TaskProjectesponse>> GetTaskByEmployee([FromQuery] string EmployeeId,string ProjectId, CancellationToken cancellationToken)
 		{
-			ViewBag.Title = "Detail Project";
-			ViewBag.ID = Encryption.Decrypt(ProjectId);
-	//		var m = await _apiProjectService.GetDetailProject(Encryption.Decrypt(ProjectId), cancellationToken);
+            var apiResponse = await _apiTaskService.GetTaskEmployeeProject(EmployeeId, ProjectId, cancellationToken);
 
-    //        var n = await _apiTaskService.GetDetailTask(Encryption.Decrypt(ProjectId), cancellationToken);
-
-   //         ProjectResponse model = new();
-			//model = new()
-			//{
-			//	ProjectName = m.Data.First().ProjectName,
-			//	Status = m.Data.First().Status,
-			//	ProjectOwner = m.Data.First().ProjectOwner,
-			//	Summary = m.Data.First().Summary,
-			//	CreatedBy = m.Data.First().CreatedBy,
-			//	CreatedDate = m.Data.First().CreatedDate,
-			//	EndDate = m.Data.First().EndDate,
-			//};
-
-   //         TaskDetailResponse task = new();
-   //         task = new()
-   //         {
-   //             Name = n.Data.First().Name,
-   //             Email = n.Data.First().Email,
-   //             TotalTask = n.Data.First().TotalTask,
-   //             RoleProject = n.Data.First().RoleProject,
-   //         };
-
-            return View();
-		}
-		#endregion
-	}
+            if (apiResponse.Error)
+            {
+                var dataTaskEmployee = apiResponse.Data;
+                return dataTaskEmployee;
+            }
+            var resultTaskEmployee = apiResponse.Data;
+            return resultTaskEmployee;
+        }
+        #endregion
+    }
 }
