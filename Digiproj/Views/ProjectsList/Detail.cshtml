@@ -268,7 +268,14 @@
                                                             </div>
                                                         </td>
                                                         <td class="text-muted fs-15 fw-semibold">@Rowdata.TotalTask</td>
-                                                        <td class="text-muted fs-15 fw-semibold">@Rowdata.RoleProject.ToUpper()</td>
+                                                        <td class="text-muted fs-15 fw-semibold">
+                                                        @if (!string.IsNullOrEmpty(Rowdata.RoleProject))
+                                                        {
+                                                            @Rowdata.RoleProject.ToUpper()
+                                                        }else{
+                                                            <span>-</span>
+                                                        }
+                                                    </td>
                                                         <td>
                                                             <div class="d-flex align-items-stretch">
                                                             <a class="btn btn-outline-secondary btn-md" data-bs-toggle="tooltip" data-bs-original-title="Info" onclick="PopupTaskProject('@Rowdata.EmployeeId','@Rowdata.ProjectId');">
