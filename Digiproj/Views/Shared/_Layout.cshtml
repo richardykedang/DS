@@ -105,7 +105,7 @@
 			<script src="~/assets/plugins/datatable/js/dataTables.bootstrap5.js"></script>
 			<script src="~/assets/plugins/datatable/dataTables.responsive.min.js"></script>
 
-			@* @RenderSection("Scripts",false/*required*/) *@
+			<script>var hostUrl = "/";</script>
 			@await Component.InvokeAsync("Notyf")
             @await RenderSectionAsync("Scripts", required: false)
 

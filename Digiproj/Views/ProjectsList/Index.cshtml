@@ -183,7 +183,7 @@
 											}
 											@if (@ProjectData.Status == Convert.ToInt16(Level.Block))
 											{
-												<span class="mb-0 mt-1 badge rounded-pill text-default bg-warning-transparent">Block</span>
+												<span class="mb-0 mt-1 badge rounded-pill text-default bg-danger-transparent">Block</span>
 											}
 										</td>
 										<td class="text-muted fs-15 fw-semibold text-center">@ProjectData.ProjectOwner.ToTitleCase()</td>
@@ -195,7 +195,7 @@
 													{
 														foreach (var MemberProject in ProjectData.AssignTo.Take(1).ToList())
 														{
-															<span><img src="~/assets/images/users/bi-logo.jpg" title="@MemberProject.EmployeeId" alt="profile-user" class="avatar bradius cover-image"></span>
+															<span><img src="~/assets/images/users/bi-logo.jpg" title="@MemberProject.Name" alt="profile-user" class="avatar bradius cover-image"></span>
 														}
 														<span class="avatar bradius bg-primary">+@ProjectData.AssignTo.Count()</span>
 													}
@@ -241,7 +241,7 @@
 							<h1 class="fw-bolder"><span>Delete Project ?</span></h1>
 							<br />
 							<label class="fs-6 fw-bold form-label mb-2">
-								<span>Are you sure to delete this project <span id="InfoProjectName"></span> ?</span>
+								<span>If you delete project, all task will be delete too, Are you sure delete <span id="InfoProjectName"></span> ?</span>
 							</label>
 						</div>
 					</div>

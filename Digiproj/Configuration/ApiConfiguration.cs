@@ -19,13 +19,19 @@
 		public string UriGetUser { get; set; }
 
 		public string UriGetDepartment { get; set; }
-
-		public string UriGetProjectLastNumber { get; set; }
 		public string UriGetProject { get; set; }
         public string UriSearchProject { get; set; }
 		public string UriAutoCompleteStatus { get; set; }
+		public string UriCreateProject { get; set; }
 		public string UriDetailProject { get; set; }
 		public string UriDeleteProject { get; set; }
         public string UriSearchUser { get; set; }
+		public string UriTaskProjectTotal { get; set; }
+
+        public string UriGetTaskEmployeeProject { get; set; }
+        public string UriGetTaskProject { get; set; }
+        public string UriGetMemberTaskProject { get; set; }
+
+
     }
 }

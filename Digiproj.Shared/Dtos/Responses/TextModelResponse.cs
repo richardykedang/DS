@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DigiProj.Shared.Dtos.Responses
 {
-    public class ModelResponse
+    public class TextModelResponse
     {
         public string id { get; set; }
         public string name { get; set; }

@@ -4,8 +4,10 @@
 @using DigiProj.Shared.Dtos.Requests;
 @using DigiProj.Shared.Dtos.Responses.MsProject;
 @using System.Globalization;
-@using static DigiProj.Configuration.StatusResponseEnum;
+@model DigiProj.Models.Project.CreateProjectInputModel
+
 @inject IProjectApiService projectService
+@inject IDepartmentService apiDepartmentService
 @inject IUserApiService apiUserService
 
 @{
@@ -13,9 +15,14 @@
     var user = User.GetClaims();
 
 	//Lastnumber ID
-	var apiLastNumberResponse = await projectService.GetProjectLastNumber();
-	var LastNumberData = apiLastNumberResponse;
+	//var apiLastNumberResponse = await projectService.GetProjectLastNumber();
+	//var LastNumberData = apiLastNumberResponse;
 
+	//get departmentAll
+	var apiResponseDepartment = await apiDepartmentService.GetDepartment();
+	var dataDepartment = apiResponseDepartment.Data;
+
+	//get userAll
 	var apiUserAll = await apiUserService.GetUsers();
 	var UserData = apiUserAll.Data;
 
@@ -63,175 +70,134 @@
 				<h4 class="mb-0">Project New</h4>
 			</div>
 			<div class="card-body p-0 create-project-main">
-				<div class="row p-5 border-bottom">
-					<div class="col-sm-12 col-md-12 col-xl-3">
-						<div class="form-group">
-							<label for="project-name" class="form-label text-muted">Project ID:</label>
-							<div class="input-group">
-								<input id="project-id" type="text" class="form-control text-dark" value="@LastNumberData" disabled>
-							</div>
-						</div>
-					</div>
+				<form class="form-horizontal" data-select2-id="11" id="project_form">
+					<div class="row p-5 border-bottom">
+						<input id="project-id" type="text" class="form-control text-dark" value="" hidden>
 
-					<div class="col-sm-12 col-md-12 col-xl-3">
-						<div class="form-group">
-							<label for="project-name" class="form-label text-muted">Project Name:</label>
-							<div class="input-group">
-								<input id="project-name" type="text" class="form-control text-dark" placeholder="Enter Project Name">
-							</div>
-						</div>
-					</div>
-					<div class="col-sm-12 col-md-12 col-xl-3">
-						<div class="form-group">
-							<label for="project-name" class="form-label text-muted">Project Leader:</label>
-							<div class="input-group">
-							<select class="form-control select2-show-search" id="project-owner" data-placeholder="Choose One...">
-								<option label="Choose one"></option>
-									@if (UserData.Any()) {
-										foreach (var row in UserData)
-										{
-											<option value="@row.EmployeeId">@row.Name</option>
-										}
-									}
-							</select>
-							</div>
-						</div>
-					</div>
-					<div class="col-sm-12 col-md-12 col-xl-3">
-						<div class="form-group">
-							<label for="project-start-date" class="form-label text-muted">Project Date:</label>
-							<div id="ps-datepicker" class="input-group date" data-date-format="dd-mm-yyyy">
-								<span class="input-group-addon input-group-text bg-primary-transparent"><i class="fe fe-calendar text-primary-dark"></i></span>
-								<input id="project-start-date" class="form-control" type="text" placeholder="Select Start Date" />
-							</div>
-						</div>
-					</div>
-					<div class="col-sm-12 col-md-12 col-xl-3 end-date-container">
-						<div class="form-group">
-							<label for="project-end-date" class="form-label text-muted">End Date:</label>
-							<div id="pe-datepicker" class="input-group date" data-date-format="dd-mm-yyyy">
-								<span class="input-group-addon input-group-text bg-primary-transparent"><i class="fe fe-calendar text-primary-dark"></i></span>
-								<input id="project-end-date" class="form-control" type="text" placeholder="Select End Date" />
-							</div>
-						</div>
-					</div>
-					<div class="col-sm-12 col-md-12 col-xl-3 no-date-checkbox">
-						<div class="form-group">
-							<label class="custom-control custom-checkbox end-date-checkbox-container">
-								<input type="checkbox" class="custom-control-input end-date-checkbox" value="option2">
-								<span class="custom-control-label">No End date.</span>
-							</label>
-						</div>
-					</div>
-					<div class="col-sm-12 col-md-12 col-xl-4">
-						<div class="form-group">
-							<label for="project-category" class="form-label text-muted">Project Category:</label>
-							<select class="form-control select2-show-search" id="project-category" data-placeholder="Choose Type...">
-								<option label="Choose one"></option>
-								<option value="sample">MP1</option>
-								<option value="sample">MP2</option>
-							</select>
-						</div>
-					</div>
-					<div class="col-sm-12 col-md-12 col-xl-4">
-						<div class="form-group">
-							<label for="project-department" class="form-label text-muted">Asset SI / Physical Asset:</label>
-							<select class="form-control select2-show-search" id="project-type" data-placeholder="Choose Type...">
-								<option label="Choose one"></option>
-								<option value="sample">Aset Fisik</option>
-								<option value="sample">Aset SI</option>
-							</select>
-						</div>
-					</div>
-					<div class="col-sm-12 col-md-12 col-xl-4">
-						<div class="form-group">
-							<label class="form-label text-muted">BP / RI: </label>
-							<select class="form-control select2-client-search" data-placeholder="Select BP/RI">
-								<option value="1">BPPU</option>
-								<option value="2">BPUR</option>
-								<option value="3">BSPI</option>
-								<option value="4">RI MKTBI</option>
-								<option value="5">RIKOPERBI</option>
-								<option value="6">RIPABI</option>
-								<option value="7">RIRBI</option>
-								<option value="8">RIVIBI</option>
-							</select>
-						</div>
-					</div>
-					<div class="col-sm-12 col-md-12 col-xl-4">
-						<div class="form-group">
-							<label class="form-label text-muted">PMO Name: </label>
-							<select class="form-control select2-client-search" data-placeholder="Select PMO">
-								<option value="1">DIDD</option>
-								<option value="2">DLDS</option>
-								<option value="3">DPLF</option>
-								<option value="4">DPID</option>
-								<option value="5">DPSP</option>
-								<option value="6">DPU</option>
-								<option value="7">UKPS</option>
-							</select>
-						</div>
-					</div>
-					<div class="col-sm-12 col-md-12 col-xl-4">
-						<label class="form-label text-muted">Criteria Success: </label>
-						<div class="form-group">
-							<div id="summernote"><p>Hello Summernote</p></div>
-						</div>
-					</div>
-					<div class="col-sm-12 col-md-12 col-xl-4">
-						<label class="form-label text-muted">Target Description: </label>
-						<div class="form-group">
-							<div id="summernote2"><p>Hello Summernote</p></div>
-						</div>
-					</div>
-					@*<div class="col-sm-12 col-md-12 col-xl-12">
-						<label class="form-label text-muted">Assign To: </label>
-						<div class="form-group">
-							<ul>
-								<li class="select-client">
-									<select class="form-control select2-client-search" multiple>
-										<option value="1">Angeline Julliet</option>
-										<option value="2">Helena Rose</option>
-										<option value="13">Daniel Obrien</option>
-										<option value="15">Jorah Randy</option>
-									</select>
-								</li>
-							</ul>
-						</div>
-					</div>*@
-				</div>
-				<div class="row p-5 border-bottom">
-					<div class="col-xl-12">
-						<h6 class="mb-0 d-flex other-details">Other Details<i class="fe fe-chevron-down down-arrow fs-15"></i><i class="fe fe-chevron-up up-arrow d-none fs-15"></i></h6>
-						<div class="row other-details-main d-none mt-4">
-							<div class="col-sm-12 col-md-12 col-xl-12">
-								<label class="form-label text-muted">Add Files: </label>
-								<div class="form-group">
-									<form method="post">
-										<input type="file" class="dropify" data-bs-height="100" />
-									</form>
+						<div class="col-sm-12 col-md-12 col-xl-3">
+							<div class="form-group">
+								<label for="project-name" class="form-label text-muted">Project Name:</label>
+								<div class="input-group">
+									<input id="project-name"  type="text" class="form-control text-dark" placeholder="Enter Project Name">
 								</div>
 							</div>
+						</div>
+						<div class="col-sm-12 col-md-12 col-xl-3">
+							<div class="form-group">
+								<label for="project-name" class="form-label text-muted">Project Leader:</label>
+								<div class="input-group">
+									<select class="form-control select2-show-search" id="project-owner" data-placeholder="Choose One...">
+										<option value="0" selected> Choose one</option>
+										@if (UserData.Any())
+										{
+											foreach (var row in UserData)
+											{
+												<option value="@row.EmployeeId">@row.Name</option>
+											}
+										}
+									</select>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-12 col-md-12 col-xl-3">
+							<div class="form-group">
+								<label for="project-name" class="form-label text-muted">Department:</label>
+								<div class="input-group">
+									<select class="form-control select2-show-search" id="department" data-placeholder="Choose One...">
+										<option value="0" selected> Choose one</option>
+										@if (UserData.Any())
+										{
+											foreach (var row in dataDepartment)
+											{
+												<option value="@row.DepartmentId">@row.DepartmentName</option>
+											}
+										}
+									</select>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-12 col-md-12 col-xl-3">
+							<div class="form-group">
+								<label for="project-start-date" class="form-label text-muted">Project Date:</label>
+								<div class="input-group date" data-date-format="dd-mm-yyyy">
+									<span class="input-group-addon input-group-text bg-primary-transparent"><i class="fe fe-calendar text-primary-dark"></i></span>
+									<input id="project-start-date" class="form-control" type="datetime-local" placeholder="Select Start Date" />
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-12 col-md-12 col-xl-3 end-date-container">
+							<div class="form-group">
+								<label for="project-end-date" class="form-label text-muted">End Date:</label>
+								<div class="input-group date" data-date-format="dd-mm-yyyy">
+									<span class="input-group-addon input-group-text bg-primary-transparent"><i class="fe fe-calendar text-primary-dark"></i></span>
+									<input id="project-end-date" class="form-control" type="datetime-local" placeholder="Select End Date" />
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-12 col-md-12 col-xl-12">
+							<label class="form-label text-muted">Summary project: </label>
+							<div class="form-group">
+								@*<input id="summernote" />*@
+								<textarea id="summernote" name="contents"></textarea>
+								@*<textarea id="summernote" asp-for="Summary" name="Summary" />*@
+							</div>
+						</div>
 
+						<div class="col-sm-12 col-md-12 col-xl-12">
+							<label class="form-label text-muted">Members Project: </label>
+							<div class="form-group">
+								<ul>
+									<li class="select-client">
+										<select required="required" class="form-control select2-client-search" id="employee-id" multiple>
+											<option value="" selected>Select Person</option>
+											@if (UserData.Any())
+											{
+												foreach (var row in UserData)
+												{
+													<option value="@row.EmployeeId">@row.Name</option>
+												}
+											}
+										</select>
+									</li>
+								</ul>
+							</div>
 						</div>
 					</div>
-				</div>
-				<div class="row p-5">
-					<div class="btn-list text-end">
-						<button class="btn btn-outline-danger">
-							<i class="fe fe-x-circle"></i>
-							Cancel
-						</button>
-						<button class="btn btn-primary">
-							<i class="fe fe-check-circle"></i>
-							Save
-						</button>
+					@*<div class="row p-5 border-bottom">
+						<div class="col-xl-12">
+							<h6 class="mb-0 d-flex other-details">Other Details<i class="fe fe-chevron-down down-arrow fs-15"></i><i class="fe fe-chevron-up up-arrow d-none fs-15"></i></h6>
+							<div class="row other-details-main d-none mt-4">
+								<div class="col-sm-12 col-md-12 col-xl-12">
+									<label class="form-label text-muted">Add Files: </label>
+									<div class="form-group">
+										<form method="post">
+											<input type="file" class="dropify" data-bs-height="100" />
+										</form>
+									</div>
+								</div>
+
+							</div>
+						</div>
+					</div>*@
+					<div class="row p-5">
+						<div class="btn-list text-end">
+							<button class="btn btn-outline-danger">
+								<i class="fe fe-x-circle"></i>
+								Cancel
+							</button>
+							<button class="btn btn-primary" onclick="PostProject();" type="button">
+								<i class="fe fe-check-circle"></i>
+								Save
+							</button>
+						</div>
 					</div>
-				</div>
+				</form>
+				
 			</div>
 		</div>
 	</div>
 </div>
+
 <!--ROW CLOSED-->
 @section scripts {
 	<!-- CREATE JS-->
