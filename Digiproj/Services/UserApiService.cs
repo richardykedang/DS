@@ -112,5 +112,29 @@ namespace DigiProj.Services
 			return response.GetContent<GlobalObjectListResponse<UserResponse>>();
 		}
 
-	}
+        public async Task<GlobalObjectListResponse<UserResponse>> GetSearchUser(UserRequest requestDto, CancellationToken cancellationToken = default)
+        {
+            var token = await _tokenService.CheckTokenAsync(cancellationToken);
+            _client.AddAuthenticator(token);
+            var request = new RestRequest(_apiConfig.UriSearchUser, Method.POST);
+            requestDto.PageSize = 1000;
+            requestDto.PageIndex = 1;
+
+            var sort = new Sort();
+            sort.Field = requestDto.Column;
+            sort.IsAscending = requestDto.Y ? false : true;
+            requestDto.Sort.Add(sort);
+
+
+            request.AddRequiredBody(requestDto);
+            request.AddRequiredHeaders(_apiConfig);
+
+
+            var response = await _client.ExecuteAsync(request, cancellationToken);
+            response.CheckError(request);
+
+
+            return response.GetContent<GlobalObjectListResponse<UserResponse>>();
+        }
+    }
 }

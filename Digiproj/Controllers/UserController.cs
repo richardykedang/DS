@@ -8,6 +8,8 @@ using DigiProj.Shared.Dtos.Responses.MsUser;
 using Digiproj.Shared.Dtos.Requests.Users;
 using DigiProj.Shared.Dtos.Responses.MsProject;
 using DigiProj.Shared.Dtos.Responses;
+using DigiProj.Shared.Dtos.Requests.Project;
+using DigiProj.Models.Users;
 
 namespace DigiProj.Controllers
 {
@@ -42,21 +44,21 @@ namespace DigiProj.Controllers
 			return View();
 		}
 
-		//[HttpPost]
-		//public async Task<IEnumerable<ProjectResponse>> SearchProject([FromBody] SearchProjectInputModel model, CancellationToken cancellationToken)
-		//{
+        public async Task<IEnumerable<UserResponse>> SearchUser([FromBody] SearchUserInputModel model, CancellationToken cancellationToken)
+        {
 
-		//	var apiRequest = _mapper.Map<SearchProjectRequest>(model);
-		//	var apiResponse = await _apiProjectService.GetSearchProject(apiRequest, cancellationToken);
+            var apiRequest = _mapper.Map<UserRequest>(model);
+            var apiResponse = await _apiUserService.GetSearchUser(apiRequest, cancellationToken);
 
-		//	if (apiResponse.Error)
-		//	{
-		//		var dataDepartment = apiResponse.Data;
-		//		return dataDepartment;
-		//	}
-		//	var resultDepartment = apiResponse.Data;
-		//	return resultDepartment;
+            if (apiResponse.Error)
+            {
+                var datauser = apiResponse.Data;
+                return datauser;
+            }
+            var users = apiResponse.Data;
 
-		//}
-	}
+            return users;
+
+        }
+    }
 }

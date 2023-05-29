@@ -11,6 +11,8 @@ using Digiproj.Shared.Entities.MsRole;
 using Digiproj.Shared.Entities;
 using Digiproj.Shared.Dtos.Requests;
 using Digiproj.Shared.Dtos.Responses.MsMenu;
+using DigiProj.Models.Users;
+using Digiproj.Shared.Dtos.Requests.Users;
 
 namespace DigiProj.Helpers
 {
@@ -37,6 +39,9 @@ namespace DigiProj.Helpers
             CreateMap<ProfilUserResponse, ProfileUser>(); //api with sp
             CreateMap<UserMenusResponse, MsMenu>(); //api with sp
             CreateMap<MsMenusResponse, MsMenus>(); //api with sp
+
+			// User
+			CreateMap<SearchUserInputModel, UserRequest>();
 		}
 	}
 }

@@ -14,5 +14,6 @@ namespace DigiProj.Services.Interfaces
 		Task<GlobalObjectResponse<ProfilUserResponse>> GetProfilUserAsync(CancellationToken cancellationToken = default);
 		Task<GlobalObjectListResponse<UserMenusResponse>> GetMenusAsync(CancellationToken cancellationToken = default);
         Task<GlobalObjectListResponse<UserRolesResponse>> GetRolesAsync(CancellationToken cancellationToken = default);
+        Task<GlobalObjectListResponse<UserResponse>> GetSearchUser(UserRequest requestDto, CancellationToken cancellationToken = default);
     }
 }

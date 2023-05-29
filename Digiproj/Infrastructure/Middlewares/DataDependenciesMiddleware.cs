@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
 using DigiProj.Configuration;
 using DigiProj.Helpers;
-using DigiProj.Configuration;
-using DigiProj.Helpers;
 using DigiProj.Services.Interfaces;
 
 namespace DigiProj.Infrastructure.Middlewares

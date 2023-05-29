@@ -26,5 +26,6 @@
 		public string UriAutoCompleteStatus { get; set; }
 		public string UriDetailProject { get; set; }
 		public string UriDeleteProject { get; set; }
-	}
+        public string UriSearchUser { get; set; }
+    }
 }
