@@ -97,11 +97,13 @@ namespace DigiProj.Controllers
 			return View();
 		}
 
-		[Route("/projects-edit")]
-		public IActionResult Edit()
+        [HttpGet]
+        [Route("/project/projects-edit")]
+		public async Task<IActionResult> Edit([FromQuery] string ProjectId, CancellationToken cancellationToken)
 		{
 			ViewBag.Title = "Edit Project";
-			return View();
+            ViewBag.ID = Encryption.Decrypt(ProjectId);
+            return View();
 		}
         
 		[HttpGet]
@@ -119,6 +121,25 @@ namespace DigiProj.Controllers
 			GlblMsg msg = new GlblMsg();
 			var apiRequest = _mapper.Map<CreateProjectRequest>(model);
 			var apiResponse = await _apiProjectService.CreateProject(apiRequest, cancellationToken);
+
+			if (apiResponse.Error)
+			{
+				msg.success = false;
+				msg.message = apiResponse.Message;
+				return msg;
+			}
+
+			msg.success = true;
+			msg.message = apiResponse.Message;
+			return msg;
+		}
+
+		[HttpPost]
+		public async Task<GlblMsg> Update([FromBody] UpdateProjectInputModel model, CancellationToken cancellationToken)
+		{
+			GlblMsg msg = new GlblMsg();
+			var apiRequest = _mapper.Map<UpdateProjectRequest>(model);
+			var apiResponse = await _apiProjectService.UpdateProject(apiRequest, cancellationToken);
 
 			if (apiResponse.Error)
 			{

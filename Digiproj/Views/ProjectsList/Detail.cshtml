@@ -74,8 +74,15 @@
                                 <div class="col-xl col-md-12">
                                     @foreach (var a in DetailData)
                                     {
-                                        <h4 class="my-2 card-title"> @a.ProjectName.ToUpper() 
-                                        </h4>
+                                        <h4 class="my-2 card-title"> @a.ProjectName.ToUpper()</h4>
+                                        @if (@a.IsActive == true)
+                                        {
+                                            <span class="mb-0 mt-1 badge rounded-pill bg-primary-transparent text-primary">Active</span>
+                                        }
+                                        @if (@a.IsActive == false)
+                                        {
+                                            <span class="mb-0 mt-1 badge rounded-pill text-default bg-danger-transparent">Deactive</span>
+                                        }
                                     } 
                                 </div>
                             </div>
@@ -147,7 +154,7 @@
                                                                 <span class="m-0 text-muted">
                                                                     <i class="fe fe-calendar"></i> Start Date: </span>
                                                             </div>
-                                                            <h5 class="mt-3 text-teritary">@a.CreatedDate.ToString("dd MMM yyyy hh:mm:ss:ttt",new CultureInfo("id-ID"))</h5>
+                                                            <h5 class="mt-3 text-teritary">@a.StartDate.ToString("dd MMM yyyy hh:mm:ss:ttt",new CultureInfo("id-ID"))</h5>
                                                         </div>
                                                     </div>
                                                     <div class="col-xl-2 col-lg-12">
@@ -244,7 +251,7 @@
                                                     </thead>
                                                     <tbody class="table-body">
 
-                                            @foreach (var Rowdata in DetailMemberProjectTaskData)
+                                                    @foreach (var Rowdata in DetailMemberProjectTaskData)
                                                     {
                                                     <tr>
 

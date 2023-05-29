@@ -1,154 +1,86 @@
-
-'use strict'
-
-$(function () {
-
-    $("#ps-datepicker").datepicker({
-        autoclose: true,
-        format: 'dd-mm-yyyy',
-        todayHighlight: true
-    }).datepicker('update', new Date());
-
-    $("#pe-datepicker").datepicker({
-        autoclose: true,
-        format: 'dd-mm-yyyy',
-        todayHighlight: true
-    }).datepicker('update', '11-11-2021');
-
+$("#project_create_date").datetimepicker({
+    format: 'd-m-Y H:i:s'
+});
+$("#project_end_date").datetimepicker({
+    format: 'd-m-Y H:i:s'
 });
 
-// text editor
-$(function (e) {
-    $('#summernote3').summernote();
-});
 
 $(function (e) {
-    $('#summernote4').summernote();
+	$('#summernote').summernote({
+		height: "300px",
+		callbacks: {
+			onImageUpload: function (image) {
+				uploadImage(image[0]);
+			},
+			onMediaDelete: function (target) {
+				deleteImage(target[0].src);
+			}
+		}
+	});
 });
 
-// Select2
-$('.select2').select2({
-    minimumResultsForSearch: Infinity,
-    width: '100%'
-})
+function SubmitProject() {
+	var ProjectId = document.getElementById("project-id").value;
+	var ProjectName = document.getElementById("project-name").value;
+	var ProjectOwner = document.getElementById("project-owner").value;
+	var DepartmentId = document.getElementById("department").value;
+	var Status = document.getElementById("status").value;
+	var StartDate = document.getElementById("project_create_date").value;
+	var EndDate = document.getElementById("project_end_date").value;
+	var Summary = document.getElementById("summernote").value;
+	var Active = document.getElementById("active").value;
 
 
-// Select2 by showing the search
-$('.select2-show-search').select2({
-    minimumResultsForSearch: '',
-    width: '100%'
-})
+	var dataObject = JSON.stringify({
+		'ProjectId': ProjectId,
+		'ProjectName': ProjectName,
+		'ProjectOwner': ProjectOwner,
+		'DepartmentId': DepartmentId,
+		'Status': Status,
+		'StartDate': StartDate,
+		'EndDate': EndDate,
+		'Summary': Summary,
+		'IsActive': Boolean(Active)
+	});
 
 
-function selectStatus(status) {
-
-    if (!status.id) { return status.text; }
-    var $status = $(
-        '<span class="status-indicator projects">' + status.text + '</span>',
-    );
-    var $statusText = $status.text().split(" ").join("").toLowerCase();
-    if ($statusText === "inprogress") {
-        $status.addClass("in-progress");
-    }
-    else if ($statusText === "onhold") {
-        $status.addClass("on-hold");
-    }
-    else if ($statusText === "completed") {
-        $status.addClass("completed");
-    }
-    else {
-        $status.addClass("empty");
-    }
-    return $status;
-};
-
-
-$(".select2-status-search").select2({
-    templateResult: selectStatus,
-    templateSelection: selectStatus,
-    escapeMarkup: function (s) { return s; }
-});
-
-
-function selectClient(client) {
-
-    if (!client.id) { return client.text; }
-    var $client = $(
-        '<span><img src="../assets/images/users/' + client.element.value.toLowerCase() + '.jpg" class="rounded-circle avatar-sm" /> '
-        + client.text + '</span>'
-    );
-    return $client;
-};
-
-$(".select2-client-search").select2({
-    templateResult: selectClient,
-    templateSelection: selectClient,
-    escapeMarkup: function (c) { return c; }
-});
-
-function select2AssignTo() {
-
-    $(".select2-assignTo-search").select2({
-        templateResult: selectClient,
-        templateSelection: selectClient,
-        escapeMarkup: function (a) { return a; }
-    });
-}
-
-//show and hide end date element
-const endDateCheckboxContainer = document.querySelector('.end-date-checkbox-container');
-const endDateCheckbox = document.querySelector('.end-date-checkbox');
-const endDateContainer = document.querySelector('.end-date-container');
-
-removeElementsOnCheck(endDateCheckboxContainer, endDateCheckbox, endDateContainer);
-
-
-//display other files section
-function showAndHideOtherDetails() {
-
-    const otherDetails = document.querySelector('.other-details');
-    const addFilesContainer = document.querySelector('.other-details-main');
-    var upArrow = document.querySelector('.up-arrow');
-    var downArrow = document.querySelector('.down-arrow');
-
-    otherDetails.addEventListener('click', showAddFilesContainer);
-
-    upArrow.classList.add('d-none');
-
-    function showAddFilesContainer() {
-
-        if (addFilesContainer.classList.contains('d-none')) {
-            addFilesContainer.classList.remove('d-none');
-            upArrow.classList.remove('d-none');
-            downArrow.classList.add('d-none');
-            select2AssignTo();
-        }
-        else {
-            addFilesContainer.classList.add('d-none');
-            upArrow.classList.add('d-none');
-            downArrow.classList.remove('d-none');
-        }
-    }
-}
-showAndHideOtherDetails();
-
-//input value max value to 100
-function handleInput(inpt) {
-    if (inpt.value > 100) {
-        inpt.value = 100;
-    }
-}
-
-//hide elements using checkbox
-function removeElementsOnCheck(checkboxContainer, checkboxMain, elementToRemove) {
-    checkboxContainer.addEventListener('click', mainFunction);
-
-    function mainFunction() {
-        if (checkboxMain.checked == true) {
-            elementToRemove.classList.add('d-none');
-        }
-        else {
-            elementToRemove.classList.remove('d-none');
-        }
-    }
+	$.ajax({
+		url: "/ProjectsList/Update",
+		type: "POST",
+		contentType: "application/json; charset=utf-8",
+		data: dataObject,
+		success: function (res) {
+			if (res.success == true) {
+				Swal.fire({
+					icon: 'success',
+					type: 'success',
+					title: "Success!",
+					confirmButtonText: 'OK',
+					text: "" + res.message + "",
+					showCloseButton: false
+				})
+					.then(function (result) {
+						if (result.value) {
+							window.location.href = "/project";
+						}
+					})
+			}
+			else {
+				Swal.fire(
+					'Ups error!',
+					"" + res.message + "",
+					'error'
+				)
+			}
+		},
+		error: function (err) {
+			Swal.fire(
+				'Ups error API!',
+				"" + res.message + "",
+				'error'
+			)
+		}
+	});
+	return;
 }

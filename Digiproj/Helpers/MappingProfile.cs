@@ -35,6 +35,7 @@ namespace DigiProj.Helpers
 			CreateMap<SearchUserInputModel, UserRequest>();
 
 			CreateMap<CreateProjectInputModel, CreateProjectRequest>();
+			CreateMap<UpdateProjectInputModel, UpdateProjectRequest>();
 
 		}
 	}

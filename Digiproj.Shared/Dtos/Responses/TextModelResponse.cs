@@ -8,7 +8,7 @@ namespace DigiProj.Shared.Dtos.Responses
 {
     public class TextModelResponse
     {
-        public string id { get; set; }
+        public int id { get; set; }
         public string name { get; set; }
     }
 }

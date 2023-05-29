@@ -16,11 +16,15 @@ namespace DigiProj.Shared.Dtos.Responses.MsProject
         public string ProjectId { get; set; }
 		public string AesProj { get; set; }
 		public string ProjectName { get; set; }
+        public string EmployeeId { get; set; }
         public string ProjectOwner { get; set; }
         public string Summary { get; set; }
-		public string DepartmentName { get; set; }
+        public int DepartmentId { get; set; }
+        public string DepartmentName { get; set; }
 		public int Status { get; set; }
-        public DateTime CreatedDate { get; set; }
+		public bool? IsActive { get; set; }
+		public DateTime CreatedDate { get; set; }
+		public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public string CreatedBy { get; set; }
         public int MemberTotal { get; set; }

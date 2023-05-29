@@ -9,7 +9,7 @@ namespace DigiProj.Configuration.Constants
 		public const string AuthorizationHeaderKey = "Authorization";
 		public const string ApiKeyHeaderKey = "X-CustomHeader";
 
-		public const string DateFormatID = "MM/dd/yyyy HH:mm:ss";
+		public const string DateFormatID = "dd/mm/yyyy HH:mm:ss";
         public const string JsonContentType = "application/json";
         public const string ErrorMessageUnableConnectApi = "Unable to connect to the api server";
 

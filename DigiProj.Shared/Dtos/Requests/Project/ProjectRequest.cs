@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -38,6 +39,20 @@ namespace DigiProj.Shared.Dtos.Requests.Project
 		[Required]
 		public List<string> EmployeeId { get; set; }
 		public List<AssignToRequest> AssignTo { get; set; }
+	}
+
+	public class UpdateProjectRequest
+	{
+		public string ProjectId { get; set; }
+		public string ProjectName { get; set; }
+		public string ProjectOwner { get; set; }
+		public int DepartmentId { get; set; }
+		public int Status { get; set; }
+		public string Summary { get; set; }
+		public string StartDate { get; set; }
+		public string EndDate { get; set; }
+		public bool IsActive { get; set; }
+
 	}
 	public class DeleteProjectRequest
 	{

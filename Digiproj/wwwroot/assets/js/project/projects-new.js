@@ -59,11 +59,6 @@ $(function (e) {
 	});
 });
 
-//removing end date with checkbox
-const endDateCheckboxContainer = document.querySelector('.end-date-checkbox-container');
-const endDateCheckbox = document.querySelector('.end-date-checkbox');
-const endDateContainer = document.querySelector('.end-date-container');
-removeElementsOnCheck(endDateCheckboxContainer, endDateCheckbox, endDateContainer);
 
 //display other files section
 //function showAndHideOtherDetails() {
@@ -93,21 +88,6 @@ removeElementsOnCheck(endDateCheckboxContainer, endDateCheckbox, endDateContaine
 //}
 //showAndHideOtherDetails();
 
-
-//display elements using checkbox
-function addElementsOnCheck(checkboxContainer, checkboxMain, elementToRemove) {
-
-    checkboxContainer.addEventListener('click', mainFunction);
-
-    function mainFunction() {
-        if (checkboxMain.checked == true) {
-            elementToRemove.classList.remove('d-none');
-        }
-        else {
-            elementToRemove.classList.add('d-none');
-        }
-    }
-}
 
 
 
@@ -155,7 +135,7 @@ function PostProject() {
 				})
 					.then(function (result) {
 						if (result.value) {
-							window.location.href = "project";
+							window.location.href = "/project";
 						}
 					})
 			}

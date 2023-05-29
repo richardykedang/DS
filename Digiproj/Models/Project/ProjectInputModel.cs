@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.Metrics;
+using System.Globalization;
 
 namespace DigiProj.Models.Project
 {
@@ -37,6 +38,18 @@ namespace DigiProj.Models.Project
 		public List<string> EmployeeId { get; set; }
 		public List<AssignToInputModel> AssignTo { get; set; }
 
+	}
+	public class UpdateProjectInputModel
+	{
+		public string ProjectId { get; set; }
+		public string ProjectName { get; set; }
+		public string ProjectOwner { get; set; }
+		public int DepartmentId { get; set; }
+		public int Status { get; set; }
+		public string Summary { get; set; }
+		public string StartDate { get; set; }
+		public string EndDate { get; set; }
+		public bool IsActive { get; set; }
 	}
 	public class DeleteProjectInputModel
 	{

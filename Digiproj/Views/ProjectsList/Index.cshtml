@@ -150,6 +150,7 @@
 								<th class="bg-transparent border-bottom-0">Members</th>
 								<th class="bg-transparent border-bottom-0">Created By</th>
 								<th class="bg-transparent border-bottom-0">Submit Date</th>
+								<th class="bg-transparent border-bottom-0">Is Active</th>
 								<th class="bg-transparent border-bottom-0">Action</th>
 							</tr>
 						</thead>
@@ -203,7 +204,17 @@
 											</div>
 										</td>
 										<td class="text-muted fs-15 fw-semibold text-center">@ProjectData.CreatedBy.ToTitleCase()</td>
-										<td class="text-muted fs-15 fw-semibold text-center">@ProjectData.CreatedDate.ToString(ConfigurationConsts.DateFormatID,new CultureInfo("id-ID"))</td>
+										<td class="text-muted fs-15 fw-semibold text-center">@ProjectData.CreatedDate</td>
+										<td class="text-muted fs-15 fw-semibold text-center">
+											@if (@ProjectData.IsActive == true)
+											{
+												<span class="mb-0 mt-1 badge rounded-pill bg-primary-transparent text-primary">Active</span>
+											}
+											@if (@ProjectData.IsActive == false)
+											{
+												<span class="mb-0 mt-1 badge rounded-pill text-default bg-danger-transparent">Deactive</span>
+											}
+										</td>
 										<td>
 											<div class="d-flex align-items-stretch">
 												<a id="dlt" class="btn btn-sm btn-outline-secondary border me-2" data-bs-toggle="tooltip" data-bs-original-title="Delete" onclick="PopupModalProject('@ProjectData.ProjectId', '@ProjectData.ProjectName');">
@@ -211,7 +222,7 @@
 												</a>
 												<a href="#" class="border br-5 px-2 py-1 text-muted d-flex align-items-center" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fe fe-more-vertical"></i></a>
 												<div class="dropdown-menu dropdown-menu-start">
-													<a id="ed" class="dropdown-item" asp-controller="ProjectsList" asp-action="Edit" asp-route-ProjectId="@ProjectData.ProjectId"><i class="fe fe-edit-2 me-2"></i> Edit</a>
+													<a id="ed" class="dropdown-item" asp-controller="ProjectsList" asp-action="Edit" asp-route-ProjectId="@ProjectData.AesProj"><i class="fe fe-edit-2 me-2"></i> Edit Metadata</a>
 													<a id="dt" class="dropdown-item" asp-controller="ProjectsList" asp-action="Detail" asp-route-ProjectId="@ProjectData.AesProj"><i class="fe fe-info me-2"></i> Detail</a>
 												</div>
 											</div>
