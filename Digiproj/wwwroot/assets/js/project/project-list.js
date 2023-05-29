@@ -44,7 +44,7 @@ function SearchProject() {
                     i += 1;
                     //console.log(data);
                     var IsStatus = "" + item.status + "";
-
+                    
                     var css;
                     var status;
                     if (IsStatus == 1) {
@@ -63,6 +63,22 @@ function SearchProject() {
                         css = 'text-default bg-warning-transparent';
                         status = 'Block';
                     }
+
+                    var IsActive = item.isActive;
+                    var cssActive;
+                    var statusActive;
+                    //console.log(IsActive)
+
+                    if (IsActive == true) {
+                        cssActive = 'text-default bg-success-transparent';
+                        statusActive = 'Active';
+                        //console.log('aktif')
+                    } else {
+                        cssActive = 'text-default bg-danger-transparent';
+                        statusActive = 'Deactive';
+                    } 
+                    
+                    //alert(statusActive)
 
                     var pid = "'" + item.projectId.toUpperCase() + "'";
                     var pname = "'" + item.projectName.toUpperCase() + "'";
@@ -93,6 +109,8 @@ function SearchProject() {
                         "</div></td>" +
                         "<td class='text-muted fs-15 fw-semibold text-center'>" + capitalizeFirstLetter(item.createdBy) + "</td>" +
                         "<td class='text-muted fs-15 fw-semibold text-center'>" + formatDateID(cdate) + "</td>" +
+                        "<td class='text-muted fs-15 fw-semibold text-center'><span class='mb-0 mt-1 badge rounded-pill " + cssActive + "'>" + statusActive + "</span></td>" +
+
                         "<td>" +
                         "<div class='d-flex align-items-stretch'>" +
                         " " + actionsDelete + " " +
