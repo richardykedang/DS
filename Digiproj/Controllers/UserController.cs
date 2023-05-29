@@ -60,5 +60,21 @@ namespace DigiProj.Controllers
             return users;
 
         }
-    }
+
+		#region CRUD
+		[Route("/user-new")]
+		public IActionResult Create()
+		{
+			ViewBag.Title = "Add User";
+			return View();
+		}
+
+		[Route("/user-edit")]
+		public IActionResult Edit()
+		{
+			ViewBag.Title = "Update User";
+			return View();
+		}
+		#endregion
+	}
 }

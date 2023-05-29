@@ -1,0 +1,84 @@
+﻿<!-- PAGE-HEADER -->
+<div class="page-header">
+	<div>
+		<h1 class="page-title"></h1>
+	</div>
+	<div class="ms-auto pageheader-btn">
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item">Apps</li>
+			<li class="breadcrumb-item"><a href="javascript:void(0);">User</a></li>
+			<li class="breadcrumb-item active" aria-current="page">User New</li>
+		</ol>
+	</div>
+</div>
+<!-- PAGE-HEADER END -->
+<!--ROW OPENED-->
+<div class="row">
+	<div class="col-md-12">
+		<div class="card">
+			<div class="card-body project-type-container projects p-4">
+				<h4 class="m-0" id="typeTitle">User Create</h4>
+				<div class="d-sm-flex align-items-center">
+					<div class="btn-list mx-4">
+						<a id="cr" class="btn btn-outline-primary" asp-controller="User" asp-action="Edit"><i class="fe fe-edit-2 me-2"></i> Edit User</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+@*START FORM FILTER*@
+<div class="card">
+	<div class="card-header border-0 pt-6">
+		<div class="input-group" id="group">
+			<div class="col-sm-6 col-md-6 col-xl-4">
+				<div class="form-group">
+					<label class="form-label text-muted">Employee ID: </label>
+					<input id="EmployeeId" type="text" class="form-control form-control-solid" placeholder="Employee ID">&nbsp;
+				</div>
+			</div>
+			<div class="col-sm-6 col-md-6 col-xl-4">
+				<div class="form-group">
+					<label class="form-label text-muted">Fullname: </label>
+					<input id="Fullname" type="text" class="form-control form-control-solid" placeholder="Fullname">&nbsp;
+				</div>
+			</div>
+			<div class="col-sm-6 col-md-6 col-xl-4">
+				<div class="form-group">
+					<label class="form-label text-muted">Username: </label>
+					<input id="Username" type="text" class="form-control form-control-solid" placeholder="Username">&nbsp;
+				</div>
+			</div>
+			<div class="col-sm-6 col-md-6 col-xl-4">
+				<div class="form-group">
+					<label class="form-label text-muted">Role: </label>
+					<ul>
+						<li class="select-status">
+							<select class="form-control select2-status-search" data-placeholder="Select Role" id="Role">
+								<option value="" selected>All</option>
+								@*@foreach (var a in dataStatus)
+								{
+								<option value=@a.id>@a.name.ToTitleCase()</option>
+								}*@
+							</select>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="col-sm-6 col-md-6 col-xl-4">
+				<div class="form-group">
+					<label class="form-label text-muted">Email: </label>
+					<input id="email" type="email" class="form-control form-control-solid" placeholder="Email">&nbsp;
+				</div>
+			</div>
+			<div class="col-sm-6 col-md-6 col-xl-4">
+				<div class="form-group">
+					<label class="form-label text-muted">Password: </label>
+					<input id="password" type="password" class="form-control form-control-solid" placeholder="Password">&nbsp;
+				</div>
+			</div>
+		</div>
+	</div>
+	<button type="button" style="width:30%;margin-left:2%;margin-bottom:2%;" id="btnSearchUser" class="btn btn-primary" onclick="SearchUser();"> Save</button>
+</div>
+@*END FORM FILTER*@
