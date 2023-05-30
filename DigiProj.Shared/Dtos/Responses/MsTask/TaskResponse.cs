@@ -54,6 +54,7 @@ namespace DigiProj.Shared.Dtos.Responses.MsTask
         public int Status { get; set; }
         public string Priority { get; set; }
         public string Fullname { get; set; }
+        public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
     }
 }

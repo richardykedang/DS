@@ -40,7 +40,7 @@
 }
 
 
-@if (Menu.First().IsRead == false)
+@if (Menu.First().Controller == "project" && Menu.First().IsRead == false)
 {
     <script>
         window.location.href = '@Url.Content("/Home/AccessDenied")';
@@ -141,7 +141,7 @@
                                             </div>
                                             <div class="card-body">
                                                 <h5 class="mb-2">Project Details:</h5>
-                                                @Html.Raw(WebUtility.HtmlDecode(@a.Summary));   
+                                                @Html.Raw(WebUtility.HtmlDecode(@a.Summary))  
                                             </div>
                                         </div> 
 

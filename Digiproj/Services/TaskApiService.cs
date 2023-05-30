@@ -5,6 +5,9 @@ using RestSharp;
 using DigiProj.Configuration;
 using DigiProj.Shared.Dtos.Responses.MsTask;
 using DigiProj.Helpers;
+using Digiproj.Shared.Dtos.Requests.Project;
+using DigiProj.Shared.Dtos.Requests.Project;
+using Digiproj.Shared.Dtos.Requests.Task;
 
 namespace DigiProj.Services
 {
@@ -74,5 +77,62 @@ namespace DigiProj.Services
             response.CheckError(request);
             return response.GetContent<GlobalObjectListResponse<TaskProjectesponse>>();
         }
+
+        public async Task<GlobalResponse> CreateTask(CreateTaskRequest requestDto, CancellationToken cancellationToken)
+        {
+            var token = await _tokenService.CheckTokenAsync(cancellationToken);
+            _client.AddAuthenticator(token);
+
+
+            var request = new RestRequest(_apiConfig.UriCreateTask, Method.POST);
+
+            requestDto.ProjectId = requestDto.ProjectId;
+            requestDto.TaskName = requestDto.TaskName;
+            requestDto.TaskOwner = requestDto.TaskOwner;
+            requestDto.Priority = requestDto.Priority;
+            requestDto.StartDate = requestDto.StartDate;
+            requestDto.EndDate = requestDto.EndDate;
+
+
+            request.AddRequiredBody(requestDto);
+            request.AddRequiredHeaders(_apiConfig);
+
+            var response = await _client.ExecuteAsync(request, cancellationToken);
+            response.CheckError(request);
+
+            return response.GetContent<GlobalResponse>();
+        }
+
+        public async Task<GlobalResponse> DeleteTask(DeleteTaskRequest requestDto, CancellationToken cancellationToken)
+        {
+            var token = await _tokenService.CheckTokenAsync(cancellationToken);
+            _client.AddAuthenticator(token);
+
+            var request = new RestRequest(_apiConfig.UriDeleteTask, Method.POST);
+            request.AddRequiredBody(requestDto);
+            request.AddRequiredHeaders(_apiConfig);
+
+            var response = await _client.ExecuteAsync(request, cancellationToken);
+            response.CheckError(request);
+
+            return response.GetContent<GlobalResponse>();
+        }
+
+        public async Task<GlobalResponse> UpdateTask(UpdateTaskRequest requestDto, CancellationToken cancellationToken)
+        {
+            var token = await _tokenService.CheckTokenAsync(cancellationToken);
+            _client.AddAuthenticator(token);
+
+            var request = new RestRequest(_apiConfig.UriEditTask, Method.POST);
+            request.AddRequiredBody(requestDto);
+            request.AddRequiredHeaders(_apiConfig);
+
+            var response = await _client.ExecuteAsync(request, cancellationToken);
+            response.CheckError(request);
+
+            return response.GetContent<GlobalResponse>();
+        }
+
+
     }
 }

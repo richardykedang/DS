@@ -1,9 +1,11 @@
 ﻿using AspNetCoreHero.ToastNotification.Abstractions;
 using AutoMapper;
 using Digiproj.Shared.Dtos.Requests;
+using Digiproj.Shared.Dtos.Requests.Task;
 using Digiproj.Shared.Dtos.Responses;
 using DigiProj.Helpers;
 using DigiProj.Models.Project;
+using DigiProj.Models.Task;
 using DigiProj.Services.Interfaces;
 using DigiProj.Shared.Dtos.Requests.Project;
 using DigiProj.Shared.Dtos.Responses;
@@ -87,8 +89,7 @@ namespace DigiProj.Controllers
 		}
 
 
-		
-
+	
 		#region CRUD
 		[Route("/projects-new")]
 		public IActionResult Create()
@@ -105,7 +106,14 @@ namespace DigiProj.Controllers
             ViewBag.ID = Encryption.Decrypt(ProjectId);
             return View();
 		}
-        
+		[HttpGet]
+		[Route("/project/projects-edit-content")]
+		public async Task<IActionResult> EditContent([FromQuery] string ProjectId, CancellationToken cancellationToken)
+		{
+			ViewBag.Title = "Edit Content";
+			ViewBag.ID = Encryption.Decrypt(ProjectId);
+			return View();
+		}
 		[HttpGet]
         [Route("/project/projects-detail")]
         public async Task<IActionResult> Detail([FromQuery] string ProjectId, CancellationToken cancellationToken)
@@ -174,6 +182,25 @@ namespace DigiProj.Controllers
 
 		}
 
+        [HttpPost]
+        public async Task<GlblMsg> CreateMember([FromBody] CreateMemberInputModel model, CancellationToken cancellationToken)
+        {
+            GlblMsg msg = new GlblMsg();
+            var apiRequest = _mapper.Map<CreateMemberRequest>(model);
+            var apiResponse = await _apiProjectService.CreateMemberProject(apiRequest, cancellationToken);
+
+            if (apiResponse.Error)
+            {
+                msg.success = false;
+                msg.message = apiResponse.Message;
+                return msg;
+            }
+
+            msg.success = true;
+            msg.message = apiResponse.Message;
+            return msg;
+        }
+
         [HttpGet]
         public async Task<IEnumerable<TaskProjectesponse>> GetTaskByEmployee([FromQuery] string EmployeeId,string ProjectId, CancellationToken cancellationToken)
 		{
@@ -187,6 +214,86 @@ namespace DigiProj.Controllers
             var resultTaskEmployee = apiResponse.Data;
             return resultTaskEmployee;
         }
+
+        [HttpGet]
+        public async Task<IEnumerable<ProjectAutoCompleteResponse>> GetProjectByEmployee([FromQuery] string ProjectId, CancellationToken cancellationToken)
+        {
+            var apiResponse = await _apiProjectService.GetAutoCompleteEmployeeProject(ProjectId, cancellationToken);
+            if (apiResponse.Error)
+            {
+                var dataEmployee = apiResponse.Data;
+                return dataEmployee;
+            }
+            var resultEmployee = apiResponse.Data;
+            return resultEmployee;
+        }
+
+        [HttpPost]
+        public async Task<GlblMsg> CreateTask([FromBody] CreateTaskInputModel model, CancellationToken cancellationToken)
+        {
+            GlblMsg msg = new GlblMsg();
+            var apiRequest = _mapper.Map<CreateTaskRequest>(model);
+            var apiResponse = await _apiTaskService.CreateTask(apiRequest, cancellationToken);
+
+            if (apiResponse.Error)
+            {
+                msg.success = false;
+                msg.message = apiResponse.Message;
+                return msg;
+            }
+
+            msg.success = true;
+            msg.message = apiResponse.Message;
+            return msg;
+        }
+
+        [HttpPost]
+        public async Task<GlblMsg> DeleteTask([FromBody] DeleteTaskInputModel model, CancellationToken cancellationToken)
+        {
+
+            GlblMsg msg = new GlblMsg();
+            var apiRequest = _mapper.Map<DeleteTaskRequest>(model);
+            var apiResponse = await _apiTaskService.DeleteTask(apiRequest, cancellationToken);
+
+            if (apiResponse.Error)
+            {
+                msg.success = false;
+                msg.message = apiResponse.Message;
+                return msg;
+            }
+
+            msg.success = true;
+            msg.message = apiResponse.Message;
+            return msg;
+
+        }
+
+        [HttpPost]
+        public async Task<GlblMsg> UpdateTask([FromBody] UpdateTaskInputModel model, CancellationToken cancellationToken)
+        {
+            GlblMsg msg = new GlblMsg();
+            var apiRequest = _mapper.Map<UpdateTaskRequest>(model);
+            var apiResponse = await _apiTaskService.UpdateTask(apiRequest, cancellationToken);
+
+            if (apiResponse.Error)
+            {
+                msg.success = false;
+                msg.message = apiResponse.Message;
+                return msg;
+            }
+
+            msg.success = true;
+            msg.message = apiResponse.Message;
+            return msg;
+        }
+
+        //[HttpPost]
+        //public async Task<GlobalObjectListResponse<TextModelResponse>> GetAutoCompleteStatus(CancellationToken cancellationToken)
+        //{
+        //    var apiResponse = await _apiProjectService.GetAutoCompleteStatus(cancellationToken);
+        //    return apiResponse;
+
+        //}
         #endregion
     }
 }

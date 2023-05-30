@@ -85,7 +85,7 @@ function SearchProject() {
 
                     const cdate = new Date(Date.parse(item.createdDate));
                     let actionsDelete = '<a id="dlt" class="btn btn-sm btn-outline-secondary border me-2" data-bs-toggle="tooltip" data-bs-original-title="Delete" onclick="PopupModalProject(' + pid + ', ' + pname + ');">';
-                    let actions = "<a id='ed' class='dropdown-item' href='project/projects-edit?ProjectId=" + encodeURIComponent(item.aesProj) + "'><i class='fe fe-info me-2'> </i> Edit Metadata</a><a id='dt' class='dropdown-item' href='project/projects-detail?ProjectId=" + encodeURIComponent(item.aesProj) + "'><i class='fe fe-info me-2'> </i> Detail</a>";
+                    let actions = "<a id='ed' class='dropdown-item' href='project/projects-edit?ProjectId=" + encodeURIComponent(item.aesProj) + "'><i class='fe fe-info me-2'> </i> Edit Metadata</a><a id='ed' class='dropdown-item' href='project/projects-edit-content?ProjectId=" + encodeURIComponent(item.aesProj) + "'><i class='fe fe-info me-2'> </i> Edit Content</a><a id='dt' class='dropdown-item' href='project/projects-detail?ProjectId=" + encodeURIComponent(item.aesProj) + "'><i class='fe fe-info me-2'> </i> Detail</a>";
 
                     let DataMember = item.assignTo[0];
 

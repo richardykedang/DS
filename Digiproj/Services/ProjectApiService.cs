@@ -7,6 +7,7 @@ using DigiProj.Shared.Dtos.Requests;
 using DigiProj.Shared.Dtos.Requests.Project;
 using DigiProj.Shared.Dtos.Responses;
 using DigiProj.Shared.Dtos.Responses.MsProject;
+using DigiProj.Shared.Dtos.Responses.MsTask;
 using HtmlAgilityPack;
 using Microsoft.AspNetCore.DataProtection.KeyManagement;
 using Newtonsoft.Json;
@@ -71,28 +72,7 @@ namespace DigiProj.Services
 
             return response.GetContent<GlobalObjectListResponse<ProjectResponse>>();
         }
-		public async Task<GlobalObjectListResponse<TextModelResponse>> GetAutoCompleteStatus(CancellationToken cancellationToken)
-		{
-			var token = await _tokenService.CheckTokenAsync(cancellationToken);
-			_client.AddAuthenticator(token);
-
-			var requestDto = new FilterAutoComplete();
-			var request = new RestRequest(_apiConfig.UriAutoCompleteStatus, Method.POST);
-			requestDto.limit = 5;
-			requestDto.q = "";
-
-
-			request.AddRequiredBody(requestDto);
-			request.AddRequiredHeaders(_apiConfig);
-
-
-			var response = await _client.ExecuteAsync(request, cancellationToken);
-			response.CheckError(request);
-
-			return response.GetContent<GlobalObjectListResponse<TextModelResponse>>();
-		}
-
-
+	
 		public async Task<GlobalResponse> CreateProject(CreateProjectRequest requestDto, CancellationToken cancellationToken)
 		{
 			var token = await _tokenService.CheckTokenAsync(cancellationToken);
@@ -190,17 +170,81 @@ namespace DigiProj.Services
 			return response.GetContent<GlobalObjectListResponse<ProjectResponse>>();
 		}
 
-		//public async Task<string> GetProjectLastNumber(CancellationToken cancellationToken)
-		//{
-		//	var token = await _tokenService.CheckTokenAsync(cancellationToken);
-		//	_client.AddAuthenticator(token);
+        public async Task<GlobalResponse> CreateMemberProject(CreateMemberRequest requestDto, CancellationToken cancellationToken)
+        {
+            var token = await _tokenService.CheckTokenAsync(cancellationToken);
+            _client.AddAuthenticator(token);
 
-		//	var request = new RestRequest(_apiConfig.UriGetProjectLastNumber, Method.GET);
-		//	request.AddRequiredHeaders(_apiConfig);
-		//	var response = await _client.ExecuteAsync(request, cancellationToken);
-		//	response.CheckError(request);
 
-		//	return response.GetContent<string>();
-		//}
-	}
+            var request = new RestRequest(_apiConfig.UriCreateMember, Method.POST);
+
+            requestDto.ProjectId = requestDto.ProjectId;
+
+            ////saving Array Member
+            foreach (var b in requestDto.EmployeeId)
+            {
+                var sort = new AssignToRequest()
+                {
+                    ProjectId = requestDto.ProjectId,
+                    EmployeeId = b
+                };
+
+                requestDto.AssignTo.Add(sort);
+            }
+
+            request.AddRequiredBody(requestDto);
+            request.AddRequiredHeaders(_apiConfig);
+
+            var response = await _client.ExecuteAsync(request, cancellationToken);
+            response.CheckError(request);
+
+            return response.GetContent<GlobalResponse>();
+        }
+
+        public async Task<GlobalObjectListResponse<TextModelResponse>> GetAutoCompleteStatus(CancellationToken cancellationToken)
+        {
+            var token = await _tokenService.CheckTokenAsync(cancellationToken);
+            _client.AddAuthenticator(token);
+
+            var requestDto = new FilterAutoComplete();
+            var request = new RestRequest(_apiConfig.UriAutoCompleteStatus, Method.POST);
+            requestDto.limit = 5;
+            requestDto.q = "";
+
+
+            request.AddRequiredBody(requestDto);
+            request.AddRequiredHeaders(_apiConfig);
+
+
+            var response = await _client.ExecuteAsync(request, cancellationToken);
+            response.CheckError(request);
+
+            return response.GetContent<GlobalObjectListResponse<TextModelResponse>>();
+        }
+
+        public async Task<GlobalObjectListResponse<ProjectAutoCompleteResponse>> GetAutoCompleteEmployeeProject(string ProjectId, CancellationToken cancellationToken)
+        {
+            var token = await _tokenService.CheckTokenAsync(cancellationToken);
+            _client.AddAuthenticator(token);
+            var request = new RestRequest(_apiConfig.UriAutoCompleteEmployeeProject, Method.GET);
+            request.AddParameter("ProjectId", ProjectId, ParameterType.QueryString);
+            request.AddRequiredHeaders(_apiConfig);
+            var response = await _client.ExecuteGetAsync(request, cancellationToken);
+            response.CheckError(request);
+            return response.GetContent<GlobalObjectListResponse<ProjectAutoCompleteResponse>>();
+        }
+
+        //public async Task<string> GetProjectLastNumber(CancellationToken cancellationToken)
+        //{
+        //	var token = await _tokenService.CheckTokenAsync(cancellationToken);
+        //	_client.AddAuthenticator(token);
+
+        //	var request = new RestRequest(_apiConfig.UriGetProjectLastNumber, Method.GET);
+        //	request.AddRequiredHeaders(_apiConfig);
+        //	var response = await _client.ExecuteAsync(request, cancellationToken);
+        //	response.CheckError(request);
+
+        //	return response.GetContent<string>();
+        //}
+    }
 }

@@ -1,0 +1,270 @@
+﻿@using DigiProj.Helpers;
+@using DigiProj.Services.Interfaces;
+@inject IUserApiService apiUserService
+@inject IProjectApiService projectService
+@{
+    var user = User.GetClaims();
+    //get userAll
+    var apiUserAll = await apiUserService.GetUsers();
+    var UserData = apiUserAll.Data;
+
+	//get status
+	var apiResponseStatus = await projectService.GetAutoCompleteStatus();
+	var dataStatus = apiResponseStatus.Data;
+}
+
+@*Modal Member of Task*@
+<div class="modal" id="modal_member_task">
+    <div class="modal-dialog">
+        <div class="modal-content" style="width:fit-content;margin-left:auto;">
+            <div class="modal-header">
+                <h5 class="modal-title">Task </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"><i class="fa fa-close"></i></button>
+            </div>
+            <div class="modal-body">
+                <table id="modal_member_task_table" class="table text-nowrap mb-0 table-bordered border-top border-bottom responsive">
+                    <thead class="table-head">
+                        <tr>
+                            <th class="bg-transparent border-bottom-0">No</th>
+                            <th class="bg-transparent border-bottom-0">Task</th>
+                            <th class="bg-transparent border-bottom-0">Project</th>
+                            <th class="bg-transparent border-bottom-0">End Date</th>
+                            <th class="bg-transparent border-bottom-0">Assigned To</th>
+                            <th class="bg-transparent border-bottom-0">Status</th>
+                            <th class="bg-transparent border-bottom-0">Priority</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-body">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*Modal Add Member*@
+<div class="modal" id="modal_add_member">
+    <div class="modal-dialog">
+        <div class="modal-content" style="width:100%;margin-left:auto;">
+            <div class="modal-header">
+                <h5 class="modal-title">Add Member </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"><i class="fa fa-close"></i></button>
+            </div>
+            <div class="modal-body">
+                <input class="form-control" type="text" name="ProjectId" id="InfoProjectId" hidden />
+                <div style="width:100%;">
+							<label class="form-label text-muted">Members Project: </label>
+							<div class="form-group">
+								<ul>
+									<li class="select-client">
+										<select required="required" class="form-control select2-client-search" id="employee-id" multiple>
+											<option value="" selected>Select Person</option>
+											@if (UserData.Any())
+											{
+												foreach (var row in UserData)
+												{
+													<option value="@row.EmployeeId">@row.Name</option>
+												}
+											}
+										</select>
+									</li>
+								</ul>
+							</div>
+						</div>
+                    <div style="width:100%;">
+						<button type="button" class="btn btn-success" onclick="AddMember();">Save</button>
+					</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*Modal Add Task*@
+<div class="modal" id="modal_add_task">
+    <div class="modal-dialog">
+        <div class="modal-content" style="width:100%;margin-left:auto;">
+            <div class="modal-header">
+                <h5 class="modal-title">Add Task </h5>
+            </div>
+            <div class="modal-body">
+             		<div class="row p-5 border-bottom">
+                       
+                         <input id="project-id" type="text" class="form-control text-dark" hidden>   
+                       
+                         <div class="col-sm-12 col-md-12 col-xl-12">
+			                 <div class="form-group">
+			                  <label for="task-name" class="form-label text-muted">Task Name:</label>
+			                      <div class="input-group">
+			                         <input id="task-name" type="text" class="form-control text-dark" placeholder="Enter Task Name"/>
+			                      </div>
+			                 </div>
+						   </div>
+
+                         <div class="col-sm-12 col-md-12 col-xl-12">
+			                 <div class="form-group">
+			                  <label for="project-name" class="form-label text-muted">Task Owner:</label>
+			                      <div class="input-group">
+			                          <select class="form-control" id="select-employee">          
+                                        <option value="">Choose One</option>       
+                                      </select>
+			                      </div>
+			                 </div>
+						   </div>
+
+                           <div class="col-sm-12 col-md-12 col-xl-12">
+			                 <div class="form-group">
+			                  <label for="project-name" class="form-label text-muted">Priority:</label>
+			                      <div class="input-group">
+			                          <select class="form-control" id="select-priority">          
+                                        <option value="">Choose One</option>  
+                                        <option value="Low">Low</option>  
+                                        <option value="Medium">Medium</option>  
+                                        <option value="High">High</option>  
+                                      </select>
+			                      </div>
+			                 </div>
+						   </div>
+                           <div class="col-sm-12 col-md-12 col-xl-12">
+							<div class="form-group">
+								<label for="project-start-date" class="form-label text-muted">Start Date:</label>
+								<div class="input-group date">
+									<span class="input-group-addon input-group-text bg-primary-transparent"><i class="fe fe-calendar text-primary-dark"></i></span>
+										<input id="task_create_date" class="form-control" type="datetime-local" />
+								</div>
+							</div>
+							</div>
+
+							<div class="col-sm-12 col-md-12 col-xl-12 end-date-container">
+							<div class="form-group">
+								<label for="project-end-date" class="form-label text-muted">End Date:</label>
+								<div class="input-group date">
+									<span class="input-group-addon input-group-text bg-primary-transparent"><i class="fe fe-calendar text-primary-dark"></i></span>
+										<input id="task_end_date" class="form-control" type="datetime-local"/>
+								</div>
+							</div>
+							</div>
+                        <div style="width:100%;">
+						    <button type="button" class="btn btn-success" onclick="AddTask();">Save</button>
+                            <button type="button" class="btn btn-success" onclick="CloseTask();">Cancel</button>
+					    </div>
+                   </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*Modal Delete Task*@
+	<div class="modal fade" id="modal_delete_task" tabindex="-1" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-body">
+					<div class="fv-row mb-7">
+						<div class="text-center pt-15">
+							<input class="form-control" type="text" name="TaskId" id="InfoTaskId" />
+							<h1 class="fw-bolder"><span>Delete Task ?</span></h1>
+							<br />
+							<label class="fs-6 fw-bold form-label mb-2">
+								<span>Are you sure delete this task ?</span>
+							</label>
+						</div>
+					</div>
+					<div class="text-center pt-15">
+						<button type="button" class="btn btn-success" onclick="DeleteTask();">Ok</button>
+						<button type="button" class="btn btn-danger" onclick="CancelTask();">Cancel</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+@*Modal Edit Task*@
+<div class="modal" id="modal_edit_task">
+    <div class="modal-dialog">
+        <div class="modal-content" style="width:100%;margin-left:auto;">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit Task </h5>
+            </div>
+            <div class="modal-body">
+             		<div class="row p-5 border-bottom">
+                       
+                         <input id="task-id" type="text" class="form-control text-dark" hidden>   
+						  <input id="ed-project-id" type="text" class="form-control text-dark" hidden>   
+                       
+                         <div class="col-sm-12 col-md-12 col-xl-12">
+			                 <div class="form-group">
+			                  <label for="task-name" class="form-label text-muted">Task Name:</label>
+			                      <div class="input-group">
+			                         <input id="ed-task-name" type="text" class="form-control text-dark" placeholder="Enter Task Name"/>
+			                      </div>
+			                 </div>
+						   </div>
+
+                         <div class="col-sm-12 col-md-12 col-xl-12">
+			                 <div class="form-group">
+			                  <label for="project-name" class="form-label text-muted">Task Owner:</label>
+			                      <div class="input-group">
+			                          <select class="form-control" id="ed-select-employee">          
+                                        <option value="">Choose One</option>       
+                                      </select>
+			                      </div>
+			                 </div>
+						   </div>
+
+						   <div class="col-sm-12 col-md-12 col-xl-12">
+								<div class="form-group">
+									<label for="project-name" class="form-label text-muted">Status:</label>
+									<div class="input-group">
+										<select class="form-control select2-show-search" id="ed-status" data-placeholder="Choose One...">
+											<option value="0"> Choose one</option>
+
+											@foreach (var a in dataStatus)
+											{
+												<option value="@a.id">@a.name.ToTitleCase()</option>
+											}
+
+											
+										</select>
+									</div>
+								</div>
+							</div>
+                           <div class="col-sm-12 col-md-12 col-xl-12">
+			                 <div class="form-group">
+			                  <label for="project-name" class="form-label text-muted">Priority:</label>
+			                      <div class="input-group">
+			                          <select class="form-control" id="ed-select-priority">          
+                                        <option value="">Choose One</option>  
+                                        <option value="Low">Low</option>  
+                                        <option value="Medium">Medium</option>  
+                                        <option value="High">High</option>  
+                                      </select>
+			                      </div>
+			                 </div>
+						   </div>
+                           <div class="col-sm-12 col-md-12 col-xl-12">
+							<div class="form-group">
+								<label for="project-start-date" class="form-label text-muted">Start Date:</label>
+								<div class="input-group date">
+									<span class="input-group-addon input-group-text bg-primary-transparent"><i class="fe fe-calendar text-primary-dark"></i></span>
+										<input id="ed-task_create_date" class="form-control" type="text" />
+								</div>
+							</div>
+							</div>
+
+							<div class="col-sm-12 col-md-12 col-xl-12 end-date-container">
+							<div class="form-group">
+								<label for="project-end-date" class="form-label text-muted">End Date:</label>
+								<div class="input-group date">
+									<span class="input-group-addon input-group-text bg-primary-transparent"><i class="fe fe-calendar text-primary-dark"></i></span>
+										<input id="ed-task_end_date" class="form-control" type="text"/>
+								</div>
+							</div>
+							</div>
+                        <div style="width:100%;">
+						    <button type="button" class="btn btn-success" onclick="UpdateTask();">Update</button>
+                            <button type="button" class="btn btn-success" onclick="CloseEditTask();">Cancel</button>
+					    </div>
+                   </div>
+            </div>
+        </div>
+    </div>
+</div>

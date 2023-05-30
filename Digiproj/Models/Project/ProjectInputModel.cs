@@ -39,7 +39,16 @@ namespace DigiProj.Models.Project
 		public List<AssignToInputModel> AssignTo { get; set; }
 
 	}
-	public class UpdateProjectInputModel
+
+    public class CreateMemberInputModel
+    {
+        public string ProjectId { get; set; }
+        public List<string> EmployeeId { get; set; }
+        public List<AssignToRequest> AssignTo { get; set; }
+
+    }
+
+    public class UpdateProjectInputModel
 	{
 		public string ProjectId { get; set; }
 		public string ProjectName { get; set; }

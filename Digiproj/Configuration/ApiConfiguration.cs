@@ -28,11 +28,14 @@
 		public string UriDeleteProject { get; set; }
         public string UriSearchUser { get; set; }
 		public string UriTaskProjectTotal { get; set; }
-
         public string UriGetTaskEmployeeProject { get; set; }
         public string UriGetTaskProject { get; set; }
         public string UriGetMemberTaskProject { get; set; }
-
+        public string UriCreateMember { get; set; }
+        public string UriCreateTask { get; set; }
+		public string UriEditTask { get; set; }
+        public string UriDeleteTask { get; set; }
+        public string UriAutoCompleteEmployeeProject { get; set; }
 
     }
 }

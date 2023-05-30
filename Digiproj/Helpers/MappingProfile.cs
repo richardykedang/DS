@@ -11,6 +11,8 @@ using DigiProj.Models.Users;
 using Digiproj.Shared.Dtos.Requests.Users;
 using DigiProj.Shared.Dtos.Responses;
 using DigiProj.Shared.Dtos.Responses.MsTask;
+using DigiProj.Models.Task;
+using Digiproj.Shared.Dtos.Requests.Task;
 
 namespace DigiProj.Helpers
 {
@@ -29,14 +31,18 @@ namespace DigiProj.Helpers
 			CreateMap<FilterAutoCompleteModel, FilterAutoComplete>();
 			CreateMap<DetailProjectInputModel, DetailProjectRequest>();
 			CreateMap<DeleteProjectInputModel, DeleteProjectRequest>();
+            CreateMap<CreateProjectInputModel, CreateProjectRequest>();
+            CreateMap<UpdateProjectInputModel, UpdateProjectRequest>();
+            CreateMap<CreateMemberInputModel, CreateMemberRequest>();
+            CreateMap<CreateTaskInputModel, CreateTaskRequest>();
+            CreateMap<UpdateTaskInputModel, UpdateTaskRequest>();
+            CreateMap<DeleteTaskInputModel, DeleteTaskRequest>();
 
-		
-			// User
-			CreateMap<SearchUserInputModel, UserRequest>();
 
-			CreateMap<CreateProjectInputModel, CreateProjectRequest>();
-			CreateMap<UpdateProjectInputModel, UpdateProjectRequest>();
+            // User
+            CreateMap<SearchUserInputModel, UserRequest>();
 
+			
 		}
 	}
 }

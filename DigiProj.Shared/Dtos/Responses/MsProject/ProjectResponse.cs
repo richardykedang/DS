@@ -10,7 +10,13 @@ using System.Threading.Tasks;
 
 namespace DigiProj.Shared.Dtos.Responses.MsProject
 {
-    public class ProjectResponse
+    public class ProjectAutoCompleteResponse
+    {
+        public string EmployeeId { get; set; }
+        public string Name { get; set; }
+    }
+
+        public class ProjectResponse
     {
         public string Id { get; set; }
         public string ProjectId { get; set; }

@@ -15,8 +15,12 @@ namespace DigiProj.Services.Interfaces
 		Task<GlobalResponse> UpdateProject(UpdateProjectRequest requestDto, CancellationToken cancellationToken = default);
 		Task<GlobalObjectListResponse<ProjectResponse>> GetSearchProject(SearchProjectRequest requestDto, CancellationToken cancellationToken = default);
 		Task<GlobalResponse> DeleteProject(DeleteProjectRequest requestDto, CancellationToken cancellationToken = default);
-		//Task<string> GetProjectLastNumber(CancellationToken cancellationToken = default);
+
+        Task<GlobalResponse> CreateMemberProject(CreateMemberRequest requestDto, CancellationToken cancellationToken = default);
+        Task<GlobalObjectListResponse<ProjectAutoCompleteResponse>> GetAutoCompleteEmployeeProject(string ProjectId, CancellationToken cancellationToken = default);
+
+        //Task<string> GetProjectLastNumber(CancellationToken cancellationToken = default);
 
 
-	}
+    }
 }

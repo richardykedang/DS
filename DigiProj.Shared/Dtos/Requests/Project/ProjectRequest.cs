@@ -41,7 +41,15 @@ namespace DigiProj.Shared.Dtos.Requests.Project
 		public List<AssignToRequest> AssignTo { get; set; }
 	}
 
-	public class UpdateProjectRequest
+	public class CreateMemberRequest
+	{
+        public string ProjectId { get; set; }
+        public List<string> EmployeeId { get; set; }
+        public List<AssignToRequest> AssignTo { get; set; }
+
+    }
+
+    public class UpdateProjectRequest
 	{
 		public string ProjectId { get; set; }
 		public string ProjectName { get; set; }
