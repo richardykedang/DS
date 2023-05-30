@@ -13,13 +13,203 @@ $(".select2-client-search").select2({
     templateSelection: selectClient,
     escapeMarkup: function (m) { return m; }
 });
-
+//-------------------------------
 function LoadMember() {
-    $('#modal_add_member').appendTo("body").modal('hide');
-    document.getElementById('employee-id').value = '';
-    setInterval(function () { location.reload(true); }, 2000);
+    var ProjectId = document.getElementById("valID").value;
+    var dtTable = $('#members-table').DataTable({
+        searching: true,
+        orderable: true,
+        bSort: true,
+        processing: true,
+        lengthMenu: [5, 10, 20],
+        bDestroy: true,
+        initComplete: function () {
+            $('.dataTables_filter input[type="search"]').css({ 'width': '200px' });
+        }
+    });
+
+    $.ajax({
+        type: "GET",
+        url: "/ProjectsList/GetEmployeeByProject",
+        contentType: "application/json; charset=utf-8",
+        data: { ProjectId: ProjectId },
+        success: function (data) {
+            if (data.length > 0) {
+                dtTable.clear().draw();
+                $.each(data, function (i, item) {
+                    i += 1;
+                    
+                   
+                    var proid = "'" + item.projectId + "'";
+                    var emp = "'" + item.employeeId + "'";
+                    var nm = item.name;
+                    var em = item.email;
+                 
+
+                    let actions = '<a class="btn btn-outline-secondary btn-md" data-bs-toggle="tooltip" data-bs-original-title="Info" onclick="PopupTaskProject(' + emp + ',' + proid + ');"><i class="fe fe-info me-2"> </i> Info</a>';
+
+                    let rows = $("<tr>" +
+                        "<td class='text-muted fs-15 fw-semibold text-center'>" + i++ + "</td>" +
+                        "<td class='text-muted fs-15 fw-semibold'> <div class='d-flex align-items-center'>" +
+                        "<div class='me-2'>" +
+                        "<img alt='User Avatar' class='rounded-circle avatar-md d-md-none-max' src='/assets/images/users/bi-logo.jpg'>" +
+                        "</div> " +
+                        "<div><p class='text-14 mb-0'>"+capitalizeFirstLetter(nm)+"</p>"+
+                        "<span class= 'text-muted fs-13'>"+ em +"</span>"+
+                        "</div>" +
+                        "</div>" +
+                        "</td>" +
+                        "<td class='text-muted fs-15 fw-semibold text-center'>" + item.totalTask + "</td>" +
+                        "<td class='text-muted fs-15 fw-semibold text-center'>" + item.roleProject.toUpperCase() + "</td>" +
+                        "<td>" +
+                        "<div class='d-flex align-items-stretch'>" +
+                        " " + actions + " " +
+                        "</div>" +
+                        "</td>" + "</tr>"
+                    );
+                    dtTable.row.add(rows[0]).draw();
+                });
+                return;
+            }
+        },
+        error: function (err) {
+            Swal.fire({
+                text: "	Error API",
+                icon: "error",
+                buttonsStyling: false,
+                confirmButtonText: "Oke",
+                customClass: {
+                    confirmButton: "btn btn-danger"
+                }
+            }).then(function (result) {
+                if (result.isConfirmed) {
+                    return;
+                }
+            });
+            return;
+        }
+    });
 }
 
+
+function LoadTaskProject(ProjectId) {
+    var dtTable = $('#tasks-table').DataTable({
+        searching: true,
+        orderable: true,
+        bSort: true,
+        processing: true,
+        lengthMenu: [5, 10, 20],
+        bDestroy: true,
+        initComplete: function () {
+            $('.dataTables_filter input[type="search"]').css({ 'width': '200px' });
+        }
+    });
+
+    $.ajax({
+        type: "GET",
+        url: "/ProjectsList/GetTaskByProject",
+        contentType: "application/json; charset=utf-8",
+        data: { ProjectId: ProjectId },
+        success: function (data) {
+            if (data.length > 0) {
+                dtTable.clear().draw();
+                $.each(data, function (i, item) {
+                    i += 1;
+                    var TaskName = "" + item.taskName + "";
+                    var ProjectName = "" + item.projectName + "";
+                    const cdate = new Date(Date.parse(item.endDate));
+
+                    var IsStatus = "" + item.status + "";
+                    var css_s;
+                    var status;
+                    if (IsStatus == 1) {
+                        css_s = 'text-default bg-warning-transparent';
+                        status = 'Not Started';
+                    }
+                    if (IsStatus == 2) {
+                        css_s = 'text-info bg-info-transparent';
+                        status = 'Work Inprogress';
+                    }
+                    if (IsStatus == 3) {
+                        css_s = 'bg-primary-transparent text-primary';
+                        status = 'Done';
+                    }
+                    if (IsStatus == 4) {
+                        css_s = 'text-default bg-warning-transparent';
+                        status = 'Block';
+                    }
+
+                    var IsPriority = "" + item.priority + "";
+                    var css_p;
+                    var priority;
+                    if (IsPriority == "Low") {
+                        css_p = 'text-info bg-info-transparent';
+                        priority = 'Low';
+                    }
+                    if (IsPriority == "Medium") {
+                        css_p = 'text-warning bg-warning-transparent';
+                        priority = 'Medium';
+                    }
+                    if (IsPriority == "High") {
+                        css_p = 'bg-danger-transparent text-danger';
+                        priority = 'High';
+                    }
+
+                    var pid = "'" + item.id + "'";
+                    var proid = "'" + item.projectId + "'";
+                    var taskn = "'" + item.taskName + "'";
+                    var emp = "'" + item.employeeId + "'";
+                    var stat = "'" + item.status + "'";
+                    var prio = "'" + item.priority + "'";
+                    var stdat = "'" + item.startDate + "'";
+                    var edat = "'" + item.endDate + "'";
+
+
+                    let actionsDelete = '<a class="btn btn-sm btn-outline-secondary border me-2" data-bs-toggle="tooltip" data-bs-original-title="Delete" onclick="PopupModalDeleteTask(' + pid + ');">';
+                    let actions = '<a class="dropdown-item" onclick="PopupModalEditTask(' + pid + ',' + proid + ',' + taskn + ',' + emp + ',' + stat + ',' + prio + ',' + stdat + ',' + edat + ');"><i class="fe fe-info me-2"> </i> Edit</a>';
+
+                    let rows = $("<tr>" +
+                        "<td class='text-muted fs-15 fw-semibold text-center'>" + i++ + "</td>" +
+                        "<td class='text-muted fs-15 fw-semibold text-center'>" + capitalizeFirstLetter(TaskName) + "</td>" +
+                        "<td class='text-muted fs-15 fw-semibold text-center'>" + ProjectName.toUpperCase() + "</td>" +
+                        "<td class='text-muted fs-15 fw-semibold text-center'>" + formatDateID(cdate) + "</td>" +
+                        "<td class='text-muted fs-15 fw-semibold text-center'>" + capitalizeFirstLetter(item.fullname) + "</td>" +
+                        "<td class='text-muted fs-15 fw-semibold text-center'><span class='mb-0 mt-1 badge rounded-pill " + css_s + "'>" + status + "</span></td>" +
+                        "<td class='text-muted fs-15 fw-semibold text-center'><span class='mb-0 mt-1 badge rounded-pill " + css_p + "'>" + priority + "</span></td>" +
+                        "<td>" +
+                        "<div class='d-flex align-items-stretch'>" +
+                        " " + actionsDelete + " " +
+                        "<svg xmlns='http://www.w3.org/2000/svg' height='20' viewBox='0 0 24 24' width='16'> <path d='M0 0h24v24H0V0z' fill='none' /> <path d='M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM8 9h8v10H8V9zm7.5-5l-1-1h-5l-1 1H5v2h14V4h-3.5z' /> </svg></a>" +
+                        "<a href='#' class='border br-5 px-2 py-1 text-muted d-flex align-items-center' data-bs-toggle='dropdown' aria-haspopup='true' aria-expanded='false'> <i class='fe fe-more-vertical'> </i></a>" +
+                        "<div class='dropdown-menu dropdown-menu-start'>" +
+                        " " + actions + " " +
+                        "</div></div>" +
+                        "</td>" + "</tr>"
+                    );
+                    dtTable.row.add(rows[0]).draw();
+                });
+                return;
+            }
+        },
+        error: function (err) {
+            Swal.fire({
+                text: "	Error API",
+                icon: "error",
+                buttonsStyling: false,
+                confirmButtonText: "Oke",
+                customClass: {
+                    confirmButton: "btn btn-danger"
+                }
+            }).then(function (result) {
+                if (result.isConfirmed) {
+                    return;
+                }
+            });
+            return;
+        }
+    });
+}
+//-----------ADD MEMBER-----------------
 function PopupAddMember(ProjectId) {
     document.getElementById("InfoProjectId").value = ProjectId;    
     $('#modal_add_member').appendTo("body").modal('show');
@@ -53,6 +243,8 @@ function AddMember() {
                     showConfirmButton: false
                 });
                 LoadMember();
+                $('#modal_add_member').appendTo("body").modal('hide');
+                document.getElementById('employee-id').value = '';
             }
             else {
                 Swal.fire(
@@ -71,7 +263,7 @@ function AddMember() {
         }
     });
 }
-//-------------------------------
+//----------ADD TASK---------------------
 function PopupAddTask(ProjectId) {
     document.getElementById("project-id").value = ProjectId; 
     $('#modal_add_task').appendTo("body").modal('show');
@@ -159,7 +351,8 @@ function AddTask() {
                     timer: 2000,
                     showConfirmButton: false
                 });
-                setInterval(function () { location.reload(true); }, 2000); 
+                CloseTask();
+                LoadTaskProject(ProjectId);
             }
             else {
                 Swal.fire(
@@ -179,18 +372,21 @@ function AddTask() {
     });
     return;
 }
-//--------------------------------
+//------------DELETE TASK--------------------
 
 function PopupModalDeleteTask(TaskId) {
     document.getElementById("InfoTaskId").value = TaskId;
     $('#modal_delete_task').appendTo("body").modal('show');
 }
+
 function CancelTask() {
     $("#modal_delete_task").modal('hide');
 }
 
 function DeleteTask() {
     var TaskId = document.getElementById("InfoTaskId").value;
+    var ProjectId = document.getElementById("valID").value;
+
     var dataObject = JSON.stringify({
         'Id': TaskId
     });
@@ -213,7 +409,8 @@ function DeleteTask() {
                     timer: 2000,
                     showConfirmButton: false
                 });
-                setInterval(function () { location.reload(true); }, 2000); 
+                CancelTask();
+                LoadTaskProject(ProjectId);
             }
             else {
                 Swal.fire(
@@ -232,9 +429,7 @@ function DeleteTask() {
         }
     });
 }
-//--------------------------------
-
-
+//------------EDIT TASK--------------------
 $("#ed-task_create_date").datetimepicker({
     format: 'd-m-Y H:i:s'
 });
@@ -298,7 +493,7 @@ function PopupModalEditTask(TaskId, ProjectId, TaskName, EmployeeId, Status, Pri
             return;
         }
     });
-    //END AJA
+    //END AJAX
 
     $('#modal_edit_task').appendTo("body").modal('show');
 }
@@ -321,7 +516,9 @@ function UpdateTask() {
     var Priority = document.getElementById("ed-select-priority").value;
     var StartDate = document.getElementById("ed-task_create_date").value;
     var EndDate = document.getElementById("ed-task_end_date").value;
-   
+
+    var ProjectId = document.getElementById("ed-project-id").value;
+
     var dataObject = JSON.stringify({
         'Id': TaskId,
         'TaskName': TaskName,
@@ -349,12 +546,9 @@ function UpdateTask() {
                     showConfirmButton: false
                 });
 
-                document.getElementById("task-id").value = "";
-                document.getElementById("ed-project-id").value = "";
-                document.getElementById("ed-task-name").value = "";
-                document.getElementById("ed-task_create_date").value = "";
-                document.getElementById("ed-task_end_date").value = "";
-                setInterval(function () { location.reload(true); }, 2000); 
+                CloseEditTask();
+                LoadTaskProject(ProjectId);
+
             }
             else {
                 Swal.fire(

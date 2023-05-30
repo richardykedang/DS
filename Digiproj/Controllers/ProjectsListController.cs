@@ -182,6 +182,35 @@ namespace DigiProj.Controllers
 
 		}
 
+
+        [HttpGet]
+        public async Task<IEnumerable<TaskProjectesponse>> GetTaskByProject([FromQuery] string ProjectId, CancellationToken cancellationToken)
+        {
+            var apiResponse = await _apiTaskService.GetTaskProject(ProjectId, cancellationToken);
+
+            if (apiResponse.Error)
+            {
+                var dataTaskEmployee = apiResponse.Data;
+                return dataTaskEmployee;
+            }
+            var resultTaskEmployee = apiResponse.Data;
+            return resultTaskEmployee;
+        }
+
+        [HttpGet]
+        public async Task<IEnumerable<TaskDetailResponse>> GetEmployeeByProject([FromQuery] string ProjectId, CancellationToken cancellationToken)
+        {
+            var apiResponse = await _apiTaskService.GetMemberProjectDetailAsync(ProjectId, cancellationToken);
+
+            if (apiResponse.Error)
+            {
+                var dataTaskEmployee = apiResponse.Data;
+                return dataTaskEmployee;
+            }
+            var resultTaskEmployee = apiResponse.Data;
+            return resultTaskEmployee;
+        }
+
         [HttpPost]
         public async Task<GlblMsg> CreateMember([FromBody] CreateMemberInputModel model, CancellationToken cancellationToken)
         {

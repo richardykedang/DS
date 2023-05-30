@@ -33,19 +33,19 @@
                     var css;
                     var status;
                     if (IsStatus == 1) {
-                        css_s = 'text-default bg-warning-transparent';
+                        css = 'text-default bg-warning-transparent';
                         status = 'Not Started';
                     }
                     if (IsStatus == 2) {
-                        css_s = 'text-info bg-info-transparent';
+                        css = 'text-info bg-info-transparent';
                         status = 'Work Inprogress';
                     }
                     if (IsStatus == 3) {
-                        css_s = 'bg-primary-transparent text-primary';
+                        css = 'bg-primary-transparent text-primary';
                         status = 'Done';
                     }
                     if (IsStatus == 4) {
-                        css_s = 'text-default bg-warning-transparent';
+                        css = 'text-default bg-warning-transparent';
                         status = 'Block';
                     }
 
@@ -71,7 +71,7 @@
                         "<td class='text-muted fs-15 fw-semibold text-center'>" + ProjectName.toUpperCase() + "</td>" +
                         "<td class='text-muted fs-15 fw-semibold text-center'>" + formatDateID(cdate) + "</td>" +
                         "<td class='text-muted fs-15 fw-semibold text-center'>" + capitalizeFirstLetter(item.fullname) + "</td>" +
-                        "<td class='text-muted fs-15 fw-semibold text-center'><span class='mb-0 mt-1 badge rounded-pill " + css_s + "'>" + status + "</span></td>" +
+                        "<td class='text-muted fs-15 fw-semibold text-center'><span class='mb-0 mt-1 badge rounded-pill " + css + "'>" + status + "</span></td>" +
                         "<td class='text-muted fs-15 fw-semibold text-center'><span class='mb-0 mt-1 badge rounded-pill " + css_p + "'>" + priority + "</span></td>" +
                         "</tr>"
                     );
