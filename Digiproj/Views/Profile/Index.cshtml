@@ -48,6 +48,14 @@
 						<form class="form-horizontal" data-select2-id="11" id="change_password_form">
 							<div asp-validation-summary="ModelOnly" class="text-danger"></div>
 									<div class="mb-4 main-content-label">Account</div>
+
+									@if (@ProfilData.IsFirstTime == false)
+									{
+										<div class="alert alert-info alert-dismissible fade show" role="alert">
+											<strong>Notice : </strong> Please change your password default.
+										</div>
+
+									}
 									<div class="form-group ">
 										<div class="row row-sm">
 											<div class="col-md-3">
@@ -117,9 +125,6 @@
 											</div>
 										</div>
 									</div>
-									@if(@ProfilData.IsFirstTime == false){
-                                       <code style="color:red;">* Please change your password default.</code>
-									}
 								</form>
 					</div>
 				</div>
