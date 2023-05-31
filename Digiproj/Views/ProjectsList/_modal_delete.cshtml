@@ -1,22 +1,16 @@
 ﻿@*Modal Delete*@
-	<div class="modal fade" id="modal_delete_project" tabindex="-1" aria-hidden="true">
-		<div class="modal-dialog">
+<div class="modal fade" id="modal_delete_project">
+		<div class="modal-dialog modal-sm" role="document">
 			<div class="modal-content">
+				<div class="modal-header">
+					<h6 class="modal-title">Notice</h6><button aria-label="Close" class="btn-close" data-bs-dismiss="modal" ><span aria-hidden="true">&times;</span></button>
+				</div>
 				<div class="modal-body">
-					<div class="fv-row mb-7">
-						<div class="text-center pt-15">
-							<input class="form-control" type="text" name="ProjectId" id="InfoProjectId" hidden />
-							<h1 class="fw-bolder"><span>Delete Project ?</span></h1>
-							<br />
-							<label class="fs-6 fw-bold form-label mb-2">
-								<span>If you delete project, all task will be delete too, Are you sure delete <span id="InfoProjectName"></span> ?</span>
-							</label>
-						</div>
-					</div>
-					<div class="text-center pt-15">
-						<button type="button" class="btn btn-success" onclick="DeleteProject();">Ok</button>
-						<button type="button" class="btn btn-danger" onclick="CancelProject();">Cancel</button>
-					</div>
+				<input class="form-control" type="text" name="ProjectId" id="InfoProjectId" hidden />
+				<p>If you delete project, all task will be delete too, Are you sure delete <span id="InfoProjectName"></span>?</p>
+			</div>
+				<div class="modal-footer justify-content-center">
+				<button class="btn btn-primary" onclick="DeleteProject();">Delete</button> <button class="btn btn-light" onclick="CancelProject();">Close</button>
 				</div>
 			</div>
 		</div>

@@ -64,4 +64,17 @@ namespace DigiProj.Shared.Dtos.Responses.MsTask
 		public int TotalDone { get; set; }
 		public int TotalTask { get; set; }
     }
+
+	public class TotalDashboardResponse
+	{
+		public int Block { get; set; }
+		public int Done { get; set; }
+		public int TotalTask { get; set; }
+
+		public int TotalProjectDone { get; set; }
+		public int TotalProjectBlock { get; set; }
+		public int TotalProject { get; set; }
+	}
+	
+
 }

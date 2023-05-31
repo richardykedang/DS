@@ -1,17 +1,25 @@
-﻿@*@using DigiProj.Configuration.Constants
-@using DigiProj.Helpers
-@using DigiProj.Services.Interfaces
-@using Microsoft.Extensions.Configuration
-@using DigiProj.Shared.Dtos.Requests;
-@inject IUserApiService apiService
-@inject IConfiguration configuration
+﻿@using DigiProj.Configuration;
+@using DigiProj.Configuration.Constants;
+@using DigiProj.Helpers;
+@using System.Globalization;
+@using DigiProj.Services.Interfaces;
+@using System.Net;
+@using static DigiProj.Configuration.StatusResponseEnum;
+@inject IProjectApiService projectService
+@inject IUserApiService apiUserService
+@inject ITaskApiService apiTaskService
 
 @{
-    var user = User.GetClaims();
-    //Get menus from api
-    var apiResponse = await apiService.GetProfilUserAsync();
-    var Profil = apiResponse.Data;
-}*@
+	var user = User.GetClaims();
+
+	var apiTaskTotalResponse = await apiTaskService.GetTotalTask();
+	var TotalTaskData = apiTaskTotalResponse.Data;
+
+	var apiMenu = await apiUserService.GetMenusAsync();
+	var Menu = apiMenu.Data;
+
+}
+
 
 <!-- PAGE-HEADER -->
 <div class="page-header">
@@ -26,9 +34,123 @@
 	</div>
 </div>
 <!-- PAGE-HEADER END -->
+@if (TotalTaskData.Any())
+{
+	foreach (var row in TotalTaskData)
+	{
+		<div class="row">
+			<div class="col-lg-6 col-sm-12 col-md-6 col-xl-3">
+				<div class="card overflow-hidden">
+					<div class="card-body">
+						<div class="row">
+							<div class="col">
+								<h3 class="mb-2 fw-semibold">@row.TotalTask</h3>
+								<p class="text-muted fs-13 mb-0">Total Task</p>
+							</div>
+							<div class="col col-auto top-icn dash">
+								<div class="counter-icon bg-info dash ms-auto box-shadow-info">
+									<i class="typcn typcn-tabs-outline" data-bs-toggle="tooltip" title="" data-bs-original-title="typcn typcn-tabs-outline" aria-label="typcn typcn-tabs-outline"></i>
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-6 col-sm-12 col-md-6 col-xl-3">
+				<div class="card overflow-hidden">
+					<div class="card-body">
+						<div class="row">
+							<div class="col">
+								<h3 class="mb-2 fw-semibold">@row.Block</h3>
+								<p class="text-muted fs-13 mb-0">Total Task Block</p>
+							</div>
+							<div class="col col-auto top-icn dash">
+								<div class="counter-icon bg-secondary dash ms-auto box-shadow-secondary">
+									<i class="typcn typcn-info-outline" data-bs-toggle="tooltip" title="" data-bs-original-title="typcn typcn-info-outline" aria-label="typcn typcn-info-outline"></i>
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-6 col-sm-12 col-md-6 col-xl-3">
+				<div class="card overflow-hidden">
+					<div class="card-body">
+						<div class="row">
+							<div class="col">
+								<h3 class="mb-2 fw-semibold">@row.Done</h3>
+								<p class="text-muted fs-13 mb-0">Total Task Done</p>
+							</div>
+							<div class="col col-auto top-icn dash">
+								<div class="counter-icon bg-primary dash ms-auto box-shadow-primary">
+									<i class="pe-7s-check" data-bs-toggle="tooltip" title="" data-bs-original-title="pe-7s-check" aria-label="pe-7s-check"></i>
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-6 col-sm-12 col-md-6 col-xl-3">
+				<div class="card overflow-hidden">
+					<div class="card-body">
+						<div class="row">
+							<div class="col">
+								<h3 class="mb-2 fw-semibold">@row.TotalProject</h3>
+								<p class="text-muted fs-13 mb-0">Total Project</p>
+							</div>
+							<div class="col col-auto top-icn dash">
+								<div class="counter-icon bg-info dash ms-auto box-shadow-info">
+									<i class="typcn typcn-tabs-outline" data-bs-toggle="tooltip" title="" data-bs-original-title="typcn typcn-tabs-outline" aria-label="typcn typcn-tabs-outline"></i>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-6 col-sm-12 col-md-6 col-xl-3">
+				<div class="card overflow-hidden">
+					<div class="card-body">
+						<div class="row">
+							<div class="col">
+								<h3 class="mb-2 fw-semibold">@row.TotalProjectBlock</h3>
+								<p class="text-muted fs-13 mb-0">Total Project Block</p>
+							</div>
+							<div class="col col-auto top-icn dash">
+								<div class="counter-icon bg-secondary dash ms-auto box-shadow-secondary ">
+									<i class="typcn typcn-info-outline" data-bs-toggle="tooltip" title="" data-bs-original-title="typcn typcn-info-outline" aria-label="typcn typcn-info-outline"></i>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-6 col-sm-12 col-md-6 col-xl-3">
+				<div class="card overflow-hidden">
+					<div class="card-body">
+						<div class="row">
+							<div class="col">
+								<h3 class="mb-2 fw-semibold">@row.TotalProjectDone</h3>
+								<p class="text-muted fs-13 mb-0">Total Project Done</p>
+							</div>
+							<div class="col col-auto top-icn dash">
+								<div class="counter-icon bg-primary dash ms-auto box-shadow-primary">
+									<i class="pe-7s-check" data-bs-toggle="tooltip" title="" data-bs-original-title="pe-7s-check" aria-label="pe-7s-check"></i>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+		</div>
+	}
+}
 
 <!-- ROW-2 -->
-<div class="row">
+@*<div class="row">
     <div class="col-md-6">
        <div class="tile">
             <h3 class="tile-title">Bar Chart</h3>
@@ -40,74 +162,19 @@
     <div class="col-md-6">
         <div class="tile">
             <h3 class="tile-title">Pie Charts</h3>
+			 
             <div class="embed-responsive embed-responsive-16by9">
                 <canvas class="embed-responsive-item" id="pieChartDemo"></canvas>
             </div>
         </div>
     </div>
-</div>
+</div>*@
 <!-- ROW-2 END -->
-<script src="~/assets/plugins/chart/chart.bundle.js"></script>
+@section scripts{
 
-<script type="text/javascript">
-	var ctx = document.getElementById("barChartDemo").getContext('2d');
-	var myChart = new Chart(ctx, {
-		type: 'bar',
-		data: {
-			labels: ["NS", "IP", "Done"],
-			datasets: [{
-				label: '# of total',
-				data: [12, 19, 3],
-				backgroundColor: [
-					'rgba(255, 99, 132, 0.2)',
-					'rgba(255, 206, 86, 0.2)',
-					'rgba(75, 192, 192, 0.2)'
-				],
-				borderColor: [
-					'rgba(255,99,132,1)',
-					'rgba(255, 206, 86, 1)',
-					'rgba(75, 192, 192, 1)'
-				],
-				borderWidth: 1
-			}]
-		},
-		options: {
-			scales: {
-				yAxes: [{
-					ticks: {
-						beginAtZero: true
-					}
-				}]
-			},
-			title: {
-				display: true,
-				text: 'Chart'
-			}
-		}
-	});
+    <script src="~/assets/plugins/chart/chart.bundle.js"></script>
+    <script src="~/assets/js/dasboard.js"></script>
+}
 
-
-	var ctp = document.getElementById("pieChartDemo").getContext('2d');
-	const mixedChart = new Chart(ctp, {
-		data: {
-			datasets: [{
-				type: 'pie',
-				label: '# of total',
-				data: [10, 20, 30],
-				backgroundColor: [
-					'rgba(255, 99, 132, 0.2)',
-					'rgba(255, 206, 86, 0.2)',
-					'rgba(75, 192, 192, 0.2)'
-				],
-			}],
-			labels: [
-					'NS',
-					'IP',
-					'Done'
-			]
-		}
-	});
-
-</script>
 
 						

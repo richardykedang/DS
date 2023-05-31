@@ -93,6 +93,8 @@ function SearchProject() {
                     var c = 0;
                     c = item.totalDone / item.totalTask * 100;
 
+                    var cdate = new Date(Date.parse(item.createdDate));
+
                     var html = "";
                     html += '<div class="col-sm-12 col-md-12 col-lg-12 col-xl-4">';
                     html += '<div class="card">';
@@ -103,7 +105,7 @@ function SearchProject() {
                     html += '<span class="mb-0 mt-1 badge rounded-pill '+ css +' fs-11 mx-2">' + status +'</span>';
                     html += '</h6>';
                     html += '<span class="text-muted border-end pe-2 fs-11 float-start mt-1">'+ item.totalTask+' Tasks</span>';
-                    html += '<span class="text-teritary ps-1 fs-11">' + item.createdDate +"</span>'";
+                    html += '<span class="text-teritary ps-1 fs-11">' + formatDateID(cdate) +"</span>'";
                     html += '</div></div></div>';
 
                     html += '<div class="col-auto"><div class="d-flex align-items-stretch">';
@@ -129,7 +131,7 @@ function SearchProject() {
 
                     html += '<div class="col-md-12 mt-4"><div class="text-center d-f-ai-c-jc-c">';
                     html +='<div class="wp-100">';
-                    html += '<div class="project-percentage small-bar small-lg">';
+                    html += '<div class="project-percentage large-bar">';
 
                     html += '<div class="percentage-title"><span>Progress</span>';
                     if (isNaN(c) || isNaN(c)) {

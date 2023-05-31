@@ -26,9 +26,15 @@ namespace DigiProj.Controllers
 			_apiMenuService = menuApiService;
         }
 
-        public IActionResult Index()
-        {
-            ViewBag.Title = "Dashboard";
+		public async Task<IActionResult> Index(CancellationToken cancellationToken)
+		{
+			MenuControllerRequest request = new MenuControllerRequest();
+			string controllerName = this.ControllerContext.RouteData.Values["controller"].ToString();
+			request.ControllerName = controllerName;
+
+			var apiResponse = await _apiMenuService.GetMenuController(request, cancellationToken);
+			ViewBag.DataMenu = apiResponse.Data;
+			ViewBag.Title = "Dashboard";
 
             return View();
         }
