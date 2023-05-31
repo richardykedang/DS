@@ -133,6 +133,17 @@ namespace DigiProj.Services
             return response.GetContent<GlobalResponse>();
         }
 
+		public async Task<GlobalObjectListResponse<TaskTotalByProjectResponse>> GetTotalTaskByProject(CancellationToken cancellationToken)
+		{
+			var token = await _tokenService.CheckTokenAsync(cancellationToken);
+			_client.AddAuthenticator(token);
 
-    }
+			var request = new RestRequest(_apiConfig.UriGetTotalTaskByProject, Method.GET);
+			request.AddRequiredHeaders(_apiConfig);
+			var response = await _client.ExecuteGetAsync(request, cancellationToken);
+			response.CheckError(request);
+			return response.GetContent<GlobalObjectListResponse<TaskTotalByProjectResponse>>();
+		}
+
+	}
 }

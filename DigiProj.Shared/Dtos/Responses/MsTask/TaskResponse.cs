@@ -57,4 +57,11 @@ namespace DigiProj.Shared.Dtos.Responses.MsTask
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
     }
+
+	public class TaskTotalByProjectResponse
+    {
+        public string ProjectId { get; set; }
+		public int TotalDone { get; set; }
+		public int TotalTask { get; set; }
+    }
 }

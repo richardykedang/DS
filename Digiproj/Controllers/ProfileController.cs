@@ -27,7 +27,7 @@ namespace DigiProj.Controllers
 
 
 		[Route("/profile")]
-		public async Task <IActionResult> Index(CancellationToken cancellationToken)
+		public IActionResult Index(CancellationToken cancellationToken)
 		{
             ViewBag.Title = "My Profile";
 			return View();

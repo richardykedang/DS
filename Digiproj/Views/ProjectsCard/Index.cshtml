@@ -1,4 +1,33 @@
-﻿                            
+﻿@using DigiProj.Configuration;
+@using DigiProj.Configuration.Constants;
+@using DigiProj.Helpers;
+@using System.Globalization;
+@using DigiProj.Services.Interfaces;
+@using static DigiProj.Configuration.StatusResponseEnum;
+@inject IProjectApiService apiService
+@inject ITaskApiService apiTaskService
+@inject IDepartmentService apiDepartmentService
+@inject IConfiguration configuration
+
+@{
+	var user = User.GetClaims();
+	var apiResponseProject = await apiService.GetProjects();
+	var dataProject = apiResponseProject.Data;
+
+	var apiResponseDepartment = await apiDepartmentService.GetDepartment();
+	var dataDepartment = apiResponseDepartment.Data;
+
+	var apiResponseStatus = await apiService.GetAutoCompleteStatus();
+	var dataStatus = apiResponseStatus.Data;
+
+	var apiTotalTask = await apiTaskService.GetTotalTaskByProject();
+	var dataTaskTotal = apiTotalTask.Data;
+
+	//calculate percent task
+    var c = 0;
+}
+
+
 <!-- PAGE-HEADER -->
 <div class="page-header">
 	<div>
@@ -24,8 +53,6 @@
 						<h4 class="m-0" id="typeTitle">All Projects</h4>
 						<div class="d-sm-flex align-items-center">
 							<div class="btn-list mx-4">
-								<a class="btn btn-outline-primary" asp-controller="ProjectsList" asp-action="Create"><i class="fe fe-edit-2 me-2"></i> Create Project</a>
-
 								<a class="btn btn-primary" href="#">
 									<svg xmlns="http://www.w3.org/2000/svg" class="w-inner-icn text-white" enable-background="new 0 0 24 24" viewBox="0 0 24 24"><path d="M21.5,13h-8.0005493C13.2234497,13.0001831,12.9998169,13.223999,13,13.5v8.0005493C13.0001831,21.7765503,13.223999,22.0001831,13.5,22h8.0006104C21.7765503,21.9998169,22.0001831,21.776001,22,21.5v-8.0006104C21.9998169,13.2234497,21.776001,12.9998169,21.5,13z M21,21h-7v-7h7V21z M10.5,2H2.4993896C2.2234497,2.0001831,1.9998169,2.223999,2,2.5v8.0005493C2.0001831,10.7765503,2.223999,11.0001831,2.5,11h8.0006104C10.7765503,10.9998169,11.0001831,10.776001,11,10.5V2.4993896C10.9998169,2.2234497,10.776001,1.9998169,10.5,2z M10,10H3V3h7V10z M10.5,13H2.4993896C2.2234497,13.0001831,1.9998169,13.223999,2,13.5v8.0005493C2.0001831,21.7765503,2.223999,22.0001831,2.5,22h8.0006104C10.7765503,21.9998169,11.0001831,21.776001,11,21.5v-8.0006104C10.9998169,13.2234497,10.776001,12.9998169,10.5,13z M10,21H3v-7h7V21z M21.5,2h-8.0005493C13.2234497,2.0001831,12.9998169,2.223999,13,2.5v8.0005493C13.0001831,10.7765503,13.223999,11.0001831,13.5,11h8.0006104C21.7765503,10.9998169,22.0001831,10.776001,22,10.5V2.4993896C21.9998169,2.2234497,21.776001,1.9998169,21.5,2z M21,10h-7V3h7V10z"/></svg>
 								</a>
@@ -37,574 +64,217 @@
 								<a class="mb-1 mb-xl-0 nav-link border active" data-bs-toggle="tab" href="#allProjects" id="all">
 									All
 								</a>
-								<a class="mb-1 mb-xl-0 nav-link border" data-bs-toggle="tab" href="#progressProjects" id="inProgress">
-									In Progress
-								</a>
-								<a class="mb-1 mb-xl-0 nav-link border" data-bs-toggle="tab" href="#holdProjects" id="onHold">
-									On Hold
-								</a>
-
-								<a class="mb-1 mb-xl-0 nav-link border" data-bs-toggle="tab" href="#completedProjects" id="completed">
-									Completed
-								</a>
 							</nav>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-		<div class="row ">
+
+		@*START FORM FILTER*@
+		<div class="card">
+			<div class="card-header border-0 pt-6">
+				<div class="input-group" id="group">
+					<div class="col-sm-6 col-md-6 col-xl-4">
+						<div class="form-group">
+							<label class="form-label text-muted">Project Name: </label>
+							<input id="ProjectName" type="text" class="form-control form-control-solid" placeholder="Project Name">&nbsp;
+						</div>
+					</div>
+					<div class="col-sm-6 col-md-6 col-xl-4">
+						<div class="form-group">
+							<label class="form-label text-muted">Department: </label>
+							<ul>
+								<li class="select-status">
+									<select class="form-control select2-status-search" data-placeholder="Select Department" id="DepartName">
+										<option value="" selected>All</option>
+										@foreach (var a in dataDepartment)
+										{
+											<option value=@a.DepartmentName>@a.DepartmentName.ToUpper()</option>
+										}
+									</select>
+								</li>
+							</ul>
+						</div>
+					</div>
+					<div class="col-sm-6 col-md-6 col-xl-4">
+						<div class="form-group">
+							<label class="form-label text-muted">Project Status: </label>
+							<ul>
+								<li class="select-status">
+									<select class="form-control select2-status-search" data-placeholder="Select Status" id="Status">
+										<option value="0" selected>All</option>
+										@foreach (var a in dataStatus)
+										{
+											<option value=@a.id>@a.name.ToTitleCase()</option>
+										}
+									</select>
+								</li>
+							</ul>
+						</div>
+					</div>
+					<div class="col-sm-6 col-md-6 col-xl-4">
+						<div class="form-group">
+							<label class="form-label text-muted">Sort by: </label>
+							<ul>
+								<li class="select-status">
+									<select class="form-control select2-status-search" data-placeholder="Select OrderBy" id="OrderBy">
+										<option value="project_id">Project ID</option>
+										<option value="project_name">Project Name</option>
+										<option value="status">Status</option>
+										<option value="created_date">Created Date</option>
+									</select>
+								</li>
+							</ul>
+						</div>
+					</div>
+					<div class="col-sm-6 col-md-6 col-xl-4">
+						<div class="form-group">
+							<label class="form-label text-muted">Ascending or Descending: </label>
+							<ul>
+								<li class="select-status">
+									<select class="form-control select2-status-search" data-placeholder="Select Ascending" id="Ascending">
+										<option value="" selected> A-Z &#8673;</option>
+										<option value="1">Z-A &#8675;</option>
+									</select>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+			<button type="button" style="width:30%;margin-left:2%;margin-bottom:2%;" id="btnSearchProject" class="btn btn-primary" onclick="SearchProject();"> Search</button>
+		</div>
+		@*END FORM FILTER*@
+
+		<div class="row" id="card-project">
 			<div class="tab-content">
 				<div class="tab-pane active h-100" id="allProjects">
 					<div class="row">
 						@**@
-						<div class="col-sm-12 col-md-12 col-lg-12 col-xl-4">
-							<div class="card">
-								<div class="card-body">
-									<div class="row">
-										<div class="col-md-12">
+						@if (dataProject.Any())
+						{
+							foreach (var ProjectData in dataProject.Take(50))
+							{
+								<div class="col-sm-12 col-md-12 col-lg-12 col-xl-4">
+									<div class="card">
+										<div class="card-body">
 											<div class="row">
-												<div class="col">
-													<div class="d-sm-flex align-items-center">
-														<div class="avatar mb-2 p-2 lh-1 mb-sm-0 avatar-md rounded-circle bg-primary me-2">
-															<svg xmlns="http://www.w3.org/2000/svg" class="w-icn text-white" enable-background="new 0 0 24 24" viewBox="0 0 24 24"><path d="M4.2069702,12l5.1464844-5.1464844c0.1871338-0.1937866,0.1871338-0.5009155,0-0.6947021C9.1616211,5.9602051,8.8450928,5.9547119,8.6464844,6.1465454l-5.5,5.5c-0.000061,0-0.0001221,0.000061-0.0001221,0.0001221c-0.1951904,0.1951904-0.1951294,0.5117188,0.0001221,0.7068481l5.5,5.5C8.7401123,17.9474487,8.8673706,18.0001831,9,18c0.1325684,0,0.2597046-0.0526733,0.3533936-0.1464233c0.1953125-0.1952515,0.1953125-0.5118408,0.0001221-0.7070923L4.2069702,12z M20.8534546,11.6465454l-5.5-5.5c-0.1937256-0.1871948-0.5009155-0.1871948-0.6947021,0c-0.1986084,0.1918335-0.2041016,0.5083618-0.0122681,0.7069702L19.7930298,12l-5.1465454,5.1464844c-0.09375,0.09375-0.1464233,0.2208862-0.1464233,0.3534546C14.5,17.776062,14.723877,17.999939,15,18c0.1326294,0.0001221,0.2598267-0.0525513,0.3534546-0.1464844l5.5-5.5c0.000061-0.000061,0.0001221-0.000061,0.0001831-0.0001221C21.0487671,12.1581421,21.0487061,11.8416748,20.8534546,11.6465454z"></path></svg>
-														</div>
-														<div class="ms-1">
-															<h6 class="mb-1"> <a asp-controller="projects-details" asp-action="Index" class="float-start">Web Design</a> <span class="text-muted bg-light fs-11 mx-2">opened yesterday</span> </h6>
-															<span class="text-muted border-end pe-2 fs-11 float-start mt-1">28 tasks</span>
-															<span class="text-teritary ps-1 fs-11">11 Nov 19</span>
-														</div>
-													</div>
-												</div>
-												<div class="col-auto">
-													<div class="d-flex align-items-center">
-														
-														<a href="#" class="option-dots" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fe fe-more-vertical"></i></a>
-														<div class="dropdown-menu dropdown-menu-start">
-															<a class="dropdown-item" asp-controller="projects-edit" asp-action="Index"><i class="fe fe-edit me-2"></i> Edit</a>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-										<div class="col-md-12 mt-4">
-											<div class="row align-items-center">
-												<div class="col">
-													<p class="m-0 mb-2">Members</p>
-													<div class="avatar-list avatar-list-stacked">
-														<span><img src="~/assets/images/users/1.jpg" alt="profile-user" class="avatar bradius cover-image"></span>
-														<span><img src="~/assets/images/users/1.jpg" alt="profile-user" class="avatar bradius cover-image"></span>
-														<span><img src="~/assets/images/users/1.jpg" alt="profile-user" class="avatar bradius cover-image"></span>
-														<span><img src="~/assets/images/users/1.jpg" alt="profile-user" class="avatar bradius cover-image"></span>
-														<span><img src="~/assets/images/users/1.jpg" alt="profile-user" class="avatar bradius cover-image"></span>
-														<span class="avatar bradius bg-primary">+15</span>
-													</div>
-												</div>
-												<div class="col-auto">
-													<p class="mb-0">
-														<span class="text-muted d-block">Due Date</span>
-														<span class="text-danger">11 Nov 21</span>
-													</p>
-												</div>
-											</div>
-										</div>
-										<div class="col-md-12 mt-4">
-											<div class="text-center d-f-ai-c-jc-c">
-												<div class="wp-100">
-													<div class="project-percentage small-bar small-lg">
-														<div class="percentage-title">
-															<span>Progress</span>
-															<span class="progress-main font-weight-semibold text-13 mb-1">45%</span>
-														</div>
-														<div class="progress fileprogress mb-2 h-auto">
-															<div class="progress-bar" role="progressbar"></div>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-sm-12 col-md-12 col-lg-12 col-xl-4">
-							<div class="card">
-								<div class="card-body">
-									<div class="row">
-										<div class="col-md-12">
-											<div class="row">
-												<div class="col">
-													<div class="d-sm-flex align-items-center">
-														<div class="avatar mb-2 p-2 lh-1 mb-sm-0 avatar-md rounded-circle bg-info me-2">
-															<svg xmlns="http://www.w3.org/2000/svg" class="w-icn text-white" enable-background="new 0 0 24 24" viewBox="0 0 24 24"><path d="M22,14.5c-0.0009155-0.828064-0.671936-1.4990845-1.5-1.5h-6c-0.828064,0.0009155-1.4990845,0.671936-1.5,1.5V15H8.5v-4h2.75c1.6182251,0.0029907,3.0551758-1.0343018,3.5617676-2.571228c0.6471558-1.9633179-0.4197998-4.0794678-2.3831177-4.7266235c-0.7163696-1.3944092-2.0479736-2.3696899-3.5935059-2.631958C6.1256714,0.6103516,3.5564575,2.434082,3.0966797,5.1435547C1.8478394,5.5370483,0.9989624,6.6956177,1,8.0049438C1.0014038,9.6604614,2.3445435,11.0013428,4,11h3.5v8.5005493C7.5001831,19.7765503,7.723999,20.0001831,8,20h5v0.5c0.0009155,0.828064,0.671936,1.4990845,1.5,1.5h6c0.828064-0.0009155,1.4990845-0.671936,1.5-1.5v-2c-0.0004272-0.3859863-0.1505127-0.7342529-0.3901367-1c0.239624-0.2657471,0.3897095-0.6140137,0.3901367-1V14.5z M4,10c-0.9650269,0.0012817-1.7929077-0.687561-1.9671631-1.6367188c-0.1991577-1.085022,0.5189209-2.1260376,1.6039429-2.3251953c0.2183228-0.0407715,0.383667-0.220459,0.40625-0.4414062C4.2388306,3.5576172,5.9515381,2.0008545,8,2c1.5571899,0.0071411,2.9694214,0.9152222,3.6220703,2.3291016c0.0628052,0.1350098,0.182312,0.2351074,0.3261719,0.2734375c1.2108765,0.3153076,2.0549316,1.4101562,2.0516968,2.661438C13.9960938,8.7788696,12.7648926,10.0038452,11.25,10H4z M13,18.5V19H8.5v-3H13v0.5c0.0004272,0.3859863,0.1505127,0.7342529,0.3901367,1C13.1505127,17.7657471,13.0004272,18.1140137,13,18.5z M21,20.5c-0.0005493,0.2759399-0.2240601,0.4994507-0.5,0.5h-6c-0.2759399-0.0005493-0.4994507-0.2240601-0.5-0.5v-2c0.0005493-0.2759399,0.2240601-0.4994507,0.5-0.5h6c0.2759399,0.0005493,0.4994507,0.2240601,0.5,0.5V20.5z M21,16.5c-0.0005493,0.2759399-0.2240601,0.4994507-0.5,0.5h-6c-0.2759399-0.0005493-0.4994507-0.2240601-0.5-0.5v-2c0.0005493-0.2759399,0.2240601-0.4994507,0.5-0.5h6c0.2759399,0.0005493,0.4994507,0.2240601,0.5,0.5V16.5z"></path></svg>
-														</div>
-														<div class="ms-1">
-															<h6 class="mb-0 text-normal"> <a asp-controller="ProjectDetails" asp-action="Index" class="float-start">Cloud Computing</a> <span class="text-muted bg-light fs-11  mx-2">opened 1min ago</span> </h6>
-															<span class="text-muted border-end pe-2 fs-11 float-start mt-1">58 tasks</span>
-															<span class="text-teritary ps-1 fs-11">16 Apr 21</span>
-														</div>
-													</div>
-												</div>
-												<div class="col-auto">
-													<div class="d-flex align-items-center">
-														<a href="#" class="option-dots" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fe fe-more-vertical"></i></a>
-														<div class="dropdown-menu dropdown-menu-start">
-															<a class="dropdown-item" href="#"><i class="fe fe-edit me-2"></i> Edit</a>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-										<div class="col-md-12 mt-4">
-											<div class="row align-items-center">
-												<div class="col">
-													<p class="m-0 mb-2">Members</p>
-													<div class="avatar-list">
-														<span class="avatar"><img src="~/assets/images/users/1.jpg" alt="profile-user" class="avatar bradius cover-image"></span>
-														<span class="avatar"><img src="~/assets/images/users/1.jpg" alt="profile-user" class="avatar bradius cover-image"></span>
-														<span class="avatar"><img src="~/assets/images/users/1.jpg" alt="profile-user" class="avatar bradius cover-image"></span>
-														<span class="avatar"><img src="~/assets/images/users/1.jpg" alt="profile-user" class="avatar bradius cover-image"></span>
-													</div>
-												</div>
-												<div class="col-auto">
-													<p class="mb-0">
-														<span class="text-muted d-block">Due Date</span>
-														<span class="text-danger">30 Oct 21</span>
-													</p>
-												</div>
-											</div>
-										</div>
-										<div class="col-md-12 mt-4">
-											<div class="text-center d-f-ai-c-jc-c">
-												<div class="wp-100">
-													<div class="project-percentage large-bar">
-														<div class="percentage-title">
-															<span>Progress</span>
-															<span class="progress-main font-weight-semibold text-13 mb-1">90%</span>
-														</div>
-														<div class="progress fileprogress mb-2 h-auto">
-															<div class="progress-bar" role="progressbar"></div>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						@**@
-					</div>
-				</div>
+												<div class="col-md-12">
+													<div class="row">
+														<div class="col">
+															<div class="d-sm-flex align-items-center">
+																<div class="avatar mb-2 p-2 lh-1 mb-sm-0 avatar-md rounded-circle bg-primary me-2">
+																	<svg xmlns="http://www.w3.org/2000/svg" class="w-icn text-white" enable-background="new 0 0 24 24" viewBox="0 0 24 24"><path d="M4.2069702,12l5.1464844-5.1464844c0.1871338-0.1937866,0.1871338-0.5009155,0-0.6947021C9.1616211,5.9602051,8.8450928,5.9547119,8.6464844,6.1465454l-5.5,5.5c-0.000061,0-0.0001221,0.000061-0.0001221,0.0001221c-0.1951904,0.1951904-0.1951294,0.5117188,0.0001221,0.7068481l5.5,5.5C8.7401123,17.9474487,8.8673706,18.0001831,9,18c0.1325684,0,0.2597046-0.0526733,0.3533936-0.1464233c0.1953125-0.1952515,0.1953125-0.5118408,0.0001221-0.7070923L4.2069702,12z M20.8534546,11.6465454l-5.5-5.5c-0.1937256-0.1871948-0.5009155-0.1871948-0.6947021,0c-0.1986084,0.1918335-0.2041016,0.5083618-0.0122681,0.7069702L19.7930298,12l-5.1465454,5.1464844c-0.09375,0.09375-0.1464233,0.2208862-0.1464233,0.3534546C14.5,17.776062,14.723877,17.999939,15,18c0.1326294,0.0001221,0.2598267-0.0525513,0.3534546-0.1464844l5.5-5.5c0.000061-0.000061,0.0001221-0.000061,0.0001831-0.0001221C21.0487671,12.1581421,21.0487061,11.8416748,20.8534546,11.6465454z"></path></svg>
+																</div>
+																<div class="ms-1">
+																	<h6 class="mb-1" id="title"> @ProjectData.ProjectName.ToUpper()
+																		@if (@ProjectData.Status == Convert.ToInt16(Level.NotStarted))
+																		{
+																			<span class="mb-0 mt-1 badge rounded-pill text-default bg-warning-transparent fs-11 mx-2">Not Started</span>
+																		}
+																		@if (@ProjectData.Status == Convert.ToInt16(Level.WorkInprogress))
+																		{
+																			<span class="mb-0 mt-1 badge rounded-pill text-info bg-info-transparent fs-11 mx-2">Work Inprogress</span>
+																		}
+																		@if (@ProjectData.Status == Convert.ToInt16(Level.Done))
+																		{
+																			<span class="mb-0 mt-1 badge rounded-pill bg-primary-transparent text-primary fs-11 mx-2">Done</span>
+																		}
+																		@if (@ProjectData.Status == Convert.ToInt16(Level.Block))
+																		{
+																			<span class="mb-0 mt-1 badge rounded-pill text-default bg-danger-transparent fs-11 mx-2">Block</span>
+																		}</h6>
 
+																	<span class="text-muted border-end pe-2 fs-11 float-start mt-1">
+																		@if (dataTaskTotal.Any())
+																		{
+																			foreach (var b in dataTaskTotal.Where(x=>x.ProjectId == ProjectData.ProjectId))
+																			{
+																				@b.TotalTask
+																			}
+																			
+																		}
+																		Tasks
+																	</span>
+																	<span class="text-teritary ps-1 fs-11">@ProjectData.CreatedDate</span>
+																</div>
+															</div>
+														</div>
+														<div class="col-auto">
+															<div class="d-flex align-items-stretch">
+																<a id="dlt" class="btn btn-sm btn-outline-secondary border me-2" data-bs-toggle="tooltip" data-bs-original-title="Delete" onclick="PopupModalProject('@ProjectData.ProjectId', '@ProjectData.ProjectName');">
+																	<svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 0 24 24" width="16"><path d="M0 0h24v24H0V0z" fill="none" /><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM8 9h8v10H8V9zm7.5-5l-1-1h-5l-1 1H5v2h14V4h-3.5z" /></svg>
+																</a>
+																<a href="#" class="border br-5 px-2 py-1 text-muted d-flex align-items-center" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fe fe-more-vertical"></i></a>
+																<div class="dropdown-menu dropdown-menu-start">
+																	<a id="ed" class="dropdown-item" asp-controller="ProjectsList" asp-action="Edit" asp-route-ProjectId="@ProjectData.AesProj"><i class="fe fe-edit-2 me-2"></i> Edit Metadata</a>
+																	<a id="ed" class="dropdown-item" asp-controller="ProjectsList" asp-action="EditContent" asp-route-ProjectId="@ProjectData.AesProj"><i class="fe fe-edit-2 me-2"></i> Edit Content</a>
+																	<a id="dt" class="dropdown-item" asp-controller="ProjectsList" asp-action="Detail" asp-route-ProjectId="@ProjectData.AesProj"><i class="fe fe-info me-2"></i> Detail</a>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
 
-				<div class="tab-pane" id="progressProjects">
-					<div class="row">
-						<div class="col-sm-12 col-md-12 col-lg-12 col-xl-4">
-							<div class="card">
-								<div class="card-body">
-									<div class="row">
-										<div class="col-md-12">
-											<div class="row">
-												<div class="col">
-													<div class="d-sm-flex align-items-center">
-														<div class="avatar mb-2 p-2 lh-1 mb-sm-0 avatar-md rounded-circle bg-primary me-2">
-															<svg xmlns="http://www.w3.org/2000/svg" class="w-icn text-white" enable-background="new 0 0 24 24" viewBox="0 0 24 24"><path d="M4.2069702,12l5.1464844-5.1464844c0.1871338-0.1937866,0.1871338-0.5009155,0-0.6947021C9.1616211,5.9602051,8.8450928,5.9547119,8.6464844,6.1465454l-5.5,5.5c-0.000061,0-0.0001221,0.000061-0.0001221,0.0001221c-0.1951904,0.1951904-0.1951294,0.5117188,0.0001221,0.7068481l5.5,5.5C8.7401123,17.9474487,8.8673706,18.0001831,9,18c0.1325684,0,0.2597046-0.0526733,0.3533936-0.1464233c0.1953125-0.1952515,0.1953125-0.5118408,0.0001221-0.7070923L4.2069702,12z M20.8534546,11.6465454l-5.5-5.5c-0.1937256-0.1871948-0.5009155-0.1871948-0.6947021,0c-0.1986084,0.1918335-0.2041016,0.5083618-0.0122681,0.7069702L19.7930298,12l-5.1465454,5.1464844c-0.09375,0.09375-0.1464233,0.2208862-0.1464233,0.3534546C14.5,17.776062,14.723877,17.999939,15,18c0.1326294,0.0001221,0.2598267-0.0525513,0.3534546-0.1464844l5.5-5.5c0.000061-0.000061,0.0001221-0.000061,0.0001831-0.0001221C21.0487671,12.1581421,21.0487061,11.8416748,20.8534546,11.6465454z"></path></svg>
+												<div class="col-md-12 mt-4">
+													<div class="row align-items-center">
+														<div class="col">
+															<p class="m-0 mb-2">Members</p>
+															<div class="avatar-list avatar-list-stacked">
+																@if (ProjectData.AssignTo.Any())
+																{
+																	if (ProjectData.AssignTo.Count() >= 1)
+																	{
+																		foreach (var MemberProject in ProjectData.AssignTo.Take(1).ToList())
+																		{
+																			<span><img src="~/assets/images/users/bi-logo.jpg" title="@MemberProject.Name" alt="profile-user" class="avatar bradius cover-image"></span>
+																		}
+																		<span class="avatar bradius bg-primary">+@ProjectData.AssignTo.Count()</span>
+																	}
+																}
+															</div>
 														</div>
-														<div class="ms-1">
-															<h6 class="mb-1"> <a asp-controller="ProjectDetails" asp-action="Index" class="float-start">Web Design</a> <span class="text-muted bg-light fs-11 mx-2">opened yesterday</span> </h6>
-															<span class="text-muted border-end pe-2 fs-11 float-start mt-1">28 tasks</span>
-															<span class="text-teritary ps-1 fs-11">11 Nov 19</span>
-														</div>
-													</div>
-												</div>
-												<div class="col-auto">
-													<div class="d-flex align-items-center">
-														<a href="#" class="option-dots" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fe fe-more-vertical"></i></a>
-														<div class="dropdown-menu dropdown-menu-start">
-															<a class="dropdown-item" href="#"><i class="fe fe-edit me-2"></i> Edit</a>
+														<div class="col-auto">
+															<p class="mb-0">
+																<span class="text-muted d-block">Due Date</span>
+																<span class="text-danger">@ProjectData.EndDate</span>
+															</p>
 														</div>
 													</div>
 												</div>
-											</div>
-										</div>
-										<div class="col-md-12 mt-4">
-											<div class="row align-items-center">
-												<div class="col">
-													<p class="m-0 mb-2">Members</p>
-													<div class="avatar-list avatar-list-stacked">
-														<span><img src="~/assets/images/users/1.jpg" alt="profile-user" class="avatar bradius cover-image"></span>
-														<span><img src="~/assets/images/users/1.jpg" alt="profile-user" class="avatar bradius cover-image"></span>
-														<span><img src="~/assets/images/users/1.jpg" alt="profile-user" class="avatar bradius cover-image"></span>
-														<span class="avatar bradius bg-primary">+15</span>
-													</div>
-												</div>
-												<div class="col-auto">
-													<p class="mb-0">
-														<span class="text-muted d-block">Due Date</span>
-														<span class="text-danger">11 Nov 21</span>
-													</p>
-												</div>
-											</div>
-										</div>
-										<div class="col-md-12 mt-4">
-											<div class="text-center d-f-ai-c-jc-c">
-												<div class="wp-100">
-													<div class="project-percentage small-bar small-lg">
-														<div class="percentage-title">
-															<span>Progress</span>
-															<span class="progress-main font-weight-semibold text-13 mb-1">45%</span>
-														</div>
-														<div class="progress fileprogress mb-2 h-auto">
-															<div class="progress-bar" role="progressbar"></div>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-sm-12 col-md-12 col-lg-12 col-xl-4">
-							<div class="card">
-								<div class="card-body">
-									<div class="row">
-										<div class="col-md-12">
-											<div class="row">
-												<div class="col">
-													<div class="d-sm-flex align-items-center">
-														<div class="avatar mb-2 p-2 lh-1 mb-sm-0 avatar-md rounded-circle bg-info me-2">
-															<svg xmlns="http://www.w3.org/2000/svg" class="w-icn text-white" enable-background="new 0 0 24 24" viewBox="0 0 24 24"><path d="M22,14.5c-0.0009155-0.828064-0.671936-1.4990845-1.5-1.5h-6c-0.828064,0.0009155-1.4990845,0.671936-1.5,1.5V15H8.5v-4h2.75c1.6182251,0.0029907,3.0551758-1.0343018,3.5617676-2.571228c0.6471558-1.9633179-0.4197998-4.0794678-2.3831177-4.7266235c-0.7163696-1.3944092-2.0479736-2.3696899-3.5935059-2.631958C6.1256714,0.6103516,3.5564575,2.434082,3.0966797,5.1435547C1.8478394,5.5370483,0.9989624,6.6956177,1,8.0049438C1.0014038,9.6604614,2.3445435,11.0013428,4,11h3.5v8.5005493C7.5001831,19.7765503,7.723999,20.0001831,8,20h5v0.5c0.0009155,0.828064,0.671936,1.4990845,1.5,1.5h6c0.828064-0.0009155,1.4990845-0.671936,1.5-1.5v-2c-0.0004272-0.3859863-0.1505127-0.7342529-0.3901367-1c0.239624-0.2657471,0.3897095-0.6140137,0.3901367-1V14.5z M4,10c-0.9650269,0.0012817-1.7929077-0.687561-1.9671631-1.6367188c-0.1991577-1.085022,0.5189209-2.1260376,1.6039429-2.3251953c0.2183228-0.0407715,0.383667-0.220459,0.40625-0.4414062C4.2388306,3.5576172,5.9515381,2.0008545,8,2c1.5571899,0.0071411,2.9694214,0.9152222,3.6220703,2.3291016c0.0628052,0.1350098,0.182312,0.2351074,0.3261719,0.2734375c1.2108765,0.3153076,2.0549316,1.4101562,2.0516968,2.661438C13.9960938,8.7788696,12.7648926,10.0038452,11.25,10H4z M13,18.5V19H8.5v-3H13v0.5c0.0004272,0.3859863,0.1505127,0.7342529,0.3901367,1C13.1505127,17.7657471,13.0004272,18.1140137,13,18.5z M21,20.5c-0.0005493,0.2759399-0.2240601,0.4994507-0.5,0.5h-6c-0.2759399-0.0005493-0.4994507-0.2240601-0.5-0.5v-2c0.0005493-0.2759399,0.2240601-0.4994507,0.5-0.5h6c0.2759399,0.0005493,0.4994507,0.2240601,0.5,0.5V20.5z M21,16.5c-0.0005493,0.2759399-0.2240601,0.4994507-0.5,0.5h-6c-0.2759399-0.0005493-0.4994507-0.2240601-0.5-0.5v-2c0.0005493-0.2759399,0.2240601-0.4994507,0.5-0.5h6c0.2759399,0.0005493,0.4994507,0.2240601,0.5,0.5V16.5z"></path></svg>
-														</div>
-														<div class="ms-1">
-															<h6 class="mb-0 text-normal"> <a asp-controller="ProjectDetails" asp-action="Index" class="float-start">Cloud Computing</a> <span class="text-muted bg-light fs-11  mx-2">opened 1min ago</span> </h6>
-															<span class="text-muted border-end pe-2 fs-11 float-start mt-1">58 tasks</span>
-															<span class="text-teritary ps-1 fs-11">16 Apr 21</span>
-														</div>
-													</div>
-												</div>
-												<div class="col-auto">
-													<div class="d-flex align-items-center">
-														<a href="#" class="option-dots" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fe fe-more-vertical"></i></a>
-														<div class="dropdown-menu dropdown-menu-start">
-															<a class="dropdown-item" href="#"><i class="fe fe-edit me-2"></i> Edit</a>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-										<div class="col-md-12 mt-4">
-											<div class="row align-items-center">
-												<div class="col">
-													<p class="m-0 mb-2">Members</p>
-													<div class="avatar-list">
-														<span class="avatar"><img src="~/assets/images/users/1.jpg" alt="profile-user" class="avatar bradius cover-image"></span>
-														<span class="avatar"><img src="~/assets/images/users/1.jpg" alt="profile-user" class="avatar bradius cover-image"></span>
-														<span class="avatar"><img src="~/assets/images/users/1.jpg" alt="profile-user" class="avatar bradius cover-image"></span>
-														<span class="avatar"><img src="~/assets/images/users/1.jpg" alt="profile-user" class="avatar bradius cover-image"></span>
-													</div>
-												</div>
-												<div class="col-auto">
-													<p class="mb-0">
-														<span class="text-muted d-block">Due Date</span>
-														<span class="text-danger">30 Oct 21</span>
-													</p>
-												</div>
-											</div>
-										</div>
-										<div class="col-md-12 mt-4">
-											<div class="text-center d-f-ai-c-jc-c">
-												<div class="wp-100">
-													<div class="project-percentage large-bar">
-														<div class="percentage-title">
-															<span>Progress</span>
-															<span class="progress-main font-weight-semibold text-13 mb-1">90%</span>
-														</div>
-														<div class="progress fileprogress mb-2 h-auto">
-															<div class="progress-bar" role="progressbar"></div>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<div class="tab-pane" id="holdProjects">
-					<div class="row">
-						<div class="col-sm-12 col-md-12 col-lg-12 col-xl-4">
-							<div class="card">
-								<div class="card-body">
-									<div class="row">
-										<div class="col-md-12">
-											<div class="row">
-												<div class="col">
-													<div class="d-sm-flex align-items-center">
-														<div class="avatar mb-2 p-2 lh-1 mb-sm-0 avatar-md rounded-circle bg-primary me-2">
-															<svg xmlns="http://www.w3.org/2000/svg" class="w-icn text-white" enable-background="new 0 0 24 24" viewBox="0 0 24 24"><path d="M4.2069702,12l5.1464844-5.1464844c0.1871338-0.1937866,0.1871338-0.5009155,0-0.6947021C9.1616211,5.9602051,8.8450928,5.9547119,8.6464844,6.1465454l-5.5,5.5c-0.000061,0-0.0001221,0.000061-0.0001221,0.0001221c-0.1951904,0.1951904-0.1951294,0.5117188,0.0001221,0.7068481l5.5,5.5C8.7401123,17.9474487,8.8673706,18.0001831,9,18c0.1325684,0,0.2597046-0.0526733,0.3533936-0.1464233c0.1953125-0.1952515,0.1953125-0.5118408,0.0001221-0.7070923L4.2069702,12z M20.8534546,11.6465454l-5.5-5.5c-0.1937256-0.1871948-0.5009155-0.1871948-0.6947021,0c-0.1986084,0.1918335-0.2041016,0.5083618-0.0122681,0.7069702L19.7930298,12l-5.1465454,5.1464844c-0.09375,0.09375-0.1464233,0.2208862-0.1464233,0.3534546C14.5,17.776062,14.723877,17.999939,15,18c0.1326294,0.0001221,0.2598267-0.0525513,0.3534546-0.1464844l5.5-5.5c0.000061-0.000061,0.0001221-0.000061,0.0001831-0.0001221C21.0487671,12.1581421,21.0487061,11.8416748,20.8534546,11.6465454z"></path></svg>
-														</div>
-														<div class="ms-1">
-															<h6 class="mb-1"> <a asp-controller="ProjectDetails" asp-action="Index" class="float-start">Web Design</a> <span class="text-muted bg-light fs-11 mx-2">opened yesterday</span> </h6>
-															<span class="text-muted border-end pe-2 fs-11 float-start mt-1">28 tasks</span>
-															<span class="text-teritary ps-1 fs-11">11 Nov 19</span>
-														</div>
-													</div>
-												</div>
-												<div class="col-auto">
-													<div class="d-flex align-items-center">
-														<a href="#" class="option-dots" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fe fe-more-vertical"></i></a>
-														<div class="dropdown-menu dropdown-menu-start">
-															<a class="dropdown-item" href="#"><i class="fe fe-edit me-2"></i> Edit</a>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-										<div class="col-md-12 mt-4">
-											<div class="row align-items-center">
-												<div class="col">
-													<p class="m-0 mb-2">Members</p>
-													<div class="avatar-list avatar-list-stacked">
-														<span><img src="~/assets/images/users/1.jpg" alt="profile-user" class="avatar bradius cover-image"></span>
-														<span><img src="~/assets/images/users/1.jpg" alt="profile-user" class="avatar bradius cover-image"></span>
-														<span><img src="~/assets/images/users/1.jpg" alt="profile-user" class="avatar bradius cover-image"></span>
-					
-														<span class="avatar bradius bg-primary">+15</span>
-													</div>
-												</div>
-												<div class="col-auto">
-													<p class="mb-0">
-														<span class="text-muted d-block">Due Date</span>
-														<span class="text-danger">11 Nov 21</span>
-													</p>
-												</div>
-											</div>
-										</div>
-										<div class="col-md-12 mt-4">
-											<div class="text-center d-f-ai-c-jc-c">
-												<div class="wp-100">
-													<div class="project-percentage small-bar small-lg">
-														<div class="percentage-title">
-															<span>Progress</span>
-															<span class="progress-main font-weight-semibold text-13 mb-1">45%</span>
-														</div>
-														<div class="progress fileprogress mb-2 h-auto">
-															<div class="progress-bar" role="progressbar"></div>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-sm-12 col-md-12 col-lg-12 col-xl-4">
-							<div class="card">
-								<div class="card-body">
-									<div class="row">
-										<div class="col-md-12">
-											<div class="row">
-												<div class="col">
-													<div class="d-sm-flex align-items-center">
-														<div class="avatar mb-2 p-2 lh-1 mb-sm-0 avatar-md rounded-circle bg-info me-2">
-															<svg xmlns="http://www.w3.org/2000/svg" class="w-icn text-white" enable-background="new 0 0 24 24" viewBox="0 0 24 24"><path d="M22,14.5c-0.0009155-0.828064-0.671936-1.4990845-1.5-1.5h-6c-0.828064,0.0009155-1.4990845,0.671936-1.5,1.5V15H8.5v-4h2.75c1.6182251,0.0029907,3.0551758-1.0343018,3.5617676-2.571228c0.6471558-1.9633179-0.4197998-4.0794678-2.3831177-4.7266235c-0.7163696-1.3944092-2.0479736-2.3696899-3.5935059-2.631958C6.1256714,0.6103516,3.5564575,2.434082,3.0966797,5.1435547C1.8478394,5.5370483,0.9989624,6.6956177,1,8.0049438C1.0014038,9.6604614,2.3445435,11.0013428,4,11h3.5v8.5005493C7.5001831,19.7765503,7.723999,20.0001831,8,20h5v0.5c0.0009155,0.828064,0.671936,1.4990845,1.5,1.5h6c0.828064-0.0009155,1.4990845-0.671936,1.5-1.5v-2c-0.0004272-0.3859863-0.1505127-0.7342529-0.3901367-1c0.239624-0.2657471,0.3897095-0.6140137,0.3901367-1V14.5z M4,10c-0.9650269,0.0012817-1.7929077-0.687561-1.9671631-1.6367188c-0.1991577-1.085022,0.5189209-2.1260376,1.6039429-2.3251953c0.2183228-0.0407715,0.383667-0.220459,0.40625-0.4414062C4.2388306,3.5576172,5.9515381,2.0008545,8,2c1.5571899,0.0071411,2.9694214,0.9152222,3.6220703,2.3291016c0.0628052,0.1350098,0.182312,0.2351074,0.3261719,0.2734375c1.2108765,0.3153076,2.0549316,1.4101562,2.0516968,2.661438C13.9960938,8.7788696,12.7648926,10.0038452,11.25,10H4z M13,18.5V19H8.5v-3H13v0.5c0.0004272,0.3859863,0.1505127,0.7342529,0.3901367,1C13.1505127,17.7657471,13.0004272,18.1140137,13,18.5z M21,20.5c-0.0005493,0.2759399-0.2240601,0.4994507-0.5,0.5h-6c-0.2759399-0.0005493-0.4994507-0.2240601-0.5-0.5v-2c0.0005493-0.2759399,0.2240601-0.4994507,0.5-0.5h6c0.2759399,0.0005493,0.4994507,0.2240601,0.5,0.5V20.5z M21,16.5c-0.0005493,0.2759399-0.2240601,0.4994507-0.5,0.5h-6c-0.2759399-0.0005493-0.4994507-0.2240601-0.5-0.5v-2c0.0005493-0.2759399,0.2240601-0.4994507,0.5-0.5h6c0.2759399,0.0005493,0.4994507,0.2240601,0.5,0.5V16.5z"></path></svg>
-														</div>
-														<div class="ms-1">
-															<h6 class="mb-0 text-normal"> <a asp-controller="ProjectDetails" asp-action="Index" class="float-start">Cloud Computing</a> <span class="text-muted bg-light fs-11  mx-2">opened 1min ago</span> </h6>
-															<span class="text-muted border-end pe-2 fs-11 float-start mt-1">58 tasks</span>
-															<span class="text-teritary ps-1 fs-11">16 Apr 21</span>
-														</div>
-													</div>
-												</div>
-												<div class="col-auto">
-													<div class="d-flex align-items-center">
-														<a href="#" class="option-dots" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fe fe-more-vertical"></i></a>
-														<div class="dropdown-menu dropdown-menu-start">
-															<a class="dropdown-item" href="#"><i class="fe fe-edit me-2"></i> Edit</a>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-										<div class="col-md-12 mt-4">
-											<div class="row align-items-center">
-												<div class="col">
-													<p class="m-0 mb-2">Members</p>
-													<div class="avatar-list">
-														<span class="avatar"><img src="~/assets/images/users/1.jpg" alt="profile-user" class="avatar bradius cover-image"></span>
-														<span class="avatar"><img src="~/assets/images/users/1.jpg" alt="profile-user" class="avatar bradius cover-image"></span>
-														<span class="avatar"><img src="~/assets/images/users/1.jpg" alt="profile-user" class="avatar bradius cover-image"></span>
-													</div>
-												</div>
-												<div class="col-auto">
-													<p class="mb-0">
-														<span class="text-muted d-block">Due Date</span>
-														<span class="text-danger">30 Oct 21</span>
-													</p>
-												</div>
-											</div>
-										</div>
-										<div class="col-md-12 mt-4">
-											<div class="text-center d-f-ai-c-jc-c">
-												<div class="wp-100">
-													<div class="project-percentage large-bar">
-														<div class="percentage-title">
-															<span>Progress</span>
-															<span class="progress-main font-weight-semibold text-13 mb-1">90%</span>
-														</div>
-														<div class="progress fileprogress mb-2 h-auto">
-															<div class="progress-bar" role="progressbar"></div>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<div class="tab-pane" id="completedProjects">
-					<div class="row">
-						<div class="col-sm-12 col-md-12 col-lg-12 col-xl-4">
-							<div class="card">
-								<div class="card-body">
-									<div class="row">
-										<div class="col-md-12">
-											<div class="row">
-												<div class="col">
-													<div class="d-sm-flex align-items-center">
-														<div class="avatar mb-2 p-2 lh-1 mb-sm-0 avatar-md rounded-circle bg-primary me-2">
-															<svg xmlns="http://www.w3.org/2000/svg" class="w-icn text-white" enable-background="new 0 0 24 24" viewBox="0 0 24 24"><path d="M4.2069702,12l5.1464844-5.1464844c0.1871338-0.1937866,0.1871338-0.5009155,0-0.6947021C9.1616211,5.9602051,8.8450928,5.9547119,8.6464844,6.1465454l-5.5,5.5c-0.000061,0-0.0001221,0.000061-0.0001221,0.0001221c-0.1951904,0.1951904-0.1951294,0.5117188,0.0001221,0.7068481l5.5,5.5C8.7401123,17.9474487,8.8673706,18.0001831,9,18c0.1325684,0,0.2597046-0.0526733,0.3533936-0.1464233c0.1953125-0.1952515,0.1953125-0.5118408,0.0001221-0.7070923L4.2069702,12z M20.8534546,11.6465454l-5.5-5.5c-0.1937256-0.1871948-0.5009155-0.1871948-0.6947021,0c-0.1986084,0.1918335-0.2041016,0.5083618-0.0122681,0.7069702L19.7930298,12l-5.1465454,5.1464844c-0.09375,0.09375-0.1464233,0.2208862-0.1464233,0.3534546C14.5,17.776062,14.723877,17.999939,15,18c0.1326294,0.0001221,0.2598267-0.0525513,0.3534546-0.1464844l5.5-5.5c0.000061-0.000061,0.0001221-0.000061,0.0001831-0.0001221C21.0487671,12.1581421,21.0487061,11.8416748,20.8534546,11.6465454z"></path></svg>
-														</div>
-														<div class="ms-1">
-															<h6 class="mb-1"> <a asp-controller="ProjectDetails" asp-action="Index" class="float-start">Web Design</a> <span class="text-muted bg-light fs-11 mx-2">opened yesterday</span> </h6>
-															<span class="text-muted border-end pe-2 fs-11 float-start mt-1">28 tasks</span>
-															<span class="text-teritary ps-1 fs-11">11 Nov 19</span>
-														</div>
-													</div>
-												</div>
-												<div class="col-auto">
-													<div class="d-flex align-items-center">
-														<a href="#" class="option-dots" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fe fe-more-vertical"></i></a>
-														<div class="dropdown-menu dropdown-menu-start">
-															<a class="dropdown-item" href="#"><i class="fe fe-edit me-2"></i> Edit</a>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-										<div class="col-md-12 mt-4">
-											<div class="row align-items-center">
-												<div class="col">
-													<p class="m-0 mb-2">Members</p>
-													<div class="avatar-list avatar-list-stacked">
-														<span><img src="~/assets/images/users/1.jpg" alt="profile-user" class="avatar bradius cover-image"></span>
-														<span><img src="~/assets/images/users/1.jpg" alt="profile-user" class="avatar bradius cover-image"></span>
-														<span><img src="~/assets/images/users/1.jpg" alt="profile-user" class="avatar bradius cover-image"></span>
 												
-														<span class="avatar bradius bg-primary">+15</span>
-													</div>
-												</div>
-												<div class="col-auto">
-													<p class="mb-0">
-														<span class="text-muted d-block">Due Date</span>
-														<span class="text-danger">11 Nov 21</span>
-													</p>
-												</div>
-											</div>
-										</div>
-										<div class="col-md-12 mt-4">
-											<div class="text-center d-f-ai-c-jc-c">
-												<div class="wp-100">
-													<div class="project-percentage small-bar small-lg">
-														<div class="percentage-title">
-															<span>Progress</span>
-															<span class="progress-main font-weight-semibold text-13 mb-1">45%</span>
-														</div>
-														<div class="progress fileprogress mb-2 h-auto">
-															<div class="progress-bar" role="progressbar"></div>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-sm-12 col-md-12 col-lg-12 col-xl-4">
-							<div class="card">
-								<div class="card-body">
-									<div class="row">
-										<div class="col-md-12">
-											<div class="row">
-												<div class="col">
-													<div class="d-sm-flex align-items-center">
-														<div class="avatar mb-2 p-2 lh-1 mb-sm-0 avatar-md rounded-circle bg-info me-2">
-															<svg xmlns="http://www.w3.org/2000/svg" class="w-icn text-white" enable-background="new 0 0 24 24" viewBox="0 0 24 24"><path d="M22,14.5c-0.0009155-0.828064-0.671936-1.4990845-1.5-1.5h-6c-0.828064,0.0009155-1.4990845,0.671936-1.5,1.5V15H8.5v-4h2.75c1.6182251,0.0029907,3.0551758-1.0343018,3.5617676-2.571228c0.6471558-1.9633179-0.4197998-4.0794678-2.3831177-4.7266235c-0.7163696-1.3944092-2.0479736-2.3696899-3.5935059-2.631958C6.1256714,0.6103516,3.5564575,2.434082,3.0966797,5.1435547C1.8478394,5.5370483,0.9989624,6.6956177,1,8.0049438C1.0014038,9.6604614,2.3445435,11.0013428,4,11h3.5v8.5005493C7.5001831,19.7765503,7.723999,20.0001831,8,20h5v0.5c0.0009155,0.828064,0.671936,1.4990845,1.5,1.5h6c0.828064-0.0009155,1.4990845-0.671936,1.5-1.5v-2c-0.0004272-0.3859863-0.1505127-0.7342529-0.3901367-1c0.239624-0.2657471,0.3897095-0.6140137,0.3901367-1V14.5z M4,10c-0.9650269,0.0012817-1.7929077-0.687561-1.9671631-1.6367188c-0.1991577-1.085022,0.5189209-2.1260376,1.6039429-2.3251953c0.2183228-0.0407715,0.383667-0.220459,0.40625-0.4414062C4.2388306,3.5576172,5.9515381,2.0008545,8,2c1.5571899,0.0071411,2.9694214,0.9152222,3.6220703,2.3291016c0.0628052,0.1350098,0.182312,0.2351074,0.3261719,0.2734375c1.2108765,0.3153076,2.0549316,1.4101562,2.0516968,2.661438C13.9960938,8.7788696,12.7648926,10.0038452,11.25,10H4z M13,18.5V19H8.5v-3H13v0.5c0.0004272,0.3859863,0.1505127,0.7342529,0.3901367,1C13.1505127,17.7657471,13.0004272,18.1140137,13,18.5z M21,20.5c-0.0005493,0.2759399-0.2240601,0.4994507-0.5,0.5h-6c-0.2759399-0.0005493-0.4994507-0.2240601-0.5-0.5v-2c0.0005493-0.2759399,0.2240601-0.4994507,0.5-0.5h6c0.2759399,0.0005493,0.4994507,0.2240601,0.5,0.5V20.5z M21,16.5c-0.0005493,0.2759399-0.2240601,0.4994507-0.5,0.5h-6c-0.2759399-0.0005493-0.4994507-0.2240601-0.5-0.5v-2c0.0005493-0.2759399,0.2240601-0.4994507,0.5-0.5h6c0.2759399,0.0005493,0.4994507,0.2240601,0.5,0.5V16.5z"></path></svg>
-														</div>
-														<div class="ms-1">
-															<h6 class="mb-0 text-normal"> <a asp-controller="ProjectDetails" asp-action="Index" class="float-start">Cloud Computing</a> <span class="text-muted bg-light fs-11  mx-2">opened 1min ago</span> </h6>
-															<span class="text-muted border-end pe-2 fs-11 float-start mt-1">58 tasks</span>
-															<span class="text-teritary ps-1 fs-11">16 Apr 21</span>
+												<div class="col-md-12 mt-4">
+													<div class="text-center d-f-ai-c-jc-c">
+														<div class="wp-100">
+															<div class="project-percentage small-bar small-lg">
+																<div class="percentage-title">
+																	<span>Progress</span>
+																	@foreach (var b in dataTaskTotal.Where(x => x.ProjectId == ProjectData.ProjectId))
+																	{
+																	c = 100 * b.TotalDone / b.TotalTask;
+																	<span class="progress-main font-weight-semibold text-13 mb-1">@c%</span>
+																	}
+																</div>
+																<div class="progress fileprogress mb-2 h-auto">
+																	@foreach (var b in dataTaskTotal.Where(x => x.ProjectId == ProjectData.ProjectId))
+																	{
+																	c = 100 * b.TotalDone / b.TotalTask;
+																	<div class="progress-bar" role="progressbar" style="width:@c%"></div>
+																	}
+																</div>
+															</div>
 														</div>
 													</div>
 												</div>
-												<div class="col-auto">
-													<div class="d-flex align-items-center">
-														<a href="#" class="option-dots" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fe fe-more-vertical"></i></a>
-														<div class="dropdown-menu dropdown-menu-start">
-															<a class="dropdown-item" href="#"><i class="fe fe-edit me-2"></i> Edit</a>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-										<div class="col-md-12 mt-4">
-											<div class="row align-items-center">
-												<div class="col">
-													<p class="m-0 mb-2">Members</p>
-													<div class="avatar-list">
-														<span class="avatar"><img src="~/assets/images/users/1.jpg" alt="profile-user" class="avatar bradius cover-image"></span>
-														<span class="avatar"><img src="~/assets/images/users/1.jpg" alt="profile-user" class="avatar bradius cover-image"></span>
-													</div>
-												</div>
-												<div class="col-auto">
-													<p class="mb-0">
-														<span class="text-muted d-block">Due Date</span>
-														<span class="text-danger">30 Oct 21</span>
-													</p>
-												</div>
-											</div>
-										</div>
-										<div class="col-md-12 mt-4">
-											<div class="text-center d-f-ai-c-jc-c">
-												<div class="wp-100">
-													<div class="project-percentage large-bar">
-														<div class="percentage-title">
-															<span>Progress</span>
-															<span class="progress-main font-weight-semibold text-13 mb-1">90%</span>
-														</div>
-														<div class="progress fileprogress mb-2 h-auto">
-															<div class="progress-bar" role="progressbar"></div>
-														</div>
-													</div>
-												</div>
+
 											</div>
 										</div>
 									</div>
 								</div>
-							</div>
-						</div>
+							}
+						}
+						@**@
 					</div>
 				</div>
 
@@ -612,8 +282,12 @@
 		</div>
 	</div>
 </div>
+
+<partial name="~/Views/ProjectsList/_modal_delete.cshtml" />
+
 <!--ROW CLOSED-->
 @section scripts {
 			<!-- PROJECT JS-->
-			<script src="~/assets/js/project/projects.js"></script>
+			<script src="~/assets/js/project/projects-card.js"></script>
+			<script src="~/assets/js/project/project-delete.js"></script>
 }

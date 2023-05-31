@@ -100,7 +100,7 @@ namespace DigiProj.Controllers
 
         [HttpGet]
         [Route("/project/projects-edit")]
-		public async Task<IActionResult> Edit([FromQuery] string ProjectId, CancellationToken cancellationToken)
+		public IActionResult Edit([FromQuery] string ProjectId, CancellationToken cancellationToken)
 		{
 			ViewBag.Title = "Edit Project";
             ViewBag.ID = Encryption.Decrypt(ProjectId);
@@ -108,7 +108,7 @@ namespace DigiProj.Controllers
 		}
 		[HttpGet]
 		[Route("/project/projects-edit-content")]
-		public async Task<IActionResult> EditContent([FromQuery] string ProjectId, CancellationToken cancellationToken)
+		public IActionResult EditContent([FromQuery] string ProjectId, CancellationToken cancellationToken)
 		{
 			ViewBag.Title = "Edit Content";
 			ViewBag.ID = Encryption.Decrypt(ProjectId);
@@ -116,7 +116,7 @@ namespace DigiProj.Controllers
 		}
 		[HttpGet]
         [Route("/project/projects-detail")]
-        public async Task<IActionResult> Detail([FromQuery] string ProjectId, CancellationToken cancellationToken)
+        public IActionResult Detail([FromQuery] string ProjectId, CancellationToken cancellationToken)
         {
             ViewBag.Title = "Detail Project";
             ViewBag.ID = Encryption.Decrypt(ProjectId);

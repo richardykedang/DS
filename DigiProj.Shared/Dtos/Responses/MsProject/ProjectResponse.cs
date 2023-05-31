@@ -4,6 +4,7 @@ using DigiProj.Shared.Dtos.Responses.MsTask;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -33,7 +34,9 @@ namespace DigiProj.Shared.Dtos.Responses.MsProject
 		public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public string CreatedBy { get; set; }
-        public int MemberTotal { get; set; }
+		public int TotalTask { get; set; }
+		public int TotalDone { get; set; }
+		public int MemberTotal { get; set; }
         public List<AssignToResponse> AssignTo { get; set; }
 
     }

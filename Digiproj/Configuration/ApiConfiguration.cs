@@ -36,6 +36,8 @@
 		public string UriEditTask { get; set; }
         public string UriDeleteTask { get; set; }
         public string UriAutoCompleteEmployeeProject { get; set; }
+		public string UriGetTotalTaskByProject { get; set; }
 
-    }
+
+	}
 }
