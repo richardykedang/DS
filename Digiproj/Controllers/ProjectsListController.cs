@@ -71,11 +71,11 @@ namespace DigiProj.Controllers
 
             if (apiResponse.Error)
             {
-                var dataDepartment = apiResponse.Data;
-                return dataDepartment;
+                var data = apiResponse.Data;
+                return data;
             }
-            var resultDepartment = apiResponse.Data;
-            return resultDepartment;
+            var result = apiResponse.Data;
+            return result;
 
         }
 

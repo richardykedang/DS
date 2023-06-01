@@ -11,12 +11,12 @@ using System.Threading.Tasks;
 
 namespace DigiProj.Shared.Dtos.Requests.Project
 {
-    public class SearchProjectRequest: Filter
+	public class SearchProjectRequest : Filter
 	{
 		public string ProjectName { get; set; }
-        public string DepartmentName { get; set; }
+		public string DepartmentName { get; set; }
 
-        [DefaultValue(0)]
+		[DefaultValue(0)]
 		public int? Status { get; set; }
 
 		public string Column { get; set; }
@@ -43,13 +43,13 @@ namespace DigiProj.Shared.Dtos.Requests.Project
 
 	public class CreateMemberRequest
 	{
-        public string ProjectId { get; set; }
-        public List<string> EmployeeId { get; set; }
-        public List<AssignToRequest> AssignTo { get; set; }
+		public string ProjectId { get; set; }
+		public List<string> EmployeeId { get; set; }
+		public List<AssignToRequest> AssignTo { get; set; }
 
-    }
+	}
 
-    public class UpdateProjectRequest
+	public class UpdateProjectRequest
 	{
 		public string ProjectId { get; set; }
 		public string ProjectName { get; set; }
@@ -70,4 +70,11 @@ namespace DigiProj.Shared.Dtos.Requests.Project
 	{
 		public string ProjectId { get; set; }
 	}
+
+	public class FindProjectRequest : Filter
+	{
+		public string ProjectId { get; set; }
+        public string Column { get; set; }
+        public bool Y { get; set; }
+    }
 }

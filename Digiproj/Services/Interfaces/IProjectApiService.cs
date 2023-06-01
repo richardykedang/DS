@@ -8,6 +8,7 @@ namespace DigiProj.Services.Interfaces
 {
     public interface IProjectApiService
     {
+		Task<GlobalObjectListResponse<TextModelProjectResponse>> GetAutoCompleteProjects(CancellationToken cancellationToken = default);
 		Task<GlobalObjectListResponse<TextModelResponse>> GetAutoCompleteStatus(CancellationToken cancellationToken = default);
 		Task<GlobalObjectListResponse<ProjectResponse>> GetDetailProject(string ProjectId, CancellationToken cancellationToken = default);
 		Task<GlobalObjectListResponse<ProjectResponse>> GetProjects(CancellationToken cancellationToken = default);

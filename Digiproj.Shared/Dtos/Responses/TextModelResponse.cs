@@ -11,4 +11,10 @@ namespace DigiProj.Shared.Dtos.Responses
         public int id { get; set; }
         public string name { get; set; }
     }
+
+	public class TextModelProjectResponse
+	{
+		public string ProjectId { get; set; }
+		public string ProjectName { get; set; }
+	}
 }

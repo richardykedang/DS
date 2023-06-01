@@ -5,19 +5,21 @@
 @using DigiProj.Services.Interfaces;
 @using System.Net;
 @using static DigiProj.Configuration.StatusResponseEnum;
-@inject IProjectApiService projectService
+@inject IProjectApiService apiprojectService
 @inject IUserApiService apiUserService
 @inject ITaskApiService apiTaskService
 
 @{
 	var user = User.GetClaims();
 
-	var apiTaskTotalResponse = await apiTaskService.GetTotalTask();
+	var apiTaskTotalResponse = await apiTaskService.Dashboard();
 	var TotalTaskData = apiTaskTotalResponse.Data;
 
 	var apiMenu = await apiUserService.GetMenusAsync();
 	var Menu = apiMenu.Data;
 
+	var apiProject = await apiprojectService.GetAutoCompleteProjects();
+	var Project = apiProject.Data;
 }
 
 
@@ -34,17 +36,36 @@
 	</div>
 </div>
 <!-- PAGE-HEADER END -->
+
+<div class="col-sm-8 col-md-8 col-xl-3">
+<div class="form-group">
+		<div class="input-group">
+			<select class="form-control select2-show-search" id="project-id" onchange="SearchProject();">
+				<option value='' selected> All</option>
+				@if (Project.Any())
+				{
+					foreach(var a in Project)
+					{
+						<option value="@a.ProjectId"> @a.ProjectName</option>
+					}
+				}
+			</select>
+		</div>
+	</div>
+</div>
+
 @if (TotalTaskData.Any())
 {
 	foreach (var row in TotalTaskData)
 	{
 		<div class="row">
-			<div class="col-lg-6 col-sm-12 col-md-6 col-xl-3">
+			
+            <div class="col-lg-6 col-sm-12 col-md-6 col-xl-3">
 				<div class="card overflow-hidden">
 					<div class="card-body">
 						<div class="row">
 							<div class="col">
-								<h3 class="mb-2 fw-semibold">@row.TotalTask</h3>
+								<h3 class="mb-2 fw-semibold" id="total-task">@row.TotalTask</h3>
 								<p class="text-muted fs-13 mb-0">Total Task</p>
 							</div>
 							<div class="col col-auto top-icn dash">
@@ -62,25 +83,7 @@
 					<div class="card-body">
 						<div class="row">
 							<div class="col">
-								<h3 class="mb-2 fw-semibold">@row.Block</h3>
-								<p class="text-muted fs-13 mb-0">Total Task Block</p>
-							</div>
-							<div class="col col-auto top-icn dash">
-								<div class="counter-icon bg-secondary dash ms-auto box-shadow-secondary">
-									<i class="typcn typcn-info-outline" data-bs-toggle="tooltip" title="" data-bs-original-title="typcn typcn-info-outline" aria-label="typcn typcn-info-outline"></i>
-
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="col-lg-6 col-sm-12 col-md-6 col-xl-3">
-				<div class="card overflow-hidden">
-					<div class="card-body">
-						<div class="row">
-							<div class="col">
-								<h3 class="mb-2 fw-semibold">@row.Done</h3>
+                                <h3 class="mb-2 fw-semibold" id="total-done">@row.TotalDone</h3>
 								<p class="text-muted fs-13 mb-0">Total Task Done</p>
 							</div>
 							<div class="col col-auto top-icn dash">
@@ -98,46 +101,13 @@
 					<div class="card-body">
 						<div class="row">
 							<div class="col">
-								<h3 class="mb-2 fw-semibold">@row.TotalProject</h3>
-								<p class="text-muted fs-13 mb-0">Total Project</p>
+                                <h3 class="mb-2 fw-semibold" id="total-pending">@row.TotalPending</h3>
+								<p class="text-muted fs-13 mb-0">Total Task Pending</p>
 							</div>
 							<div class="col col-auto top-icn dash">
-								<div class="counter-icon bg-info dash ms-auto box-shadow-info">
-									<i class="typcn typcn-tabs-outline" data-bs-toggle="tooltip" title="" data-bs-original-title="typcn typcn-tabs-outline" aria-label="typcn typcn-tabs-outline"></i>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="col-lg-6 col-sm-12 col-md-6 col-xl-3">
-				<div class="card overflow-hidden">
-					<div class="card-body">
-						<div class="row">
-							<div class="col">
-								<h3 class="mb-2 fw-semibold">@row.TotalProjectBlock</h3>
-								<p class="text-muted fs-13 mb-0">Total Project Block</p>
-							</div>
-							<div class="col col-auto top-icn dash">
-								<div class="counter-icon bg-secondary dash ms-auto box-shadow-secondary ">
-									<i class="typcn typcn-info-outline" data-bs-toggle="tooltip" title="" data-bs-original-title="typcn typcn-info-outline" aria-label="typcn typcn-info-outline"></i>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="col-lg-6 col-sm-12 col-md-6 col-xl-3">
-				<div class="card overflow-hidden">
-					<div class="card-body">
-						<div class="row">
-							<div class="col">
-								<h3 class="mb-2 fw-semibold">@row.TotalProjectDone</h3>
-								<p class="text-muted fs-13 mb-0">Total Project Done</p>
-							</div>
-							<div class="col col-auto top-icn dash">
-								<div class="counter-icon bg-primary dash ms-auto box-shadow-primary">
-									<i class="pe-7s-check" data-bs-toggle="tooltip" title="" data-bs-original-title="pe-7s-check" aria-label="pe-7s-check"></i>
+								<div class="counter-icon bg-warning dash ms-auto box-shadow-warning">
+									<i class="pe-7s-timer" data-bs-toggle="tooltip" title="" data-bs-original-title="pe-7s-check" aria-label="pe-7s-check"></i>
+
 								</div>
 							</div>
 						</div>
@@ -172,8 +142,86 @@
 <!-- ROW-2 END -->
 @section scripts{
 
+	<script>
+		$('.select2-show-search').select2({
+			minimumResultsForSearch: '',
+			width: '100%'
+		});
+	</script>
+    
     <script src="~/assets/plugins/chart/chart.bundle.js"></script>
     <script src="~/assets/js/dasboard.js"></script>
+
+<script>
+        function SearchProject() {
+            var ProjectId = document.getElementById("project-id").value;
+            var dataObject = JSON.stringify({
+                'ProjectId': ProjectId,
+                'Column': '',
+                'Y': true
+            });
+
+
+
+
+            $.ajax({
+                type: "POST",
+                url: "/Home/SearchProject",
+                contentType: "application/json; charset=utf-8",
+                data: dataObject,
+                success: function (data) {
+                    if (data.length > 0) {
+                        $('#total-task').empty();
+                        $('#total-done').empty();
+                        $('#total-pending').empty();
+
+                        $.each(data, function (i, item) {
+
+                        
+                            var html1 = "";
+							html1 += '<h3 class="mb-2 fw-semibold" id="total-task">' + item.totalTask + '</h3>';
+
+							var html2 = "";
+							html2 += '<h3 class="mb-2 fw-semibold" id="total-done">' + item.totalDone + '</h3>';
+
+							var html3 = "";
+							html3 += '<h3 class="mb-2 fw-semibold" id="total-pending">' + item.totalPending + '</h3>';
+
+							$('#total-task').append(html1);
+							$('#total-done').append(html2);
+							$('#total-pending').append(html3);
+                        });
+
+
+                        return;
+                    }
+                    else {
+                        $('#total-task').empty();
+                        $('#total-done').empty();
+                        $('#total-pending').empty();
+                        return;
+                    }
+                },
+                error: function (err) {
+                    Swal.fire({
+                        text: "	Error API",
+                        icon: "error",
+                        buttonsStyling: false,
+                        confirmButtonText: "Oke",
+                        customClass: {
+                            confirmButton: "btn btn-danger"
+                        }
+                    }).then(function (result) {
+                        if (result.isConfirmed) {
+                            return;
+                        }
+                    });
+                    return;
+                }
+            });
+        }
+</script>
+
 }
 
 

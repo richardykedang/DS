@@ -8,6 +8,7 @@ using DigiProj.Helpers;
 using Digiproj.Shared.Dtos.Requests.Project;
 using DigiProj.Shared.Dtos.Requests.Project;
 using Digiproj.Shared.Dtos.Requests.Task;
+using DigiProj.Shared.Dtos.Requests;
 
 namespace DigiProj.Services
 {
@@ -145,17 +146,43 @@ namespace DigiProj.Services
 			return response.GetContent<GlobalObjectListResponse<TaskTotalByProjectResponse>>();
 		}
 
-		public async Task<GlobalObjectListResponse<TotalDashboardResponse>> GetTotalTask(CancellationToken cancellationToken)
+		
+		public async Task<GlobalObjectListResponse<DashboardResponse>> Dashboard(CancellationToken cancellationToken)
 		{
 			var token = await _tokenService.CheckTokenAsync(cancellationToken);
 			_client.AddAuthenticator(token);
 
-			var request = new RestRequest(_apiConfig.UriGetTotalTask, Method.GET);
+			var request = new RestRequest(_apiConfig.UriGetTotalForDashboard, Method.GET);
 			request.AddRequiredHeaders(_apiConfig);
 			var response = await _client.ExecuteGetAsync(request, cancellationToken);
 			response.CheckError(request);
-			return response.GetContent<GlobalObjectListResponse<TotalDashboardResponse>>();
+			return response.GetContent<GlobalObjectListResponse<DashboardResponse>>();
 		}
+
+		public async Task<GlobalObjectListResponse<TaskTotalByProjectResponse>> SearchGetTotalTask(FindProjectRequest requestDto, CancellationToken cancellationToken)
+		{
+            var token = await _tokenService.CheckTokenAsync(cancellationToken);
+            _client.AddAuthenticator(token);
+
+            var request = new RestRequest(_apiConfig.UriSearchGetTotalTask, Method.POST);
+            requestDto.PageSize = 1000;
+            requestDto.PageIndex = 1;
+
+            var sort = new Sort();
+            sort.Field = requestDto.Column;
+            sort.IsAscending = requestDto.Y ? false : true;
+            requestDto.Sort.Add(sort);
+
+
+            request.AddRequiredBody(requestDto);
+            request.AddRequiredHeaders(_apiConfig);
+
+
+            var response = await _client.ExecuteAsync(request, cancellationToken);
+            response.CheckError(request);
+
+            return response.GetContent<GlobalObjectListResponse<TaskTotalByProjectResponse>>();
+        }
 
 	}
 }

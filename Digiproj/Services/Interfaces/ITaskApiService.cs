@@ -16,7 +16,8 @@ namespace DigiProj.Services.Interfaces
         Task<GlobalResponse> DeleteTask(DeleteTaskRequest requestDto, CancellationToken cancellationToken = default);
         Task<GlobalResponse> UpdateTask(UpdateTaskRequest requestDto, CancellationToken cancellationToken = default);
 		Task<GlobalObjectListResponse<TaskTotalByProjectResponse>> GetTotalTaskByProject(CancellationToken cancellationToken = default);
-		Task<GlobalObjectListResponse<TotalDashboardResponse>> GetTotalTask(CancellationToken cancellationToken = default);
+		Task<GlobalObjectListResponse<TaskTotalByProjectResponse>> SearchGetTotalTask(FindProjectRequest requestDto,CancellationToken cancellationToken = default);
+		Task<GlobalObjectListResponse<DashboardResponse>> Dashboard(CancellationToken cancellationToken = default);
 
 	}
 }
