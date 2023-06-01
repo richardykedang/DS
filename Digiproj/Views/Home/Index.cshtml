@@ -20,6 +20,14 @@
 
 	var apiProject = await apiprojectService.GetAutoCompleteProjects();
 	var Project = apiProject.Data;
+
+	var c = 0;
+	 
+	foreach (var b in TotalTaskData)
+	{
+	c = 100 * b.TotalDone / b.TotalTask;
+	}
+	
 }
 
 
@@ -36,6 +44,9 @@
 	</div>
 </div>
 <!-- PAGE-HEADER END -->
+
+
+<link href="~/assets/css/progresscircle.css" rel="stylesheet" />
 
 <div class="col-sm-8 col-md-8 col-xl-3">
 <div class="form-group">
@@ -114,6 +125,19 @@
 					</div>
 				</div>
 			</div>
+
+			<div style="width:20%;">
+				<div class="card overflow-hidden">
+					<div class="card-body" id="progress-bar">
+						<div class="circle-progress-bar progress-@c">
+							<div class="circle-progress-bar-overlay">
+								@c%
+							</div>
+						</div>
+						<p class="text-muted fs-13 mb-0">Progress</p>
+					</div>
+				</div>
+			</div>
 			
 		</div>
 	}
@@ -147,10 +171,12 @@
 			minimumResultsForSearch: '',
 			width: '100%'
 		});
+
+
 	</script>
     
-    <script src="~/assets/plugins/chart/chart.bundle.js"></script>
-    <script src="~/assets/js/dasboard.js"></script>
+   @* <script src="~/assets/plugins/chart/chart.bundle.js"></script>
+    <script src="~/assets/js/dasboard.js"></script>*@
 
 <script>
         function SearchProject() {
@@ -160,9 +186,6 @@
                 'Column': '',
                 'Y': true
             });
-
-
-
 
             $.ajax({
                 type: "POST",
@@ -174,10 +197,13 @@
                         $('#total-task').empty();
                         $('#total-done').empty();
                         $('#total-pending').empty();
-
+						$('#progress-bar').empty();
+						
                         $.each(data, function (i, item) {
 
-                        
+							 var c = 0;
+							 c = item.totalDone / item.totalTask * 100;
+					
                             var html1 = "";
 							html1 += '<h3 class="mb-2 fw-semibold" id="total-task">' + item.totalTask + '</h3>';
 
@@ -187,9 +213,21 @@
 							var html3 = "";
 							html3 += '<h3 class="mb-2 fw-semibold" id="total-pending">' + item.totalPending + '</h3>';
 
+							var html4 = "";
+
+							if (c == null) {
+								$('#progress').empty();
+
+							} else {
+								html4 += '<div class="card-body" id="progress-bar"><div class="circle-progress-bar progress-' + parseInt(c, 10) + '">';
+								html4 += '<div class="circle-progress-bar-overlay">' + parseInt(c, 10) + '% </div></div></div>';
+
+							}
+
 							$('#total-task').append(html1);
 							$('#total-done').append(html2);
 							$('#total-pending').append(html3);
+							$('#progress-bar').append(html4);
                         });
 
 
@@ -199,6 +237,7 @@
                         $('#total-task').empty();
                         $('#total-done').empty();
                         $('#total-pending').empty();
+						$('#progress').empty();
                         return;
                     }
                 },

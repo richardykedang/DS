@@ -137,7 +137,7 @@ function SearchProject() {
                     if (isNaN(c) || isNaN(c)) {
                         html += '<span class="progress-main font-weight-semibold text-13 mb-1">0%</span>';
                     } else {
-                        html += '<span class="progress-main font-weight-semibold text-13 mb-1">' + c + '%</span>';
+                        html += '<span class="progress-main font-weight-semibold text-13 mb-1">' + parseInt(c, 10) + '%</span>';
                     }
                    html += '</div> ';
 
@@ -145,7 +145,7 @@ function SearchProject() {
                     if (isNaN(c) || isNaN(c)) {
                         html += '<div class="progress-bar" role="progressbar" style="width:0%">';
                     } else {
-                        html += '<div class="progress-bar" role="progressbar" style="width:' + c.toFixed(2) + '%">';
+                        html += '<div class="progress-bar" role="progressbar" style="width:' + parseInt(c, 10) + '%">';
                     }
                   
                     html += '</div>';
