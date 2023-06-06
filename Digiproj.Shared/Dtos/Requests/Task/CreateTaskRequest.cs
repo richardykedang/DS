@@ -31,4 +31,9 @@ namespace Digiproj.Shared.Dtos.Requests.Task
     {
         public Guid Id { get; set; }
     }
+
+    public class DeleteMemberRequest
+    {
+        public int IdAssign { get; set; }
+    }
 }

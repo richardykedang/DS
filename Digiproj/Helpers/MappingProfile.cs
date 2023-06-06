@@ -33,7 +33,8 @@ namespace DigiProj.Helpers
 			CreateMap<DeleteProjectInputModel, DeleteProjectRequest>();
             CreateMap<CreateProjectInputModel, CreateProjectRequest>();
             CreateMap<UpdateProjectInputModel, UpdateProjectRequest>();
-            
+			CreateMap<DeleteMemberInputModel, DeleteMemberRequest>();
+
 			CreateMap<FindProjectInputModel, FindProjectRequest>();
 
             CreateMap<CreateMemberInputModel, CreateMemberRequest>();

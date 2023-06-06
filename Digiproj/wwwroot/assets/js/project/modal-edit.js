@@ -567,6 +567,60 @@ function UpdateTask() {
         }
     });
 }
+//-------------DELETE MEMBER------------------
+function PopupModalDeleteMember(IdAssign) {
+    document.getElementById("InfoIdAssign").value = IdAssign;
+    $('#modal_delete_member').appendTo("body").modal('show');
+}
+function CancelMember() {
+    $("#modal_delete_member").modal('hide');
+}
+function DeleteMember() {
+    var IdAssign = document.getElementById("InfoIdAssign").value;
+
+    var dataObject = JSON.stringify({
+        'IdAssign': IdAssign
+    });
+
+    $.ajax({
+        url: "/ProjectsList/DeleteMember",
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        data: dataObject,
+        success: function (res) {
+            if (res.success == true) {
+                Swal.fire({
+                    icon: 'success',
+                    title: "Success!",
+                    text: "" + res.message + "",
+                    type: "success",
+                    timer: 2000,
+                    showCloseButton: false,
+                    showConfirmButton: false
+                });
+
+                document.getElementById("InfoIdAssign").value = "";
+                $('#modal_delete_member').appendTo("body").modal('hide');
+                LoadMember();
+
+            }
+            else {
+                Swal.fire(
+                    'Ups error!',
+                    "" + res.message + "",
+                    'error'
+                )
+            }
+        },
+        error: function (err) {
+            Swal.fire(
+                'Ups error API!',
+                "" + res.message + "",
+                'error'
+            )
+        }
+    });
+}
 //-------------------------------
 function PopupTaskProject(EmployeeId, ProjectId) {
     $('#modal_member_task').appendTo("body").modal('show');

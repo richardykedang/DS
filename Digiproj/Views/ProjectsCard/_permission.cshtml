@@ -7,7 +7,7 @@
 }
 
 @*Permission CRUD*@
-@if (Menu.First().Controller == "projects-card" && Menu.First().IsCreate == false)
+@if (Menu.First().Controller == "project" && Menu.First().IsCreate == false)
 {
 	<style>
 		#cr {
@@ -15,7 +15,7 @@
 		}
 	</style>
 }
-@if (Menu.First().Controller == "projects-card" && Menu.First().IsDelete == false)
+@if (Menu.First().Controller == "project" && Menu.First().IsDelete == false)
 {
 	<style>
 		#dlt {
@@ -23,7 +23,7 @@
 		}
 	</style>
 }
-@if (Menu.First().Controller == "projects-card" && Menu.First().IsRead == false)
+@if (Menu.First().Controller == "project" && Menu.First().IsRead == false)
 {
 	<style>
 		#dt {
@@ -31,7 +31,7 @@
 		}
 	</style>
 }
-@if (Menu.First().Controller == "projects-card" && Menu.First().IsEdit == false)
+@if (Menu.First().Controller == "project" && Menu.First().IsEdit == false)
 {
 	<style>
 		#ed {
@@ -39,7 +39,7 @@
 		}
 	</style>
 }
-@if (Menu.First().Controller == "projects-card" && Menu.First().IsUpload == false)
+@if (Menu.First().Controller == "project" && Menu.First().IsUpload == false)
 {
 	<style>
 		#up {

@@ -28,6 +28,7 @@ namespace DigiProj.Shared.Dtos.Responses.MsTask
 
 	public class TaskDetailResponse
 	{
+        public int IdAssign { get; set; }
         public string EmployeeId { get; set; }
         public string ProjectId { get; set; }
         public string Name { get; set; }

@@ -184,5 +184,20 @@ namespace DigiProj.Services
             return response.GetContent<GlobalObjectListResponse<TaskTotalByProjectResponse>>();
         }
 
-	}
+        public async Task<GlobalResponse> DeleteMember(DeleteMemberRequest requestDto, CancellationToken cancellationToken)
+        {
+            var token = await _tokenService.CheckTokenAsync(cancellationToken);
+            _client.AddAuthenticator(token);
+
+            var request = new RestRequest(_apiConfig.UriDeleteMember, Method.POST);
+            request.AddRequiredBody(requestDto);
+            request.AddRequiredHeaders(_apiConfig);
+
+            var response = await _client.ExecuteAsync(request, cancellationToken);
+            response.CheckError(request);
+
+            return response.GetContent<GlobalResponse>();
+        }
+
+    }
 }

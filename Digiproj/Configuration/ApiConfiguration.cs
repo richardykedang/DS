@@ -32,6 +32,7 @@
         public string UriGetTaskProject { get; set; }
         public string UriGetMemberTaskProject { get; set; }
         public string UriCreateMember { get; set; }
+		public string UriDeleteMember { get; set; }
         public string UriCreateTask { get; set; }
 		public string UriEditTask { get; set; }
         public string UriDeleteTask { get; set; }

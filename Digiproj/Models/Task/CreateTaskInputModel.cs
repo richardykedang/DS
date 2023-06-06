@@ -25,4 +25,8 @@
     {
         public Guid Id { get; set; }
     }
+	public class DeleteMemberInputModel
+	{
+		public int IdAssign { get; set; }
+	}
 }

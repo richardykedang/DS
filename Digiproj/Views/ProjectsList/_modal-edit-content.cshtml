@@ -154,7 +154,7 @@
 </div>
 
 @*Modal Delete Task*@
-	<div class="modal fade" id="modal_delete_task" tabindex="-1" aria-hidden="true">
+<div class="modal fade" id="modal_delete_task" tabindex="-1" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-body">
@@ -267,4 +267,28 @@
             </div>
         </div>
     </div>
+</div>
+
+@*Modal Delete Member*@
+<div class="modal fade" id="modal_delete_member" tabindex="-1" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-body">
+				<div class="fv-row mb-7">
+					<div class="text-center pt-15">
+						<input class="form-control" type="text" name="IdAssign" id="InfoIdAssign" hidden />
+						<h1 class="fw-bolder"><span>Delete Member ?</span></h1>
+						<br />
+						<label class="fs-6 fw-bold form-label mb-2">
+							<span>Are you sure delete this member ?</span>
+						</label>
+					</div>
+				</div>
+				<div class="text-center pt-15">
+					<button type="button" class="btn btn-success" onclick="DeleteMember();">Ok</button>
+					<button type="button" class="btn btn-danger" onclick="CancelMember();">Cancel</button>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>

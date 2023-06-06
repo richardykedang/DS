@@ -316,13 +316,35 @@ namespace DigiProj.Controllers
             return msg;
         }
 
-        //[HttpPost]
-        //public async Task<GlobalObjectListResponse<TextModelResponse>> GetAutoCompleteStatus(CancellationToken cancellationToken)
-        //{
-        //    var apiResponse = await _apiProjectService.GetAutoCompleteStatus(cancellationToken);
-        //    return apiResponse;
 
-        //}
-        #endregion
-    }
+		[HttpPost]
+		public async Task<GlblMsg> DeleteMember([FromBody] DeleteMemberInputModel model, CancellationToken cancellationToken)
+		{
+
+			GlblMsg msg = new GlblMsg();
+			var apiRequest = _mapper.Map<DeleteMemberRequest>(model);
+			var apiResponse = await _apiTaskService.DeleteMember(apiRequest, cancellationToken);
+
+			if (apiResponse.Error)
+			{
+				msg.success = false;
+				msg.message = apiResponse.Message;
+				return msg;
+			}
+
+			msg.success = true;
+			msg.message = apiResponse.Message;
+			return msg;
+
+		}
+
+		//[HttpPost]
+		//public async Task<GlobalObjectListResponse<TextModelResponse>> GetAutoCompleteStatus(CancellationToken cancellationToken)
+		//{
+		//    var apiResponse = await _apiProjectService.GetAutoCompleteStatus(cancellationToken);
+		//    return apiResponse;
+
+		//}
+		#endregion
+	}
 }

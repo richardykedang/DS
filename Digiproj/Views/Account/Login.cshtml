@@ -28,7 +28,7 @@
                     </a>
                 </span>
                 <div class="wrap-input100 validate-input" data-bs-validate="Valid username is required: ex">
-                     <input asp-for="Username" class="input100" type="text" name="username" id="username" style="height: 48px; font-size: 14px;" autocomplete="off"  placeholder="Username" autofocus onchange="checkLogin();">
+                     <input asp-for="Username" required class="input100" type="text" name="username" id="username" style="height: 48px; font-size: 14px;" autocomplete="off"  placeholder="Username" autofocus onchange="checkLogin();">
                        
                     <span class="focus-input100"></span>
                     <span class="symbol-input100">
@@ -36,7 +36,7 @@
                     </span>
                 </div>
                 <div class="wrap-input100 validate-input" data-bs-validate="Password is required">
-                     <input asp-for="Password"  class="input100" type="password" name="password" id="password" style="height: 48px; font-size: 14px;" maxlength="20" autocomplete="off" placeholder="Password" onchange="checkLogin();">
+                     <input asp-for="Password"  required class="input100" type="password" name="password" id="password" style="height: 48px; font-size: 14px;" maxlength="20" autocomplete="off" placeholder="Password" onchange="checkLogin();">
                      
                     <span class="focus-input100"></span>
                     <span class="symbol-input100">
@@ -72,7 +72,7 @@
         document.getElementById("btnLogin").style.color = '#FFFFFF';
         document.getElementById("btnLogin").style.width = '620px';
         document.getElementById("btnLogin").style.height = '48px';
-        document.getElementById("btnLogin").disabled = true;
+        //document.getElementById("btnLogin").disabled = true;
     }
 
     function checkLogin() {
