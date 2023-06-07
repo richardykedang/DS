@@ -7,7 +7,7 @@ namespace DigiProj.Configuration.Constants
 		public const string AppName = "DIGIPROJ";
 		public const string AppShortName = "DIGIPROJ";
 		public const string AuthorizationHeaderKey = "Authorization";
-		public const string ApiKeyHeaderKey = "X-CustomHeader";
+		public const string ApiKeyHeaderKey = "x-api-key";
 
 		public const string DateFormatID = "dd/mm/yyyy HH:mm:ss";
         public const string JsonContentType = "application/json";
